@@ -35,12 +35,11 @@ export function mobileGuardGo(r: Route, opts?: { replace?: boolean }): void {
   else navigate(r, opts);
 }
 
-let planted = false;
-
-/** Opened straight onto another screen: put the Day under it once, so Back lands on the Day, not off the app. */
+/**
+ * The mobile layout starts on another screen — opened straight onto it, or after a desktop period whose pushes left
+ * no Day under it: put the Day under it, so Back lands on the Day, not off the app or on another screen.
+ */
 export function plantDay(): void {
-  if (planted) return;
-  planted = true;
   const path = window.location.pathname;
   if (path === "/") return;
   history.replaceState(null, "", "/");

@@ -52,8 +52,10 @@
   flex: none;
 }
 
-.it:hover {
-  background: var(--side-surf);
+@media (min-width: 1024px) {
+  .it:hover {
+    background: var(--side-surf);
+  }
 }
 
 .ic {
@@ -133,6 +135,8 @@
   color: var(--side-lab);
 }
 
-.out:hover {
-  color: var(--side-ink);
+@media (min-width: 1024px) {
+  .out:hover {
+    color: var(--side-ink);
+  }
 }

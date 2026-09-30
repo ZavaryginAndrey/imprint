@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MobileShell } from "../components/MobileShell";
 import { Sidebar } from "../components/Sidebar";
 import { MetaStub } from "../screens/MetaStub";
@@ -12,7 +12,14 @@ export function MobileRoot({ route }: { route: Route }) {
   const [drawer, setDrawer] = useState(false);
   const screen = mobileScreen(route, path);
 
-  useEffect(plantDay, []);
+  // On every mount (the layout may have been desktop in between), once per mount: a ref survives StrictMode's
+  // simulated remount, so the Day is not planted twice.
+  const planted = useRef(false);
+  useEffect(() => {
+    if (planted.current) return;
+    planted.current = true;
+    plantDay();
+  }, []);
 
   const go = (to: string) => {
     setDrawer(false);
