@@ -11,6 +11,7 @@ import { GroupIcon } from "./GroupIcon";
 import { useLayout } from "./layout";
 import { NavItem } from "./NavItem";
 import { Popover } from "./Popover";
+import { useFocusReturn } from "./useFocusReturn";
 import { usePressMenu } from "./usePressMenu";
 
 /**
@@ -26,6 +27,11 @@ export function GroupFilters({ filter, onPick }: { filter: string | null; onPick
   const layout = useLayout();
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
   const [editing, setEditing] = useState<{ id: string; at: DOMRect } | null>(null);
+  const focus = useFocusReturn();
+  const edit = (id: string, at: DOMRect) => {
+    focus.remember();
+    setEditing({ id, at });
+  };
   const groups = view?.groups ?? [];
   const edited = editing ? groups.find((g) => g.id === editing.id) : undefined;
   const ids = groups.map((g) => g.id);
@@ -43,7 +49,7 @@ export function GroupFilters({ filter, onPick }: { filter: string | null; onPick
       <DndContext sensors={sensors} accessibility={{ container: quietHost() }} onDragEnd={onEnd}>
         <SortableContext items={ids} strategy={verticalListSortingStrategy}>
           {groups.map((g) => (
-            <GroupItem key={g.id} group={g} sortable={layout === "desktop"} pressed={filter === g.id} onPick={onPick} onEdit={(at) => setEditing({ id: g.id, at })} />
+            <GroupItem key={g.id} group={g} sortable={layout === "desktop"} pressed={filter === g.id} onPick={onPick} onEdit={(at) => edit(g.id, at)} />
           ))}
         </SortableContext>
       </DndContext>
@@ -54,6 +60,7 @@ export function GroupFilters({ filter, onPick }: { filter: string | null; onPick
         label={edited ? edited.name : t.group}
         side="right"
         align="start"
+        onCloseAutoFocus={focus.onCloseAutoFocus}
       >
         {edited && <GroupEditor group={edited} onClose={() => setEditing(null)} />}
       </Popover>

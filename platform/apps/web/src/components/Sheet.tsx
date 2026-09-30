@@ -9,12 +9,13 @@ const stop = (e: SyntheticEvent) => e.stopPropagation();
  * click on the scrim closes it — not its pointerdown, whose click would then land on whatever lies under the scrim
  * and collapse the open row (landing trap). Events inside stop here, as in `Popover`.
  */
-export function Sheet({ open, onOpenChange, trigger, label, children }: {
+export function Sheet({ open, onOpenChange, trigger, label, children, onCloseAutoFocus }: {
   open: boolean;
   onOpenChange(open: boolean): void;
   trigger?: ReactNode;
   label: string;
   children: ReactNode;
+  onCloseAutoFocus?(e: Event): void;
 }) {
   return (
     <D.Root open={open} onOpenChange={onOpenChange}>
@@ -35,6 +36,7 @@ export function Sheet({ open, onOpenChange, trigger, label, children }: {
           data-overlay
           aria-describedby={undefined}
           onPointerDownOutside={(e) => e.preventDefault()}
+          onCloseAutoFocus={onCloseAutoFocus}
           onClick={stop}
           onPointerDown={stop}
           onMouseDown={stop}

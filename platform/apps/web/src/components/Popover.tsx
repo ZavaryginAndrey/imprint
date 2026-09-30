@@ -13,7 +13,7 @@ const nowhere = () => new DOMRect();
  * sheet from the bottom. Clicks inside stop here — React bubbles portal events to the row, and the landing learned
  * that a redrawn popover then reads as a click outside. Esc, a click outside or an explicit done closes.
  */
-export function Popover({ open, onOpenChange, trigger, anchor, label, children, side = "bottom", align = "start" }: {
+export function Popover({ open, onOpenChange, trigger, anchor, label, children, side = "bottom", align = "start", onCloseAutoFocus }: {
   open: boolean;
   onOpenChange(open: boolean): void;
   trigger?: ReactNode;
@@ -22,11 +22,13 @@ export function Popover({ open, onOpenChange, trigger, anchor, label, children, 
   children: ReactNode;
   side?: "top" | "bottom" | "left" | "right";
   align?: "start" | "center" | "end";
+  /** Where focus goes on close (`useFocusReturn` for a window with no trigger). */
+  onCloseAutoFocus?(e: Event): void;
 }) {
   const layout = useLayout();
   if (layout === "mobile") {
     return (
-      <Sheet open={open} onOpenChange={onOpenChange} trigger={trigger} label={label}>
+      <Sheet open={open} onOpenChange={onOpenChange} trigger={trigger} label={label} onCloseAutoFocus={onCloseAutoFocus}>
         {children}
       </Sheet>
     );
@@ -44,6 +46,7 @@ export function Popover({ open, onOpenChange, trigger, anchor, label, children, 
           collisionPadding={8}
           avoidCollisions
           aria-label={label}
+          onCloseAutoFocus={onCloseAutoFocus}
           onClick={stop}
           onPointerDown={stop}
           onMouseDown={stop}

@@ -5,6 +5,7 @@ import { Popover } from "./Popover";
 import { RowActions } from "./RowActions";
 import { TaskRow } from "./TaskRow";
 import { TitleEditor } from "./TitleEditor";
+import { useFocusReturn } from "./useFocusReturn";
 import { usePressMenu } from "./usePressMenu";
 
 /**
@@ -15,7 +16,11 @@ export function RowWithActions({ row, where, group }: { row: Row; where: "day" |
   const t = useT();
   const [active, setActive] = useState(false);
   const [renameAt, setRenameAt] = useState<DOMRect | null>(null);
-  const press = usePressMenu(setRenameAt);
+  const focus = useFocusReturn();
+  const press = usePressMenu((at) => {
+    focus.remember();
+    setRenameAt(at);
+  });
 
   return (
     <>
@@ -27,7 +32,7 @@ export function RowWithActions({ row, where, group }: { row: Row; where: "day" |
         handlers={press}
         actions={<RowActions row={row} group={group} onOpenChange={setActive} />}
       />
-      <Popover open={renameAt !== null} onOpenChange={(o) => !o && setRenameAt(null)} anchor={() => renameAt ?? new DOMRect()} label={t.taskTitle}>
+      <Popover open={renameAt !== null} onOpenChange={(o) => !o && setRenameAt(null)} anchor={() => renameAt ?? new DOMRect()} label={t.taskTitle} onCloseAutoFocus={focus.onCloseAutoFocus}>
         <TitleEditor row={row} onDone={() => setRenameAt(null)} />
       </Popover>
     </>
