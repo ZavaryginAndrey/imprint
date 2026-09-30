@@ -13,11 +13,18 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const start = useRef<{ x: number; y: number } | null>(null);
   const fired = useRef(false);
+  const down = useRef(new Set<number>()); // touches on the screen (`isPrimary` is unreliable in synthetic events)
 
   const cancel = () => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = null;
     start.current = null;
+  };
+  // The click a long tap ends with follows the pointerup at once; nothing later may be swallowed.
+  const end = (e: PointerEvent<HTMLElement>) => {
+    down.current.delete(e.pointerId);
+    cancel();
+    if (fired.current) setTimeout(() => (fired.current = false), 0);
   };
   const box = (el: Element, x: number, y: number) =>
     opts.at === "element" || (x === 0 && y === 0) ? el.getBoundingClientRect() : new DOMRect(x, y, 0, 0);
@@ -30,8 +37,12 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
       open(box(e.currentTarget, e.clientX, e.clientY));
     },
     onPointerDown(e: PointerEvent<HTMLElement>) {
+      cancel();
       fired.current = false;
       if (e.pointerType === "mouse") return;
+      const other = [...down.current].some((id) => id !== e.pointerId);
+      down.current.add(e.pointerId);
+      if (other) return; // a second finger (pinch) is no long tap, and cancel() above voided the first
       const el = e.currentTarget;
       const { clientX: x, clientY: y } = e;
       start.current = { x, y };
@@ -45,8 +56,8 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
       const s = start.current;
       if (s && Math.hypot(e.clientX - s.x, e.clientY - s.y) > SLOP_PX) cancel();
     },
-    onPointerUp: cancel,
-    onPointerCancel: cancel,
+    onPointerUp: end,
+    onPointerCancel: end,
     onClickCapture(e: MouseEvent<HTMLElement>) {
       if (!fired.current) return;
       fired.current = false;
