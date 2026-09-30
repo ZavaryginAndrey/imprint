@@ -1,5 +1,5 @@
 import { Sun, Tray } from "@phosphor-icons/react";
-import { useContext, useState, type MouseEvent } from "react";
+import { useContext, useState, type MouseEvent, type PointerEvent, type SyntheticEvent } from "react";
 import { useT } from "../i18n";
 import { useStoreApi } from "../store/hooks";
 import type { GroupRow, Row } from "../store/view";
@@ -27,8 +27,23 @@ export function MobileRow({ row, where, group }: { row: Row; where: Column; grou
   const toDay = where === "backlog";
 
   const tap = (e: MouseEvent) => {
-    if ((e.target as Element).closest("button, input, a, [data-overlay]")) return;
+    if ((e.target as Element).closest("button, input, a, [data-tray], [data-overlay]")) return;
     setOpen(isOpen ? null : row.id);
+  };
+  // The long tap belongs to the row's text: a slow press on the circle, a tray icon, the date field or the group
+  // tag is a press on that control (its click must not be swallowed), and the contextmenu Android fires on a long
+  // press of a button opens nothing.
+  const onControl = (e: SyntheticEvent) => (e.target as Element).closest("button, input, a, [data-tray]") !== null;
+  const handlers = {
+    ...press,
+    onPointerDown(e: PointerEvent<HTMLElement>) {
+      if (!onControl(e)) press.onPointerDown(e);
+    },
+    onContextMenu(e: MouseEvent<HTMLElement>) {
+      if (onControl(e)) e.preventDefault();
+      else press.onContextMenu(e);
+    },
+    onClick: tap,
   };
 
   const tray = (
@@ -47,7 +62,7 @@ export function MobileRow({ row, where, group }: { row: Row; where: Column; grou
 
   return (
     <>
-      <TaskRow row={row} where={where} group={group} open={isOpen} handlers={{ ...press, onClick: tap }} below={isOpen ? tray : undefined} />
+      <TaskRow row={row} where={where} group={group} open={isOpen} handlers={handlers} below={isOpen ? tray : undefined} />
       <Popover open={renaming} onOpenChange={setRenaming} label={t.taskTitle}>
         <TitleEditor row={row} onDone={() => setRenaming(false)} />
       </Popover>
