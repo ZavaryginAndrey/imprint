@@ -108,7 +108,7 @@ apps/web/
 **Interfaces:**
 - Produces: `Store.ask(name: string, input: unknown): Promise<ToolResult>`; `toggledDays(task: { isRepeating: boolean; recurrenceMask: number }, day: number): DayName[] | null`; `Row.stepsDone: number`; строки i18n (список ниже) — ими пользуются Task 3–11.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 `apps/web/src/store/ask.test.ts`:
 
@@ -209,12 +209,12 @@ describe("project — steps on a row", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see them fail**
+- [x] **Step 2: Run to see them fail**
 
 Run (из `platform/`): `npm run test -w @imprint/web -- ask format-repeat view-steps`
 Expected: FAIL — `store.ask is not a function`, `toggledDays` не экспортирован, `stepsDone` undefined.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/domain/src/index.ts` — рядом с `export { monotonicClock } from "./tools/support";`:
 
@@ -346,11 +346,11 @@ export type Row = BacklogItem & { kind: DayKind | null; dueKey: string | null; s
   },
 ```
 
-- [ ] **Step 4: Run to see them pass**
+- [x] **Step 4: Run to see them pass**
 
 Run: `npm run test -w @imprint/web -- ask format-repeat view-steps` → PASS. Затем `npm run check` → зелёный (в т. ч. `purity.test.ts` домена и все старые тесты).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/domain/src/index.ts apps/web/src/store apps/web/src/i18n
