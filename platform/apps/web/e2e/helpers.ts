@@ -25,11 +25,15 @@ export async function drag(page: Page, from: Locator, to: Locator): Promise<void
 
 /** A long touch (UX §4): pointerdown, 650 ms, pointerup — what the row's long-tap timer listens for. */
 export async function longPress(target: Locator): Promise<void> {
-  const box = (await target.boundingBox())!;
+  // Resolved once: the long tap opens a window, and a modal window hides the page from the accessibility tree —
+  // a role-based locator would no longer find its target for the pointerup.
+  const el = await target.elementHandle();
+  if (!el) throw new Error("longPress: the target is not on the page");
+  const box = (await el.boundingBox())!;
   const init = { pointerType: "touch", isPrimary: true, bubbles: true, clientX: box.x + 10, clientY: box.y + box.height / 2 };
-  await target.dispatchEvent("pointerdown", init);
+  await el.dispatchEvent("pointerdown", init);
   await target.page().waitForTimeout(650);
-  await target.dispatchEvent("pointerup", init);
+  await el.dispatchEvent("pointerup", init);
 }
 
 export interface ServerTask {

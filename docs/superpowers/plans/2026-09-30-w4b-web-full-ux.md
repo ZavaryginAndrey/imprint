@@ -3570,7 +3570,7 @@ git commit -m "web: e2e — three drag rules, group order, right-click edits, gr
 **Interfaces:**
 - Consumes: `helpers.ts` (Task 10), мобильная раскладка (Task 8–9).
 
-- [ ] **Step 1: `mobile.spec.ts`** (UX §8: 390×844 — нет прокрутки страницы, пункты сайдбара и поле видны; мобильное исключение ввода; адреса + «Назад»):
+- [x] **Step 1: `mobile.spec.ts`** (UX §8: 390×844 — нет прокрутки страницы, пункты сайдбара и поле видны; мобильное исключение ввода; адреса + «Назад»):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3649,7 +3649,7 @@ test("opened straight on /g/all, Back still lands on the Day", async ({ page }) 
 });
 ```
 
-- [ ] **Step 2: `mobile-rows.spec.ts`** (UX §8: ряд целиком внутри строки на 390 и 360; наведение на раскрытую строку не меняет её размер; окна — листы в видимой области; день повтора и отметка шага не закрывают лист и не сворачивают ряд; долгий тап):
+- [x] **Step 2: `mobile-rows.spec.ts`** (UX §8: ряд целиком внутри строки на 390 и 360; наведение на раскрытую строку не меняет её размер; окна — листы в видимой области; день повтора и отметка шага не закрывают лист и не сворачивают ряд; долгий тап):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3725,9 +3725,9 @@ test("a long tap on a group in the menu opens its edit sheet", async ({ page }) 
 });
 ```
 
-- [ ] **Step 3: Run** — `npm run e2e` → зелёный. Падение «ряд шире строки на 360» чинится в `RowActions.module.css` (ширина `.tag`/`.gn` в ряду), не в тесте.
+- [x] **Step 3: Run** — `npm run e2e` → зелёный. Падение «ряд шире строки на 360» чинится в `RowActions.module.css` (ширина `.tag`/`.gn` в ряду), не в тесте.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add apps/web/e2e apps/web/src
