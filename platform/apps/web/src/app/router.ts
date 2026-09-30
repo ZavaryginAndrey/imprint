@@ -59,10 +59,19 @@ export function backlogPath(filter: string): string {
   return `/g/${filter === "all" ? "all" : encodeURIComponent(filter)}`;
 }
 
+/** `history.state` of an entry that lies right on the Day's (`/`): Back from it lands on the Day (`plantDay`). */
+export const DAY_BELOW = { dayBelow: true } as const;
+
+export function isDayBelow(): boolean {
+  return (history.state as { dayBelow?: unknown } | null)?.dayBelow === true;
+}
+
+/** Push or replace the address. A push from `/` marks the new entry; a replace keeps the entry's mark — the
+ *  entry under it is the same one. */
 export function navigatePath(path: string, opts: { replace?: boolean } = {}): void {
   if (path === window.location.pathname) return;
-  if (opts.replace) history.replaceState(null, "", path);
-  else history.pushState(null, "", path);
+  if (opts.replace) history.replaceState(isDayBelow() ? DAY_BELOW : null, "", path);
+  else history.pushState(window.location.pathname === "/" ? DAY_BELOW : null, "", path);
   window.dispatchEvent(new Event(NAV_EVENT));
 }
 

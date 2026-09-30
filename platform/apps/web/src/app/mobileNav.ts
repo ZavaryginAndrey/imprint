@@ -1,4 +1,4 @@
-import { backlogPath, isBacklogPath, navigate, navigatePath, type Route } from "./router";
+import { backlogPath, DAY_BELOW, isBacklogPath, isDayBelow, navigate, navigatePath, type Route } from "./router";
 
 export type MobileScreen = "day" | "backlog" | "history" | "settings";
 
@@ -37,11 +37,13 @@ export function mobileGuardGo(r: Route, opts?: { replace?: boolean }): void {
 
 /**
  * The mobile layout starts on another screen — opened straight onto it, or after a desktop period whose pushes left
- * no Day under it: put the Day under it, so Back lands on the Day, not off the app or on another screen.
+ * no Day under it: put the Day under it, so Back lands on the Day, not off the app or on another screen. An entry
+ * already on the Day (pushed from it, or planted before a reload or an auth flip) is left alone — a second Day
+ * under it would make the first Back seem to do nothing.
  */
 export function plantDay(): void {
   const path = window.location.pathname;
-  if (path === "/") return;
+  if (path === "/" || isDayBelow()) return;
   history.replaceState(null, "", "/");
-  history.pushState(null, "", path);
+  history.pushState(DAY_BELOW, "", path);
 }
