@@ -5,8 +5,8 @@ if (!/^http:\/\/localhost:\d+$/.test(WEB)) throw new Error("e2e runs on localhos
 
 /**
  * e2e (W4 spec §7): a local worker (Miniflare, `.wrangler/e2e`) and Vite on their own ports. Sign-in is a
- * session cookie signed with the test secret — no Google, no test route on the server. Locally the
- * system Edge; in CI the bundled Chromium.
+ * session cookie signed with the test secret — no Google, no test route on the server. On Windows the
+ * system Edge; elsewhere (Linux, a cloud session) the bundled Chromium — `npx playwright install chromium`.
  */
 export default defineConfig({
   testDir: "e2e",
@@ -15,7 +15,7 @@ export default defineConfig({
   reporter: process.env.CI ? "github" : "list",
   use: {
     ...devices["Desktop Chrome"],
-    channel: process.env.E2E_CHANNEL ?? (process.env.CI ? undefined : "msedge"),
+    channel: process.env.E2E_CHANNEL ?? (process.platform === "win32" && !process.env.CI ? "msedge" : undefined),
     baseURL: WEB,
     locale: "ru-RU",
     timezoneId: "Europe/Moscow",

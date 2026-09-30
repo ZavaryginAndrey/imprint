@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Довести веб-клиент W4a до полной UX-спеки: повтор, шаги с «Подсказать шаги», правка задачи и группы правым кликом, перетаскивание задач и порядка групп, мобильная раскладка (выдвижной сайдбар, тап-ряд, долгий тап, листы снизу, `/g/all`), все e2e UX §8, скриншот-тесты тем и тест контраста токенов.
+**Goal:** Довести веб-клиент W4a до полной UX-спеки: повтор, шаги с «Подсказать шаги», правка задачи и группы правым кликом, перетаскивание задач и порядка групп, мобильная раскладка (выдвижной сайдбар, тап-ряд, долгий тап, листы снизу, `/g/all`), все e2e UX §8 и тест контраста токенов (скриншот-тесты тем — не в W4b).
 
 **Architecture:** Всё поверх store W4a: каждое действие — `store.run(tool, input)` (оптимистично, очередь, откат). Единственное новое в store — `ask()` для серверного `suggest_steps` (ничего не пишет, в очередь не идёт). Раскладка выбирается одним `LayoutContext` (`desktop` ≥ 1024 px / `mobile`), и компоненты по нему решают: поповер или лист снизу, строка с наведением и перетаскиванием или строка с тап-рядом. Правила (куда падает задача, повтор, шаги ↔ задача, удаление группы с отвязкой) остаются в домене — UI только зовёт tools.
 
@@ -10,12 +10,12 @@
 
 **Spec:** [docs/superpowers/specs/2026-09-30-w4-web-ui-design.md](../specs/2026-09-30-w4-web-ui-design.md) (§6 «W4b»), поверх [imprint2.0/05-web-ux.md](../../../imprint2.0/05-web-ux.md) и фазы [imprint2.0/W4-web-ui.md](../../../imprint2.0/W4-web-ui.md). Предыдущий план: [2026-09-30-w4a-web-client.md](2026-09-30-w4a-web-client.md).
 
-## Решения плана (на ревью пользователя)
+## Решения плана (приняты пользователем 2026-09-30)
 
-Спека в этих местах молчит или противоречит себе; план выбирает так — поправьте до начала работ.
+Спека в этих местах молчит или противоречит себе. Пользователь принял решения 1 и 3–8; решение 2 заменено.
 
 1. **Контраст токенов.** С текущими `tokens.css` тест контраста (UX §8) падает на шести парах: светлый `--muted` на `--surf` 4,13; янтарный текст (подпись под заголовком, «↻ пн чт») на светлом фоне 1,88–2,16; светлый `--done` 2,41; `--side-lab` 4,03; Meta `--danger` 3,74; Meta `--done` 2,84. План вводит `--amber-ink` для янтарного **текста** (светлая тема `#94560f` — коричневатый; тёмная и Meta — прежний `#f0a24e`), янтарь `--amber` остаётся для рамок и заливок; светлый `--muted` → `#5c6380`; `--side-lab` → `#9098c0`; Meta `--danger` → `#f0a08c`. **Зачёркнутый выполненный текст** (`--done`) меряется порогом 3:1, а не AA 4,5 (иначе он не отличим от открытого): светлый → `#767c89`, Meta → `#8e95bb`. Это видимая смена бренда в светлой теме.
-2. **Скриншот-тесты** (UX §8): эталоны снимаются локально (Windows, Edge) и коммитятся; в CI (Linux) тесты `@visual` пропускаются — шрифты рендерятся иначе, а эталонов под Linux нет.
+2. **Скриншот-тесты тем** (UX §8) — **не в W4b** (решение пользователя): задачи нет, критерий остаётся хвостом фазы. CI в репозитории нет — всё проверяется локально: `npm run check` и `npm run e2e`.
 3. **Порядок групп на мобильном** — не в W4b: долгий тап по группе в сайдбаре уже занят правкой (UX §5), а перетаскивание в выдвижном меню спорит с прокруткой. Порядок, заданный на десктопе, мобильный показывает.
 4. **Выдвижной сайдбар** — только кнопкой ☰, без свайпа от края: тот же конфликт с системным «Назад» в iOS, из-за которого UX §4 убрал свайпы строк.
 5. **Окно «Шаги»:** сверху шаги задачи с кружками (отметка = `set_done` шага); ниже поля новых шагов (одно пустое по умолчанию); «Подсказать шаги» дописывает предложения полями, их можно поправить или убрать ×; «Разбить» или Enter в любом поле — `add_steps` со всеми непустыми полями, окно остаётся открытым с пустым полем. Правка и удаление шагов — не в W4b (в UX их нет).
@@ -55,9 +55,8 @@
 packages/domain/src/index.ts             + export DAY_NAMES, DayName
 apps/web/
   package.json                           + @radix-ui/react-dialog, @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities
-  playwright.config.ts                   CI пропускает @visual
   e2e/helpers.ts                         drag, longPress, serverState, expectInside
-  e2e/drag.spec.ts, edit.spec.ts, repeat-steps.spec.ts, edges.spec.ts, mobile.spec.ts, mobile-rows.spec.ts, visual.spec.ts
+  e2e/drag.spec.ts, edit.spec.ts, repeat-steps.spec.ts, edges.spec.ts, mobile.spec.ts, mobile-rows.spec.ts
   src/store/store.ts                     + ask()
   src/store/format.ts                    + toggledDays()
   src/store/view.ts                      Row + stepsDone
@@ -3823,99 +3822,7 @@ git commit -m "web: token contrast test (text AA, done 3:1, group colours 3:1); 
 
 ---
 
-### Task 13: скриншот-тесты тем
-
-**Files:**
-- Create: `apps/web/e2e/visual.spec.ts`, `apps/web/e2e/visual.spec.ts-snapshots/*.png` (генерируются)
-- Modify: `apps/web/playwright.config.ts`
-
-**Interfaces:**
-- Consumes: `signIn`, `tool`.
-- Produces: тег `@visual`; в CI такие тесты пропускаются (решение 2).
-
-- [ ] **Step 1: Config** — в `defineConfig` `playwright.config.ts`:
-
-```ts
-  // Screenshots are taken on the maintainer's machine (Windows); Linux CI renders fonts differently (plan decision 2).
-  grepInvert: process.env.CI ? /@visual/ : undefined,
-  expect: { toHaveScreenshot: { maxDiffPixelRatio: 0.01, animations: "disabled" } },
-```
-
-- [ ] **Step 2: Test** — `apps/web/e2e/visual.spec.ts`:
-
-```ts
-import { expect, test, type Page } from "@playwright/test";
-import { signIn, tool } from "./session";
-
-/** One fixed world: no dates (labels would drift with the calendar), two groups, a done task. */
-async function seed(page: Page) {
-  const home = (await tool(page, "create_group", { name: "Дом" })).group as { id: string };
-  const work = (await tool(page, "create_group", { name: "Работа" })).group as { id: string };
-  await tool(page, "set_group_icon", { groupId: home.id, icon: "house" });
-  await tool(page, "set_group_color", { groupId: work.id, colorKey: "blue" });
-  await tool(page, "set_group_icon", { groupId: work.id, icon: "briefcase" });
-  await tool(page, "capture_task", { title: "Позвонить в банк про карту", view: "day" });
-  const done = (await tool(page, "capture_task", { title: "Выпить таблетку", view: "day", groupId: home.id })).task as { id: string };
-  await tool(page, "set_done", { taskId: done.id, done: true });
-  await tool(page, "capture_task", { title: "Разобрать балкон", view: { group: home.id } });
-  await tool(page, "capture_task", { title: "Подготовить слайды к ретро", view: { group: work.id } });
-  await tool(page, "capture_task", { title: "Купить лампочки", view: "backlog" });
-}
-
-async function settle(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
-}
-
-for (const scheme of ["light", "dark"] as const) {
-  test(`@visual desktop Day, ${scheme}`, async ({ context, page }) => {
-    await signIn(context);
-    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/");
-    await seed(page);
-    await page.reload();
-    await expect(page.getByText("Позвонить в банк про карту")).toBeVisible();
-    await settle(page);
-    await expect(page).toHaveScreenshot(`desktop-day-${scheme}.png`);
-  });
-
-  test(`@visual mobile Day with an open row, ${scheme}`, async ({ context, page }) => {
-    await signIn(context);
-    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    await seed(page);
-    await page.reload();
-    await page.getByText("Позвонить в банк про карту").click();
-    await settle(page);
-    await expect(page).toHaveScreenshot(`mobile-day-${scheme}.png`);
-  });
-}
-
-test("@visual History stub, Meta world", async ({ context, page }) => {
-  await signIn(context);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/history");
-  await expect(page.getByRole("heading", { name: "История" })).toBeVisible();
-  await settle(page);
-  await expect(page).toHaveScreenshot("desktop-history-meta.png");
-});
-```
-
-- [ ] **Step 3: Baselines** — `npm run e2e -- visual.spec.ts --update-snapshots` (из `platform/`); открыть пять PNG в `apps/web/e2e/visual.spec.ts-snapshots/` и **посмотреть глазами**: светлая/тёмная тема, Meta navy, сайдбар `#232A4B`, шрифты Playfair/Onest (не системный), открытый ряд на телефоне. Затем `npm run e2e -- visual.spec.ts` → PASS без обновления.
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add apps/web/playwright.config.ts apps/web/e2e/visual.spec.ts apps/web/e2e/visual.spec.ts-snapshots
-git commit -m "web: screenshot tests — desktop and mobile Day in light and dark, History in Meta (local baselines, skipped in CI)"
-```
-
----
-
-### Task 14: P1-ревью, документы, закрытие фазы
+### Task 13: P1-ревью, документы, закрытие фазы
 
 **Files:**
 - Modify: `imprint2.0/W4-web-ui.md`, `imprint2.0/README.md`, `docs/superpowers/specs/2026-09-30-w4-web-ui-design.md` (статус), `HISTORY.md`
@@ -3931,7 +3838,7 @@ grep -rnE "\.sort\(|\.filter\(|\.reduce\(|dueDate|recurrenceMask|location ===|is
 - [ ] **Step 2: Полная проверка** — `npm run check` и `npm run e2e` из `platform/` → зелёные; приложить число сценариев e2e.
 
 - [ ] **Step 3: Документы**
-  - `imprint2.0/W4-web-ui.md`: статус «W4 закрыт (тег `web-w4`)»; отметить `[x]` все задачи и критерии «Готово, когда»; записать решения плана 1–8 одной строкой каждое и хвосты (порядок групп на мобильном; скриншоты только локально; `dueKey` при смене пояса — W6).
+  - `imprint2.0/W4-web-ui.md`: статус «W4 закрыт (тег `web-w4`)»; отметить `[x]` все задачи и критерии «Готово, когда»; записать решения плана 1–8 одной строкой каждое и хвосты (порядок групп на мобильном; скриншот-тесты тем из UX §8 не сделаны; `dueKey` при смене пояса — W6).
   - `imprint2.0/README.md`: строка фазы W4 → закрыта.
   - Спека: `**Статус:**` — «W4a и W4b реализованы (планы …)».
   - `HISTORY.md`: раздел «W4b — Web client, full UX (closed …, tag `web-w4`)» по образцу W4a: *What was built* и *Rakes* (записывать настоящие грабли, встреченные при исполнении плана; кандидаты — призрачный клик после листа, `aria-pressed` против атрибутов dnd-kit, мобильный `/` против запомненного фильтра, контраст янтаря).
@@ -3943,4 +3850,4 @@ git add imprint2.0 docs/superpowers/specs HISTORY.md
 git commit -m "docs: W4b closed — phase status, P1 review, history and rakes"
 ```
 
-- [ ] **Step 5: Выкладка и тег — только с согласия пользователя.** Спросить: влить ветку (superpowers:finishing-a-development-branch), выложить на dev (`npm run deploy:dev` или CI после пуша в main), поставить тег `web-w4`. После выкладки — ручная проверка на dev с телефона: вход, ☰, тап-ряд, лист повтора, долгий тап, «Назад» → День; на десктопе — перетаскивание и правый клик.
+- [ ] **Step 5: Выкладка и тег — только с согласия пользователя.** Спросить: влить ветку (superpowers:finishing-a-development-branch), выложить на dev (`npm run deploy:dev`), поставить тег `web-w4`. После выкладки — ручная проверка на dev с телефона: вход, ☰, тап-ряд, лист повтора, долгий тап, «Назад» → День; на десктопе — перетаскивание и правый клик.

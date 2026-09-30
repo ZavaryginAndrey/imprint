@@ -24,8 +24,8 @@ frozen v1 web workbench live elsewhere (the owner's local repository) and are **
 
 **W4b** — the full web UX. Plan: [docs/superpowers/plans/2026-09-30-w4b-web-full-ux.md](docs/superpowers/plans/2026-09-30-w4b-web-full-ux.md)
 (spec: [2026-09-30-w4-web-ui-design.md](docs/superpowers/specs/2026-09-30-w4-web-ui-design.md)). The plan's
-«Решения плана» section is up for the owner's review — do not start executing it until the owner confirms
-the decisions and the execution method.
+«Решения плана» are accepted by the owner (screenshot tests are out of W4b). Ask the owner for the execution
+method (native or subagent-driven) before starting, unless the first prompt names it.
 
 ## Owner's standing rules
 
@@ -34,6 +34,7 @@ the decisions and the execution method.
   `platform/`. Per-workspace declaration is the accepted layout. The first `-w` install into a brand-new
   workspace may not write `dependencies` to its package.json — verify and rerun.
 - Per change: implement → `npm run check` (from `platform/`) green → a separate commit. e2e: `npm run e2e`
-  (localhost only, its own storage — never real data).
+  (localhost only, its own storage — never real data). There is no CI: these local runs are the gate.
+- First run in a fresh environment: `cd platform && npm ci && npx playwright install --with-deps chromium`.
 - Push, deploy (`npm run deploy:*`), tags and merges only when the owner asks.
 - The owner writes in Russian; code, comments and commit messages are in English.
