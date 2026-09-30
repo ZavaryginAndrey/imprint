@@ -30,3 +30,10 @@
 .section:first-child .lbl {
   margin-top: 4px;
 }
+
+/* A drop target while a row from the other column is over it. */
+.col[data-drop="true"] {
+  outline: 2px dashed var(--amber);
+  outline-offset: 6px;
+  border-radius: var(--r-row);
+}

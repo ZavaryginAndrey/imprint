@@ -2061,11 +2061,11 @@ git commit -m "web: group edit by right click — name as you type, icon, colour
 - Consumes: `move_task { taskId, to: "day"|"backlog", filterGroupId? }`, `reorder_groups { groupIds }`, `TaskRow`, `RowWithActions`.
 - Produces: `type Column = "day" | "backlog"`; `interface DragData { row: Row; from: Column }`; `dropCall(taskId, from, to, filter): { name: "move_task"; input: Record<string, unknown> } | null`; `reordered(ids, active, over): string[] | null`; `canStartDrag(target: Element): boolean`; `DragArea({ filter, children })`, `DragOn` (context), `useDropZone(id: Column): { ref, lit }`, `DraggableRow({ row, where, children })`; `ListRow({ row, where, group })` — строка по раскладке (Task 9 добавит мобильную ветку); у секций бэклога `role="group"` + `aria-label` (имя группы или «Без группы»).
 
-- [ ] **Step 1: Dependencies**
+- [x] **Step 1: Dependencies**
 
 Run (из `platform/`): `npm install @dnd-kit/core@^6.3.1 @dnd-kit/sortable@^10.0.0 @dnd-kit/utilities@^3.2.2 -w @imprint/web` → проверить `apps/web/package.json`.
 
-- [ ] **Step 2: Failing tests**
+- [x] **Step 2: Failing tests**
 
 `apps/web/src/components/drag.test.ts`:
 
@@ -2128,9 +2128,9 @@ describe("canStartDrag — any part of the row except the circle and the icons (
 });
 ```
 
-- [ ] **Step 3: Run to see them fail** — `npm run test -w @imprint/web -- drag` → FAIL.
+- [x] **Step 3: Run to see them fail** — `npm run test -w @imprint/web -- drag` → FAIL.
 
-- [ ] **Step 4: Implement**
+- [x] **Step 4: Implement**
 
 `apps/web/src/components/drag.ts`:
 
@@ -2394,9 +2394,9 @@ function GroupItem({ group, sortable, pressed, onPick, onEdit }: {
 }
 ```
 
-- [ ] **Step 5: Run** — `npm run test -w @imprint/web` → PASS (все старые dom-тесты колонок и сайдбара тоже: вне `DragArea` строки простые, `useDroppable` вне `DndContext` инертен); `npm run check`.
+- [x] **Step 5: Run** — `npm run test -w @imprint/web` → PASS (все старые dom-тесты колонок и сайдбара тоже: вне `DragArea` строки простые, `useDroppable` вне `DndContext` инертен); `npm run check`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/package.json package-lock.json apps/web/src

@@ -3,9 +3,10 @@ import { useView } from "../store/hooks";
 import type { GroupRow, Row } from "../store/view";
 import { ScreenTitle } from "../screens/ScreenTitle";
 import styles from "./Column.module.css";
+import { useDropZone } from "./DragArea";
 import { GroupIcon } from "./GroupIcon";
+import { ListRow } from "./ListRow";
 import { useListMotion } from "./motion";
-import { RowWithActions } from "./RowWithActions";
 import { ScrollList } from "./ScrollList";
 
 /**
@@ -17,9 +18,10 @@ export function BacklogColumn({ filter }: { filter: string }) {
   const view = useView();
   const selected = filter === "all" ? null : view?.groups.find((g) => g.id === filter) ?? null;
   const sections = view?.backlog.groups ?? [];
+  const drop = useDropZone("backlog");
 
   return (
-    <section className={`${styles.col} ${styles.bk}`}>
+    <section ref={drop.ref} className={`${styles.col} ${styles.bk}`} data-drop={drop.lit}>
       <ScreenTitle title={t.backlog} accent={selected?.name ?? t.allTasks} />
       <ScrollList label={t.backlog}>
         {filter === "all" ? (
@@ -41,7 +43,7 @@ export function BacklogColumn({ filter }: { filter: string }) {
 
 function Section({ group, rows, label }: { group: GroupRow | null; rows: Row[]; label?: string }) {
   return (
-    <div className={styles.section}>
+    <div className={styles.section} role="group" aria-label={group?.name ?? label}>
       <h3 className={styles.lbl}>
         {group && <GroupIcon icon={group.icon} colorKey={group.colorKey} size={14} />}
         {group?.name ?? label}
@@ -56,7 +58,7 @@ function Rows({ rows, group }: { rows: Row[]; group?: GroupRow }) {
   return (
     <div ref={list}>
       {rows.map((row) => (
-        <RowWithActions key={row.id} row={row} where="backlog" group={group} />
+        <ListRow key={row.id} row={row} where="backlog" group={group} />
       ))}
     </div>
   );
