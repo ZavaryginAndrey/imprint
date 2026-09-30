@@ -1,5 +1,5 @@
 import { ArrowsClockwise, ListChecks } from "@phosphor-icons/react";
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { useT } from "../i18n";
 import { repeatDays } from "../store/format";
 import { useStore, useStoreApi } from "../store/hooks";
@@ -13,12 +13,14 @@ import styles from "./TaskRow.module.css";
  * mixed there) and a routine as ↻; in the Backlog the date, or the repeat days in amber. `actions` are the
  * hover icons (desktop), laid over the end of the row; `active` keeps them up while a popover is open.
  */
-export function TaskRow({ row, where, group, actions, active = false }: {
+export function TaskRow({ row, where, group, actions, active = false, handlers }: {
   row: Row;
   where: "day" | "backlog";
   group?: GroupRow;
   actions?: ReactNode;
   active?: boolean;
+  /** Gesture handlers for the whole row: the menu gesture (right click, long tap), the phone's tap. */
+  handlers?: HTMLAttributes<HTMLDivElement>;
 }) {
   const t = useT();
   const store = useStoreApi();
@@ -26,7 +28,7 @@ export function TaskRow({ row, where, group, actions, active = false }: {
   const done = row.doneToday;
 
   return (
-    <div className={styles.row} data-row data-id={row.id} data-done={done} data-fresh={fresh} data-active={active}>
+    <div className={styles.row} data-row data-id={row.id} data-done={done} data-fresh={fresh} data-active={active} {...handlers}>
       <div className={styles.line}>
         <Checkbox
           done={done}

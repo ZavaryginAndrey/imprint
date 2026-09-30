@@ -1457,7 +1457,7 @@ git commit -m "web: steps window — tick, add, «Подсказать шаги�
 - Consumes: `usePressMenu`, `Popover` c `anchor`, `t.taskTitle`, `t.savedAsTyped`, `t.done`, `pop.foot`, `pop.kbd`, `pop.name`.
 - Produces: `useTypingSave(save: (value: string) => void, ms = 300): { type(value: string): void; flush(): void }` (на размонтировании сохраняет остаток); `TitleEditor({ row, onDone })`; `TaskRow` принимает `handlers?: HTMLAttributes<HTMLDivElement>` (раскладываются на корень строки).
 
-- [ ] **Step 1: Failing test** — `TitleEditor.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `TitleEditor.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1526,9 +1526,9 @@ describe("task title by right click (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- TitleEditor` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- TitleEditor` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/useTypingSave.ts`:
 
@@ -1678,9 +1678,9 @@ export function RowWithActions({ row, where, group }: { row: Row; where: "day" |
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- TitleEditor TaskRow RowActions` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- TitleEditor TaskRow RowActions` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
