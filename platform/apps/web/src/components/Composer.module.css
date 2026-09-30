@@ -1,0 +1,108 @@
+/* The input field (landing `.qa`, `.chips`, `.pill`). */
+.qa {
+  flex: none;
+  padding-top: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 11px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--surf);
+  color: var(--ink);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  border-color: var(--amber);
+}
+
+.chip[aria-pressed="true"],
+.on {
+  background: var(--soft);
+  border-color: var(--amber);
+}
+
+.empty {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.gn {
+  max-width: 12ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px 5px 18px;
+  background: var(--surf);
+  border: 1px solid var(--hair);
+  border-radius: 28px;
+  transition: border-color 0.15s;
+}
+
+.pill:hover,
+.pill:focus-within {
+  border-color: var(--amber);
+}
+
+.pill input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  padding: 7px 0;
+}
+
+.pill input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.kbd {
+  font-size: 11px;
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--muted);
+}
+
+.pill:focus-within .kbd {
+  visibility: hidden;
+}
+
+.plus {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--on-amber);
+  transition: transform 0.2s;
+}
+
+.plus:active {
+  transform: scale(0.92);
+}

@@ -1,0 +1,138 @@
+/* The sidebar (UX §2, landing `.sb`): SideBg in every world. */
+.sb {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px 12px 14px;
+  font-size: 14px;
+  min-height: 0;
+}
+
+.logo {
+  font: 900 22px/1 var(--f-disp);
+  color: var(--amber-n);
+  padding: 0 10px 16px;
+}
+
+.hr {
+  border: 0;
+  border-top: 1px solid var(--side-surf);
+  margin: 10px 8px 0;
+}
+
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--side-lab);
+  padding: 14px 10px 4px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.it {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  color: var(--side-muted);
+  transition: background-color 0.15s;
+  flex: none;
+}
+
+.it:hover {
+  background: var(--side-surf);
+}
+
+.ic {
+  display: inline-flex;
+  flex: none;
+}
+
+.lb {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.n {
+  color: var(--side-lab);
+  font-size: 12px;
+}
+
+/* The screen: the amber bar on the left. */
+.sel {
+  background: var(--side-surf);
+  color: var(--side-ink);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--amber-n);
+}
+
+/* The backlog filter: lit text. */
+.flt {
+  color: var(--side-ink);
+}
+
+.flt .n {
+  color: var(--amber-n);
+}
+
+.add {
+  color: var(--side-lab);
+}
+
+.field {
+  margin: 2px 0;
+  width: 100%;
+  border: 1.5px solid var(--amber-n);
+  border-radius: 10px;
+  padding: 7px 10px;
+  background: var(--side-surf);
+  color: var(--side-ink);
+  outline: none;
+}
+
+.field::placeholder {
+  color: var(--side-lab);
+}
+
+.foot {
+  margin-top: auto;
+  padding: 12px 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--side-lab);
+}
+
+.offline {
+  color: var(--amber-n);
+}
+
+.out {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--side-lab);
+}
+
+.out:hover {
+  color: var(--side-ink);
+}

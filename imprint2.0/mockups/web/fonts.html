@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700;800&family=Onest:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@0,7..72,600;0,7..72,800;1,7..72,600&family=Golos+Text:wght@400;500;600;700;800&family=Geologica:wght@400;600;700;800&family=Geist:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .gal{width:100%;align-self:stretch}
+  .bar{position:sticky;top:0;z-index:20;background:var(--bg-primary);padding:10px 0 12px;border-bottom:1px solid var(--border);margin-bottom:18px}
+  .pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .pair{border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;background:#E2E6EC;color:#1E2749}
+  .pair.on{border-color:#F2922A;box-shadow:0 0 0 3px rgba(242,146,42,.25)}
+  .pair .k{font:600 11px system-ui;color:#6F7690;letter-spacing:.5px;display:flex;justify-content:space-between}
+  .pair .d{font-size:26px;line-height:1.1;margin-top:6px}
+  .pair .a{color:#F2922A;font-size:13px;margin:2px 0 8px}
+  .pair .r{background:#F7F5F1;border:1px solid #E0DCD3;border-radius:10px;padding:7px 10px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+  .pair .r span:last-child{color:#6F7690;font-size:12px}
+  .pair .nums{font-size:13px;color:#6F7690;margin-top:6px;font-feature-settings:"tnum"}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;font:500 13px system-ui}
+  .tabs span{padding:5px 12px;border-radius:999px;border:1px solid var(--border);cursor:pointer}
+  .tabs span.on{background:#1E2749;color:#fff;border-color:#1E2749}
+  .sect{margin:0 0 34px;scroll-margin-top:190px}
+  .sect>h3{margin:0 0 8px}
+  .host{display:block}
+</style>
+
+<div class="gal">
+<h2>Шрифты: все экраны, одна пара на всех</h2>
+<p class="subtitle">Клик по паре применяет её ко всем мокапам ниже. Кнопки ниже прыгают к экрану. Интерактив мокапов здесь выключен, это витрина.</p>
+
+<div class="bar">
+  <div class="pairs" id="pairs"></div>
+  <div class="tabs" id="tabs"></div>
+</div>
+<div id="list"></div>
+</div>
+
+<script>
+(function(){
+  var PAIRS=[
+    {id:'a',name:'A. Playfair Display + Inter',note:'сейчас, как в Android',disp:"'Playfair Display'",dw:900,acc:'italic',aw:700,ui:"'Inter'"},
+    {id:'b',name:'B. Playfair Display + Onest',note:'бренд тот же, UI теплее',disp:"'Playfair Display'",dw:900,acc:'italic',aw:700,ui:"'Onest'"},
+    {id:'c',name:'C. Literata + Golos Text',note:'спокойнее, книжный',disp:"'Literata'",dw:800,acc:'italic',aw:600,ui:"'Golos Text'"},
+    {id:'d',name:'D. Geologica + Geist',note:'без засечек, тихо',disp:"'Geologica'",dw:800,acc:'normal',aw:600,ui:"'Geist'"}
+  ];
+  var PAGES=[
+    {f:'layout.html',t:'Раскладка: десктоп и мобильный'},
+    {f:'row-actions.html',t:'Строка задачи: наведение и тап'},
+    {f:'nav.html',t:'Навигация'},
+    {f:'edit-menu.html',t:'Правка по правому клику'},
+    {f:'history-settings.html',t:'История и Настройки (черновик)'}
+  ];
+  var pairsEl=document.getElementById('pairs'), tabsEl=document.getElementById('tabs'), list=document.getElementById('list');
+  var roots=[], cur=PAIRS[1];
+
+  pairsEl.innerHTML=PAIRS.map(function(p){
+    return '<div class="pair" data-choice="'+p.id+'" data-p="'+p.id+'">'+
+      '<div class="k"><span>'+p.name+'</span></div>'+
+      '<div class="d" style="font-family:'+p.disp+';font-weight:'+p.dw+'">День</div>'+
+      '<div class="a" style="font-family:'+p.disp+';font-style:'+p.acc+';font-weight:'+p.aw+'">…что важно сегодня</div>'+
+      '<div class="r" style="font-family:'+p.ui+'"><span>Отправить акт Маше</span><span>12 окт</span></div>'+
+      '<div class="nums" style="font-family:'+p.ui+'">0123456789 · 11:11 · 44</div>'+
+      '<div class="k" style="margin-top:6px;font-weight:400">'+p.note+'</div></div>';
+  }).join('');
+  tabsEl.innerHTML=PAGES.map(function(p,i){return '<span data-i="'+i+'">'+p.t+'</span>'}).join('');
+
+  function overrideCss(p){
+    var S=':is(.screen,.phone,.pane)';
+    return S+' *:not(i):not([class*="ph-"]){font-family:'+p.ui+',system-ui,sans-serif !important}'+
+      S+' :is(.ttl,.logo):not(i):not([class*="ph-"]){font-family:'+p.disp+',serif !important;font-weight:'+p.dw+' !important}'+
+      S+' .acc:not(i):not([class*="ph-"]){font-family:'+p.disp+',serif !important;font-style:'+p.acc+' !important;font-weight:'+p.aw+' !important}';
+  }
+  function apply(p){
+    cur=p;
+    pairsEl.querySelectorAll('.pair').forEach(function(e){e.classList.toggle('on',e.dataset.p===p.id)});
+    roots.forEach(function(r){ r.getElementById('font-override').textContent=overrideCss(p); });
+  }
+  pairsEl.addEventListener('click',function(e){
+    var el=e.target.closest('.pair'); if(!el) return;
+    apply(PAIRS.filter(function(p){return p.id===el.dataset.p})[0]);
+    if(window.toggleSelect) try{ toggleSelect(el); }catch(_){}
+  });
+  tabsEl.addEventListener('click',function(e){
+    var el=e.target.closest('[data-i]'); if(!el) return;
+    document.getElementById('sect-'+el.dataset.i).scrollIntoView({behavior:'smooth'});
+  });
+
+  PAGES.forEach(function(pg,i){
+    var sect=document.createElement('section'); sect.className='sect'; sect.id='sect-'+i;
+    sect.innerHTML='<h3>'+pg.t+'</h3>';
+    var host=document.createElement('div'); host.className='host'; sect.appendChild(host); list.appendChild(sect);
+    var root=host.attachShadow({mode:'open'}); roots.push(root);
+    fetch(pg.f).then(function(r){return r.text()}).then(function(html){
+      html=html.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/:root/g,':host');
+      root.innerHTML='<style>:host{--text-secondary:#6b6f7b} h2,h3{font-family:system-ui;margin:14px 0 6px} h2{display:none} .subtitle{display:none}</style>'+html+'<style id="font-override"></style>';
+      root.getElementById('font-override').textContent=overrideCss(cur);
+      root.querySelectorAll('.stage').forEach(function(stage){
+        var screen=stage.querySelector('.screen');
+        function fit(){ if(stage.clientWidth) screen.style.transform='scale('+(stage.clientWidth/1440)+')'; }
+        fit(); new ResizeObserver(fit).observe(stage);
+      });
+    });
+  });
+  apply(PAIRS[1]);
+})();
+</script>

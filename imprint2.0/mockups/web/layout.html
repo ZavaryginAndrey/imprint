@@ -1,0 +1,235 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,800;0,900;1,700&display=swap');
+  :root{--bg:#E2E6EC;--surface:#F7F5F1;--ink:#1E2749;--muted:#6F7690;--hair:#E0DCD3;--done:#9AA0AB;--amber:#F2922A;--amberN:#F0A24E;--amberSoft:#FBE9D4;
+        --metaBg:#2A3255;--metaSurf:#343D63;--metaInk:#EAECF5;--metaMuted:#A6ADCC}
+  .app{width:100%;align-self:stretch;font-family:Inter,system-ui,sans-serif;color:var(--ink);font-feature-settings:"tnum"}
+  .ttl{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1.1}
+  .acc{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:var(--amber);font-size:14px;line-height:1.2;padding-bottom:2px;margin-top:2px}
+  .row{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;line-height:1.35}
+  .c{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--muted);flex:none;cursor:pointer}
+  .c:hover{border-color:var(--amber)}
+  .row.d{color:var(--done);text-decoration:line-through}.row.d .c{background:var(--amber);border-color:var(--amber)}
+  .t{flex:1;min-width:0}
+  .rep{color:var(--amber);font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:3px}
+  .date{color:var(--muted);font-size:12px;white-space:nowrap}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:1.4px;color:var(--muted);margin:16px 0 0;text-transform:uppercase}
+  .lbl:first-child{margin-top:4px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-size:12px;border:1px solid var(--hair);background:var(--surface);border-radius:999px;padding:4px 11px;color:var(--ink);display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+  .chip:hover{border-color:var(--amber)}
+  .pill{background:var(--surface);border:1px solid var(--hair);border-radius:28px;padding:10px 10px 10px 18px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;font-size:14px}
+  .pill:hover{border-color:var(--amber)}
+  .plus{background:var(--amber);color:var(--ink);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+  .kbd{font-size:11px;border:1px solid #c9ced8;border-radius:4px;padding:1px 6px;color:var(--muted);margin-right:10px}
+  /* scrolling list with fading edges (03-DESIGN: fadingEdges 28dp, only when there is more to scroll) */
+  .scroll{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c3c9d4 transparent;padding-right:6px}
+  .scroll.fb{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)}
+  .scroll.ft{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 28px);mask-image:linear-gradient(to bottom,transparent,#000 28px)}
+  .scroll.ft.fb{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 28px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,transparent,#000 28px,#000 calc(100% - 28px),transparent)}
+  /* sidebar */
+  .sb{background:var(--metaBg);color:var(--metaMuted);padding:20px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px}
+  .logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:var(--amberN);padding:0 10px 14px}
+  .sb .lab{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#8088b0;padding:12px 10px 4px}
+  .it{padding:8px 10px;border-radius:10px;display:flex;align-items:center;gap:10px;cursor:pointer}
+  .it i{font-size:17px}
+  .it .n{margin-left:auto;color:#8088b0;font-size:12px}
+  .it:hover{background:var(--metaSurf)}
+  .it.sel{background:var(--metaSurf);color:var(--metaInk);font-weight:600;box-shadow:inset 3px 0 0 var(--amberN)}
+  .grow{flex:1}
+  /* desktop stage: real 1440x860 browser, scaled to fit */
+  .stage{width:100%;aspect-ratio:1440/860;position:relative;overflow:hidden;border-radius:10px;border:1px solid #c9ced8}
+  .screen{position:absolute;left:0;top:0;width:1440px;height:860px;transform-origin:0 0;background:var(--bg);display:flex;flex-direction:column}
+  .chrome{height:34px;background:#d5d9e1;display:flex;align-items:center;gap:7px;padding:0 14px;flex:none}
+  .chrome i{width:11px;height:11px;border-radius:50%;background:#b4bac6;display:block}
+  .url{margin-left:18px;background:#e9ecf1;border-radius:6px;height:20px;width:360px;font:12px Inter,sans-serif;color:var(--muted);display:flex;align-items:center;padding-left:10px}
+  .shell{width:62%;margin:0 auto;flex:1;display:grid;grid-template-columns:210px 1fr;grid-template-rows:minmax(0,1fr);min-height:0;overflow:hidden}
+  .guide{position:absolute;top:34px;bottom:0;border-left:1px dashed rgba(242,146,42,.55)}
+  .note{font-size:13px;color:var(--text-secondary);margin:8px 0 22px;line-height:1.55;max-width:80ch}
+  /* phones */
+  .phones{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:300px;height:620px;border-radius:32px;border:7px solid #1d1d1f;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column}
+  .phone .top{display:flex;align-items:center;gap:12px;padding:18px 16px 6px;font-size:22px}
+  .phone .ttl{font-size:26px}
+  .phone .body{flex:1;padding:4px 16px 0;display:flex;flex-direction:column;min-height:0}
+  .phone .foot{padding:10px 12px 16px}
+  .phone .row{font-size:14px;padding:9px 11px}
+  .scrim{position:absolute;inset:0;background:rgba(20,22,28,.45)}
+  .drawer{position:absolute;top:0;bottom:0;left:0;width:80%;box-shadow:4px 0 18px rgba(20,22,40,.35)}
+  .cap{font-size:13px;color:var(--text-secondary);margin-top:10px;width:300px;line-height:1.5}
+</style>
+
+<div class="app">
+<h2>Раскладка v3: скролл, без чипов цели, центр 60%</h2>
+<p class="subtitle">Десктоп показан в реальном масштабе окна 1440 px, уменьшен под экран. Пунктир — граница 62% ширины. Списки прокручиваются колёсиком прямо в мокапе, сайдбар фильтрует бэклог.</p>
+
+<h3>Десктоп</h3>
+<div class="stage" id="stage">
+  <div class="screen" id="screen">
+    <div class="chrome"><i></i><i></i><i></i><span class="url">imprint.web.app</span></div>
+    <span class="guide" style="left:19%"></span><span class="guide" style="left:81%"></span>
+    <div class="shell">
+      <nav class="sb" id="dsb">
+        <div class="logo">Imprint</div>
+        <div class="lab">Бэклог</div>
+        <div class="it sel" data-g="all" data-t="Все задачи"><i class="ph ph-tray"></i>Все задачи<span class="n">14</span></div>
+        <div class="it" data-g="home" data-t="Дом"><i class="ph ph-house"></i>Дом<span class="n">6</span></div>
+        <div class="it" data-g="work" data-t="Работа"><i class="ph ph-briefcase"></i>Работа<span class="n">5</span></div>
+        <div class="it" data-g="health" data-t="Здоровье"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+        <div class="it" style="color:#8088b0"><i class="ph ph-plus"></i>Группа</div>
+        <div class="grow"></div>
+        <div class="it"><i class="ph ph-chart-bar"></i>История</div>
+        <div class="it"><i class="ph ph-gear-six"></i>Настройки</div>
+      </nav>
+
+      <main style="display:flex;flex-direction:column;min-height:0;padding:0 0 0 28px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);gap:28px;flex:1;min-height:0;padding-top:28px">
+          <section style="display:flex;flex-direction:column;min-height:0">
+            <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+            <div class="scroll" style="flex:1;margin-top:6px">
+              <div class="row"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+              <div class="row"><span class="c"></span><span class="t">Отправить акт Маше и приложить счёт за сентябрь</span></div>
+              <div class="row"><span class="c"></span><span class="t">Выпить таблетку</span><span class="rep"><i class="ph ph-arrows-clockwise"></i></span></div>
+              <div class="row"><span class="c"></span><span class="t">Забрать посылку на почте</span></div>
+              <div class="row"><span class="c"></span><span class="t">Ответить Диме про субботу</span></div>
+              <div class="row"><span class="c"></span><span class="t">Оплатить интернет</span></div>
+              <div class="row"><span class="c"></span><span class="t">Размяться 10 минут</span><span class="rep"><i class="ph ph-arrows-clockwise"></i></span></div>
+              <div class="row"><span class="c"></span><span class="t">Записать идею для доклада</span></div>
+              <div class="row d"><span class="c"></span><span class="t">Купить хлеб</span></div>
+              <div class="row d"><span class="c"></span><span class="t">Вынести мусор</span></div>
+            </div>
+          </section>
+          <section class="bk" style="display:flex;flex-direction:column;min-height:0;border-left:1px solid #cfd4dd;padding-left:28px">
+            <div class="ttl">Бэклог</div><div class="acc bkh">Все задачи</div>
+            <div class="scroll" style="flex:1;margin-top:6px">
+              <div class="lbl" data-g="home">Дом</div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Разобрать балкон</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Полить цветы</span><span class="rep"><i class="ph ph-arrows-clockwise"></i>пн чт</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Заменить фильтр для воды</span><span class="date">12 окт</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Повесить полку в коридоре</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Сдать зимние куртки в химчистку</span><span class="date">20 окт</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Постирать шторы</span></div>
+              <div class="lbl" data-g="work">Работа</div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Обновить резюме</span><span class="date">3 окт</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Разобрать почту</span><span class="rep"><i class="ph ph-arrows-clockwise"></i>пт</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Подготовить слайды к ретро</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Закрыть отпускные дни в табеле</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Написать Олегу про доступы к стенду</span></div>
+              <div class="lbl" data-g="health">Здоровье</div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Записаться к стоматологу</span></div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Сдать анализы</span><span class="date">8 окт</span></div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Купить витамин D</span></div>
+            </div>
+          </section>
+        </div>
+        <div style="padding:14px 0 22px">
+          <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7 дней</span><span class="chip"><i class="ph ph-calendar-blank"></i></span></div>
+          <div class="pill">Что не забыть?<span style="display:flex;align-items:center"><span class="kbd">N</span><span class="plus"><i class="ph ph-plus"></i></span></span></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<p class="note"><b>Что изменилось.</b> Заголовки колонок и поле ввода закреплены, прокручиваются только списки; нижний край гаснет, пока есть что листать. Переключатель «куда уйдёт задача» убран. Весь интерфейс собран в блок ~62% ширины по центру: строка задачи в колонке около 40 знаков, читается без бега глазами. Эмодзи заменены иконками Phosphor.</p>
+
+<h3>Мобильная веб-версия</h3>
+<div class="phones">
+  <div>
+    <div class="phone">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body">
+        <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+        <div class="scroll" style="flex:1;margin-top:4px">
+          <div class="row"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+          <div class="row"><span class="c"></span><span class="t">Отправить акт Маше и приложить счёт за сентябрь</span></div>
+          <div class="row"><span class="c"></span><span class="t">Выпить таблетку</span><span class="rep"><i class="ph ph-arrows-clockwise"></i></span></div>
+          <div class="row"><span class="c"></span><span class="t">Забрать посылку на почте</span></div>
+          <div class="row"><span class="c"></span><span class="t">Ответить Диме про субботу</span></div>
+          <div class="row"><span class="c"></span><span class="t">Оплатить интернет</span></div>
+          <div class="row"><span class="c"></span><span class="t">Размяться 10 минут</span><span class="rep"><i class="ph ph-arrows-clockwise"></i></span></div>
+          <div class="row"><span class="c"></span><span class="t">Записать идею для доклада</span></div>
+          <div class="row d"><span class="c"></span><span class="t">Купить хлеб</span></div>
+        </div>
+      </div>
+      <div class="foot">
+        <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7</span><span class="chip"><i class="ph ph-calendar-blank"></i></span></div>
+        <div class="pill">Что не забыть?<span class="plus"><i class="ph ph-plus"></i></span></div>
+      </div>
+    </div>
+    <div class="cap"><b>1. Свёрнуто.</b> Длинный День прокручивается под закреплённым заголовком, ввод остаётся внизу.</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body">
+        <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+        <div class="row"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+        <div class="row"><span class="c"></span><span class="t">Выпить таблетку</span></div>
+      </div>
+      <div class="scrim"></div>
+      <nav class="sb drawer">
+        <div class="logo" style="padding-top:8px">Imprint</div>
+        <div class="it sel"><i class="ph ph-sun"></i>День<span class="n">10</span></div>
+        <div class="lab">Бэклог</div>
+        <div class="it"><i class="ph ph-tray"></i>Все задачи<span class="n">14</span></div>
+        <div class="it"><i class="ph ph-house"></i>Дом<span class="n">6</span></div>
+        <div class="it"><i class="ph ph-briefcase"></i>Работа<span class="n">5</span></div>
+        <div class="it"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+        <div class="it" style="color:#8088b0"><i class="ph ph-plus"></i>Группа</div>
+        <div class="grow"></div>
+        <div class="it"><i class="ph ph-chart-bar"></i>История</div>
+        <div class="it"><i class="ph ph-gear-six"></i>Настройки</div>
+      </nav>
+    </div>
+    <div class="cap"><b>2. Сайдбар раскрыт.</b> По кнопке меню или свайпом от левого края; тап по затемнению закрывает.</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body">
+        <div class="ttl">Бэклог</div><div class="acc">Работа</div>
+        <div class="scroll" style="flex:1;margin-top:4px">
+          <div class="row"><span class="c"></span><span class="t">Обновить резюме</span><span class="date">3 окт</span></div>
+          <div class="row"><span class="c"></span><span class="t">Разобрать почту</span><span class="rep"><i class="ph ph-arrows-clockwise"></i>пт</span></div>
+          <div class="row"><span class="c"></span><span class="t">Подготовить слайды к ретро</span></div>
+          <div class="row"><span class="c"></span><span class="t">Закрыть отпускные дни в табеле</span></div>
+          <div class="row"><span class="c"></span><span class="t">Написать Олегу про доступы к стенду</span></div>
+        </div>
+      </div>
+      <div class="foot">
+        <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7</span><span class="chip"><i class="ph ph-calendar-blank"></i></span></div>
+        <div class="pill">Что не забыть?<span class="plus"><i class="ph ph-plus"></i></span></div>
+      </div>
+    </div>
+    <div class="cap"><b>3. Выбрана группа.</b> Только «Работа», без подписей о том, куда уйдёт задача.</div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'), screen=document.getElementById('screen');
+  function fit(){ screen.style.transform='scale('+(stage.clientWidth/1440)+')'; }
+  fit(); new ResizeObserver(fit).observe(stage);
+
+  function edges(el){
+    var top=el.scrollTop>2, more=el.scrollTop+el.clientHeight<el.scrollHeight-2;
+    el.classList.toggle('ft',top); el.classList.toggle('fb',more);
+  }
+  document.querySelectorAll('.scroll').forEach(function(el){ edges(el); el.addEventListener('scroll',function(){edges(el)}); new ResizeObserver(function(){edges(el)}).observe(el); });
+
+  var sb=document.getElementById('dsb');
+  sb.querySelectorAll('.it[data-g]').forEach(function(item){
+    item.addEventListener('click',function(){
+      sb.querySelectorAll('.it[data-g]').forEach(function(e){e.classList.remove('sel')});
+      item.classList.add('sel');
+      var g=item.dataset.g, list=document.querySelector('#screen .bk .scroll');
+      list.querySelectorAll('[data-g]').forEach(function(e){ e.style.display=(g==='all'||e.dataset.g===g)?'':'none'; });
+      document.querySelector('#screen .bkh').textContent=item.dataset.t;
+      list.scrollTop=0; edges(list);
+    });
+  });
+})();
+</script>

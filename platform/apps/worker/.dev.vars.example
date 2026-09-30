@@ -1,0 +1,8 @@
+# Copy to .dev.vars (gitignored) for `npm run dev`. Never commit real values.
+# Google client: the DEV OAuth client (redirect URI http://localhost:5173/auth/callback registered on it).
+SESSION_SECRET=local-dev-only-not-a-secret
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+APP_ORIGIN=http://localhost:5173
+# Gemini key for «Подсказать шаги» (optional; empty → suggest_steps answers unavailable).
+GEMINI_API_KEY=

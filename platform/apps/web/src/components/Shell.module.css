@@ -1,0 +1,29 @@
+.frame {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.shell {
+  width: clamp(960px, 62vw, 1200px);
+  height: 100%;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  min-height: 0;
+}
+
+.sidebar {
+  background: var(--side);
+  color: var(--side-muted);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}

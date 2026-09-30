@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "imprint-local",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": { "bindings": [{ "name": "USER_STORE", "class_name": "UserStore" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["UserStore"] }],
+  "env": {
+    "dev": {
+      "name": "imprint-dev",
+      "durable_objects": { "bindings": [{ "name": "USER_STORE", "class_name": "UserStore" }] },
+      "migrations": [{ "tag": "v1", "new_sqlite_classes": ["UserStore"] }],
+      "assets": {
+        "directory": "../web/dist",
+        "binding": "ASSETS",
+        "not_found_handling": "single-page-application",
+        "run_worker_first": true
+      }
+    },
+    "prod": {
+      "name": "imprint-prod",
+      "durable_objects": { "bindings": [{ "name": "USER_STORE", "class_name": "UserStore" }] },
+      "migrations": [{ "tag": "v1", "new_sqlite_classes": ["UserStore"] }],
+      "assets": {
+        "directory": "../web/dist",
+        "binding": "ASSETS",
+        "not_found_handling": "single-page-application",
+        "run_worker_first": true
+      }
+    }
+  }
+}

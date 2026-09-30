@@ -1,0 +1,113 @@
+/* A task row (landing `.row`): 12 px corners, amber border on hover. */
+.row {
+  position: relative;
+  background: var(--surf);
+  border: 1px solid var(--hair);
+  border-radius: var(--r-row);
+  padding: 10px 12px;
+  margin-top: 6px;
+  color: var(--ink);
+  transition: border-color 0.15s, opacity 0.2s, box-shadow 0.2s;
+}
+
+.row:hover,
+.row:focus-within,
+.row[data-active="true"] {
+  border-color: var(--amber);
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.t {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.row[data-done="true"] {
+  color: var(--done);
+}
+
+.row[data-done="true"] .t {
+  text-decoration: line-through;
+}
+
+.meta,
+.rep,
+.date {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+  font-size: 12px;
+  flex: none;
+}
+
+.date {
+  color: var(--muted);
+}
+
+.rep {
+  color: var(--amber);
+}
+
+/* Hover icons lie over the end of the row and fade in; the text under them ends in an ellipsis and never
+   wraps or jumps (UX §4). Desktop only: W4b's mobile row opens a tray instead. */
+.acts {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 40px;
+  color: var(--muted);
+  background: linear-gradient(to right, transparent, var(--surf) 36px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.row:hover .acts,
+.row:focus-within .acts,
+.row[data-active="true"] .acts {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.row:has(.acts):hover .t,
+.row:has(.acts):focus-within .t,
+.row[data-active="true"] .t {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A new row glows amber for a moment (UX §3). */
+.row[data-fresh="true"] {
+  animation: arrive 1.1s var(--ease-out);
+}
+
+@keyframes arrive {
+  0% {
+    background: var(--soft);
+    border-color: var(--amber);
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+    transform: none;
+    background: var(--soft);
+    border-color: var(--amber);
+  }
+  100% {
+    background: var(--surf);
+  }
+}

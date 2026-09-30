@@ -1,0 +1,212 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,900;1,700&display=swap');
+  .app{width:100%;align-self:stretch;font-family:Inter,system-ui,sans-serif;color:#1E2749}
+  .ttl{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1.1}
+  .acc{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:#F2922A;font-size:14px;line-height:1.2;padding-bottom:2px;margin-top:2px}
+  .row{background:#F7F5F1;border:1px solid #E0DCD3;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;line-height:1.35;cursor:default}
+  .row.ctx{border-color:#F2922A}
+  .c{width:18px;height:18px;border-radius:50%;border:1.5px solid #6F7690;flex:none}
+  .t{flex:1;min-width:0}
+  .date{color:#6F7690;font-size:12px;white-space:nowrap}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:1.4px;margin:14px 0 0;text-transform:uppercase;display:flex;align-items:center;gap:6px;color:#6F7690}
+  .lbl i{font-size:14px}
+  .chips{display:flex;gap:6px;margin-bottom:8px}
+  .chip{font-size:12px;border:1px solid #E0DCD3;background:#F7F5F1;border-radius:999px;padding:4px 11px}
+  .pill{background:#F7F5F1;border:1px solid #E0DCD3;border-radius:28px;padding:10px 10px 10px 18px;color:#6F7690;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+  .plus{background:#F2922A;color:#1E2749;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+  .sb{background:#232A4B;color:#A6ADCC;padding:20px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px;min-height:0}
+  .logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:#F0A24E;padding:0 10px 14px}
+  .sb .lab{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#8088b0;padding:14px 10px 4px;text-transform:uppercase}
+  .sb hr{border:0;border-top:1px solid #343D63;margin:10px 8px 0}
+  .it{padding:8px 10px;border-radius:10px;display:flex;align-items:center;gap:10px;cursor:pointer}
+  .it i{font-size:17px}.it .n{margin-left:auto;color:#8088b0;font-size:12px}
+  .it:hover,.it.ctx{background:#343D63}
+  .it.sel{background:#343D63;color:#EAECF5;font-weight:600;box-shadow:inset 3px 0 0 #F0A24E}
+  .it.flt{color:#EAECF5}
+  /* edit popover */
+  .pop{position:absolute;z-index:5;background:#F7F5F1;border:1px solid #E0DCD3;border-radius:14px;box-shadow:0 16px 40px rgba(30,39,73,.25);padding:14px;width:280px;font-size:13px;color:#1E2749}
+  .pop .h{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:#6F7690;margin:12px 0 6px}
+  .pop .h:first-child{margin-top:0}
+  .name{width:100%;box-sizing:border-box;border:1.5px solid #F2922A;border-radius:10px;padding:8px 10px;font:500 14px Inter;color:#1E2749;background:#fff;outline:none}
+  .icons{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
+  .icons span{height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;color:#6F7690}
+  .icons span:hover{background:#FBE9D4}
+  .icons span.on{background:#1E2749;color:#F7F5F1}
+  .colors{display:flex;gap:7px;flex-wrap:wrap}
+  .colors span{width:22px;height:22px;border-radius:50%;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+  .colors span.on{outline:2px solid #1E2749;outline-offset:2px}
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:10px;border-top:1px solid #E0DCD3;color:#6F7690;font-size:12px}
+  .del{color:#b4452a;display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+  .kbd{border:1px solid #d8d3c8;border-radius:4px;padding:0 5px;font-size:11px}
+  /* stage */
+  .stage{width:min(100%, calc((100vh - 170px) * 1440 / 860));margin:0 auto;aspect-ratio:1440/860;position:relative;overflow:hidden;border-radius:10px;border:1px solid #c9ced8}
+  .screen{position:absolute;left:0;top:0;width:1440px;height:860px;transform-origin:0 0;display:flex;flex-direction:column;background:#E2E6EC}
+  .chrome{height:34px;background:#d5d9e1;display:flex;align-items:center;gap:7px;padding:0 14px;flex:none}
+  .chrome i{width:11px;height:11px;border-radius:50%;background:#b4bac6;display:block}
+  .shell{width:62%;margin:0 auto;flex:1;display:grid;grid-template-columns:210px 1fr;grid-template-rows:minmax(0,1fr);min-height:0;position:relative}
+  .note{font-size:13px;color:var(--text-secondary);margin:10px auto 22px;line-height:1.55;max-width:88ch}
+  .phones{display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+  .phone{width:374px;height:min(680px, calc(100vh - 150px));border-radius:32px;border:7px solid #1d1d1f;overflow:hidden;position:relative;background:#E2E6EC}
+  .phone .top{padding:16px 16px 6px;font-size:22px}
+  .phone .body{padding:4px 16px}
+  .scrim{position:absolute;inset:0;background:rgba(20,22,28,.45)}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#F7F5F1;border-radius:20px 20px 0 0;padding:10px 16px 20px}
+  .grab{width:36px;height:4px;border-radius:2px;background:#cfc9bd;margin:0 auto 12px}
+  .cap{font-size:13px;color:var(--text-secondary);margin-top:10px;width:374px;line-height:1.5}
+</style>
+
+<div class="app">
+<h2>Правка по правому клику: группа и задача</h2>
+<p class="subtitle">Мокап живой: правый клик по группе в сайдбаре или по задаче. Имя, иконка и цвет меняются сразу. Esc или клик мимо закрывает.</p>
+
+<div class="stage" id="stage"><div class="screen" id="screen">
+  <div class="chrome"><i></i><i></i><i></i></div>
+  <div class="shell" id="shell">
+    <nav class="sb" id="sb">
+      <div class="logo">Imprint</div>
+      <div class="it sel"><i class="ph ph-sun"></i>День<span class="n">4</span></div>
+      <div class="it"><i class="ph ph-chart-bar"></i>История</div>
+      <div class="it"><i class="ph ph-gear-six"></i>Настройки</div>
+      <hr>
+      <div class="lab">Бэклог</div>
+      <div class="it flt"><i class="ph ph-tray"></i>Все задачи<span class="n">7</span></div>
+      <div class="it grp" data-g="home"><i class="ph-fill ph-house" style="color:#E0A34A"></i><span class="gn">Дом</span><span class="n">3</span></div>
+      <div class="it grp" data-g="work"><i class="ph-fill ph-briefcase" style="color:#6F9BD8"></i><span class="gn">Работа</span><span class="n">2</span></div>
+      <div class="it grp" data-g="health"><i class="ph-fill ph-heartbeat" style="color:#7FB59A"></i><span class="gn">Здоровье</span><span class="n">2</span></div>
+      <div class="it" style="color:#8088b0"><i class="ph ph-plus"></i>Группа</div>
+    </nav>
+    <div style="display:flex;flex-direction:column;padding:28px 0 22px 32px;min-height:0">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1">
+        <section>
+          <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+          <div class="row task"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Отправить акт Маше</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Выпить таблетку</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Забрать посылку на почте</span></div>
+        </section>
+        <section style="border-left:1px solid #cfd4dd;padding-left:28px">
+          <div class="ttl">Бэклог</div><div class="acc">Все задачи</div>
+          <div class="lbl" data-g="home" style="margin-top:4px"><i class="ph-fill ph-house" style="color:#E0A34A"></i><span class="gn">Дом</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Разобрать балкон</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Заменить фильтр для воды</span><span class="date">12 окт</span></div>
+          <div class="lbl" data-g="work"><i class="ph-fill ph-briefcase" style="color:#6F9BD8"></i><span class="gn">Работа</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Обновить резюме</span><span class="date">3 окт</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Подготовить слайды к ретро</span></div>
+          <div class="lbl" data-g="health"><i class="ph-fill ph-heartbeat" style="color:#7FB59A"></i><span class="gn">Здоровье</span></div>
+          <div class="row task"><span class="c"></span><span class="t">Записаться к стоматологу</span></div>
+        </section>
+      </div>
+      <div>
+        <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7 дней</span><span class="chip"><i class="ph ph-calendar-blank"></i></span></div>
+        <div class="pill">Что не забыть?<span class="plus"><i class="ph ph-plus"></i></span></div>
+      </div>
+    </div>
+
+    <div class="pop" id="gpop" style="display:none">
+      <div class="h">Название</div>
+      <input class="name" id="gname">
+      <div class="h">Иконка</div>
+      <div class="icons" id="gicons"></div>
+      <div class="h">Цвет</div>
+      <div class="colors" id="gcolors"></div>
+      <div class="foot"><span class="del"><i class="ph ph-trash"></i>Удалить группу</span><span><span class="kbd">Esc</span> закрыть</span></div>
+    </div>
+    <div class="pop" id="tpop" style="display:none;width:320px">
+      <div class="h">Название задачи</div>
+      <input class="name" id="tname">
+      <div class="foot"><span>Сохраняется сразу</span><span><span class="kbd">Enter</span> готово</span></div>
+    </div>
+  </div>
+</div></div>
+<p class="note"><b>Как устроено.</b> Правый клик по группе открывает одно окно: название, иконка (сетка), цвет (8 приглушённых оттенков, подходят и к светлому Дню, и к navy-сайдбару), внизу «Удалить группу». Цвет и иконка появляются в сайдбаре, в заголовках групп бэклога и в лейбле группы на задаче. Правый клик по задаче открывает такое же окно, но только с названием: остальное у задачи на иконках при наведении. Левый клик по задаче ничего не открывает, за строку её перетаскивают.</p>
+
+<div class="phones">
+  <div>
+    <div class="phone">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body"><div class="ttl" style="font-size:26px">Бэклог</div><div class="acc">Работа</div>
+        <div class="row"><span class="c"></span><span class="t">Обновить резюме</span></div></div>
+      <div class="scrim"></div>
+      <div class="sheet">
+        <div class="grab"></div>
+        <div class="pop" style="position:static;box-shadow:none;border:0;padding:0;width:auto;background:transparent">
+          <div class="h">Название</div>
+          <input class="name" value="Работа">
+          <div class="h">Иконка</div>
+          <div class="icons"><span><i class="ph ph-house"></i></span><span class="on"><i class="ph ph-briefcase"></i></span><span><i class="ph ph-heartbeat"></i></span><span><i class="ph ph-shopping-cart"></i></span><span><i class="ph ph-book-open"></i></span><span><i class="ph ph-users"></i></span><span><i class="ph ph-moon"></i></span><span><i class="ph ph-paw-print"></i></span></div>
+          <div class="h">Цвет</div>
+          <div class="colors"><span style="background:#E0A34A"></span><span style="background:#D9775B"></span><span style="background:#D17A93"></span><span style="background:#9C86C9"></span><span class="on" style="background:#6F9BD8"></span><span style="background:#5EAFB3"></span><span style="background:#7FB59A"></span><span style="background:#9AA0AB"></span></div>
+          <div class="foot"><span class="del"><i class="ph ph-trash"></i>Удалить группу</span><span>Готово</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cap"><b>Мобильный.</b> Правому клику соответствует долгий тап: то же окно снизу листом. Для задачи лист только с названием.</div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'), screen=document.getElementById('screen'), shell=document.getElementById('shell');
+  function scale(){ return stage.clientWidth/1440; }
+  function fit(){ screen.style.transform='scale('+scale()+')'; }
+  fit(); new ResizeObserver(fit).observe(stage);
+
+  var ICONS=['house','briefcase','heartbeat','shopping-cart','book-open','users','moon','paw-print','car','airplane','barbell','plant','wrench','graduation-cap','baby','music-notes'];
+  var COLORS=['#E0A34A','#D9775B','#D17A93','#9C86C9','#6F9BD8','#5EAFB3','#7FB59A','#9AA0AB'];
+  var gpop=document.getElementById('gpop'), tpop=document.getElementById('tpop');
+  var gname=document.getElementById('gname'), gicons=document.getElementById('gicons'), gcolors=document.getElementById('gcolors'), tname=document.getElementById('tname');
+  var curG=null, curT=null;
+
+  function place(pop, ev){
+    var r=shell.getBoundingClientRect(), s=scale();
+    var x=(ev.clientX-r.left)/s, y=(ev.clientY-r.top)/s;
+    pop.style.display='block';
+    x=Math.min(x, shell.clientWidth-pop.offsetWidth-8); y=Math.min(y, shell.clientHeight-pop.offsetHeight-8);
+    pop.style.left=x+'px'; pop.style.top=y+'px';
+  }
+  function close(){
+    gpop.style.display=tpop.style.display='none';
+    document.querySelectorAll('.ctx').forEach(function(e){e.classList.remove('ctx')});
+    curG=curT=null;
+  }
+  function groupEls(g){ return document.querySelectorAll('[data-g="'+g+'"]'); }
+  function applyGroup(){
+    groupEls(curG.g).forEach(function(el){
+      el.querySelector('.gn').textContent=curG.name||'Без названия';
+      var i=el.querySelector('i'); i.className='ph-fill ph-'+curG.icon; i.style.color=curG.color;
+    });
+  }
+  function renderPickers(){
+    gicons.innerHTML=ICONS.map(function(n){return '<span data-i="'+n+'" class="'+(n===curG.icon?'on':'')+'"><i class="ph ph-'+n+'"></i></span>'}).join('');
+    gcolors.innerHTML=COLORS.map(function(c){return '<span data-c="'+c+'" class="'+(c===curG.color?'on':'')+'" style="background:'+c+'"></span>'}).join('');
+  }
+  document.querySelectorAll('.it.grp').forEach(function(el){
+    el.addEventListener('contextmenu',function(ev){
+      ev.preventDefault(); close(); el.classList.add('ctx');
+      var i=el.querySelector('i');
+      curG={g:el.dataset.g,name:el.querySelector('.gn').textContent,icon:i.className.replace('ph-fill ph-',''),color:i.style.color?rgbToHex(i.style.color):COLORS[0]};
+      gname.value=curG.name; renderPickers();
+      var sr=shell.getBoundingClientRect(), er=el.getBoundingClientRect(), s=scale();
+      place(gpop,{clientX:er.right+10*s, clientY:er.top});
+      gname.focus(); gname.select();
+    });
+  });
+  document.querySelectorAll('.row.task').forEach(function(el){
+    el.addEventListener('contextmenu',function(ev){
+      ev.preventDefault(); close(); el.classList.add('ctx'); curT=el;
+      tname.value=el.querySelector('.t').textContent; place(tpop,ev); tname.focus(); tname.select();
+    });
+  });
+  gname.addEventListener('input',function(){ curG.name=gname.value; applyGroup(); });
+  gicons.addEventListener('click',function(e){ var s=e.target.closest('[data-i]'); if(!s)return; curG.icon=s.dataset.i; applyGroup(); renderPickers(); });
+  gcolors.addEventListener('click',function(e){ var s=e.target.closest('[data-c]'); if(!s)return; curG.color=s.dataset.c; applyGroup(); renderPickers(); });
+  tname.addEventListener('input',function(){ if(curT) curT.querySelector('.t').textContent=tname.value; });
+  tname.addEventListener('keydown',function(e){ if(e.key==='Enter') close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  document.addEventListener('mousedown',function(e){ if(!e.target.closest('.pop') && e.button===0) close(); });
+  function rgbToHex(rgb){ var m=rgb.match(/\d+/g); if(!m) return rgb; return '#'+m.slice(0,3).map(function(n){return ('0'+(+n).toString(16)).slice(-2)}).join('').toUpperCase(); }
+})();
+</script>

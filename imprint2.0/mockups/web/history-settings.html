@@ -1,0 +1,222 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,900;1,700&display=swap');
+  .app{width:100%;align-self:stretch;font-family:Inter,system-ui,sans-serif;font-feature-settings:"tnum"}
+  :root{--mBg:#2A3255;--mSurf:#343D63;--mInk:#EAECF5;--mMuted:#A6ADCC;--mHair:#414A75;--mBar:#565F8C;--amberN:#F0A24E}
+  .meta{background:var(--mBg);color:var(--mInk)}
+  .ttl{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1.1}
+  .acc{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:var(--amberN);font-size:14px;line-height:1.2;padding-bottom:2px;margin-top:2px}
+  .card2{background:var(--mSurf);border-radius:14px;padding:16px 18px}
+  .sec{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--mMuted);margin-bottom:10px}
+  .big{font-weight:800;font-size:44px;letter-spacing:-.5px;line-height:1}
+  .muted{color:var(--mMuted)}
+  .seg{display:inline-flex;background:var(--mSurf);border-radius:999px;padding:3px;font-size:12px}
+  .seg span{padding:5px 12px;border-radius:999px;color:var(--mMuted);cursor:pointer}
+  .seg .on{background:var(--amberN);color:#1C2244;font-weight:600}
+  .bars{display:flex;align-items:flex-end;gap:10px;height:120px}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;font-size:11px;color:var(--mMuted)}
+  .bar b{display:block;width:100%;background:var(--mBar);border-radius:6px 6px 3px 3px}
+  .bar.today b{background:var(--amberN)}.bar.today{color:var(--mInk);font-weight:600}
+  .grp{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:14px}
+  .grp+.grp{border-top:1px solid var(--mHair)}
+  .grp .n{font-size:13px;color:var(--mMuted)}
+  .grp .n b{color:var(--mInk);font-weight:600}
+  .freq{display:flex;justify-content:space-between;font-size:14px;padding:5px 0}
+  .freq span:last-child{color:var(--mMuted)}
+  /* sidebar */
+  .sb{background:#232A4B;color:var(--mMuted);padding:20px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px}
+  .logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:var(--amberN);padding:0 10px 14px}
+  .sb .lab{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#8088b0;padding:12px 10px 4px;text-transform:uppercase}
+  .it{padding:8px 10px;border-radius:10px;display:flex;align-items:center;gap:10px}
+  .it i{font-size:17px}.it .n{margin-left:auto;color:#8088b0;font-size:12px}
+  .it.sel{background:var(--mSurf);color:var(--mInk);font-weight:600;box-shadow:inset 3px 0 0 var(--amberN)}
+  .grow{flex:1}
+  /* stage */
+  .stage{width:min(100%, calc((100vh - 140px) * 1440 / 860));margin-left:auto;margin-right:auto;aspect-ratio:1440/860;position:relative;overflow:hidden;border-radius:10px;border:1px solid #c9ced8;margin-bottom:8px}
+  .screen{position:absolute;left:0;top:0;width:1440px;height:860px;transform-origin:0 0;display:flex;flex-direction:column}
+  .chrome{height:34px;background:#d5d9e1;display:flex;align-items:center;gap:7px;padding:0 14px;flex:none}
+  .chrome i{width:11px;height:11px;border-radius:50%;background:#b4bac6;display:block}
+  .url{margin-left:18px;background:#e9ecf1;border-radius:6px;height:20px;width:360px;font:12px Inter,sans-serif;color:#6F7690;display:flex;align-items:center;padding-left:10px}
+  .shell{width:62%;margin:0 auto;flex:1;display:grid;grid-template-columns:210px 1fr;grid-template-rows:minmax(0,1fr);min-height:0;overflow:hidden}
+  .main{padding:28px 0 24px 32px;overflow:hidden;display:flex;flex-direction:column;gap:14px}
+  /* settings */
+  .srow{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 0;font-size:14px}
+  .srow+.srow{border-top:1px solid var(--mHair)}
+  .srow .d{font-size:12px;color:var(--mMuted);margin-top:2px;line-height:1.4}
+  .val{background:#2A3255;border:1px solid var(--mHair);border-radius:8px;padding:5px 10px;font-size:13px;white-space:nowrap}
+  .btn{border:1px solid var(--mHair);border-radius:999px;padding:6px 14px;font-size:13px;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+  .tog{width:36px;height:20px;border-radius:999px;background:var(--mBar);position:relative;flex:none}
+  .tog::after{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--mInk)}
+  .tog.on{background:var(--amberN)}.tog.on::after{left:19px;background:#1C2244}
+  .ok{color:#8fd19e}
+  .scope{font-size:11px;color:var(--mMuted);font-weight:500;letter-spacing:0;text-transform:none;margin-left:6px}
+  .note{font-size:13px;color:var(--text-secondary);margin:6px 0 24px;line-height:1.55;max-width:88ch}
+  .phones{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:374px;height:720px;border-radius:32px;border:7px solid #1d1d1f;overflow:hidden;position:relative;display:flex;flex-direction:column}
+  .phone .top{padding:18px 16px 6px;font-size:22px}
+  .phone .body{flex:1;padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+  .compact .card2{padding:12px 18px}
+  .compact .sec{margin-bottom:4px}
+  .compact .srow{padding:7px 0}
+  .compact .ttl{font-size:28px}
+  .cap{font-size:13px;color:var(--text-secondary);margin-top:10px;width:374px;line-height:1.5}
+</style>
+
+<div class="app">
+<h2>История и Настройки</h2>
+<p class="subtitle">Мир Meta (всегда navy), как на телефоне. Весь экран становится navy, не только колонка. Цифры в мокапе условные.</p>
+
+<h3>Десктоп: История</h3>
+<div class="stage"><div class="screen meta">
+  <div class="chrome"><i></i><i></i><i></i><span class="url">imprint.web.app/history</span></div>
+  <div class="shell">
+    <nav class="sb">
+      <div class="logo">Imprint</div>
+      <div class="lab">Бэклог</div>
+      <div class="it"><i class="ph ph-tray"></i>Все задачи<span class="n">14</span></div>
+      <div class="it"><i class="ph ph-house"></i>Дом<span class="n">6</span></div>
+      <div class="it"><i class="ph ph-briefcase"></i>Работа<span class="n">5</span></div>
+      <div class="it"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+      <div class="grow"></div>
+      <div class="it sel"><i class="ph ph-chart-bar"></i>История</div>
+      <div class="it"><i class="ph ph-gear-six"></i>Настройки</div>
+    </nav>
+    <div class="main">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div><div class="ttl">История</div><div class="acc">…как идут дела</div></div>
+        <div class="seg"><span class="on">7 дней</span><span>30 дней</span></div>
+      </div>
+      <div class="card2" style="display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:end">
+        <div><div class="big">4</div><div class="muted" style="font-size:13px;margin-top:4px">сделано сегодня</div></div>
+        <div class="bars">
+          <div class="bar"><b style="height:45%"></b>Ср</div><div class="bar"><b style="height:70%"></b>Чт</div>
+          <div class="bar"><b style="height:30%"></b>Пт</div><div class="bar"><b style="height:15%"></b>Сб</div>
+          <div class="bar"><b style="height:25%"></b>Вс</div><div class="bar"><b style="height:85%"></b>Пн</div>
+          <div class="bar today"><b style="height:50%"></b>Вт</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card2">
+          <div class="sec">По группам</div>
+          <div class="grp">Дом<span class="n">закрыто <b>9</b>, осталось <b>6</b></span></div>
+          <div class="grp">Работа<span class="n">закрыто <b>7</b>, осталось <b>5</b></span></div>
+          <div class="grp">Здоровье<span class="n">закрыто <b>2</b>, осталось <b>3</b></span></div>
+          <div class="grp">Без группы<span class="n">закрыто <b>5</b></span></div>
+        </div>
+        <div class="card2">
+          <div class="sec">Чаще всего</div>
+          <div class="freq"><span>Выпить таблетку</span><span>7</span></div>
+          <div class="freq"><span>Размяться 10 минут</span><span>5</span></div>
+          <div class="freq"><span>Разобрать почту</span><span>2</span></div>
+          <div class="freq"><span>Полить цветы</span><span>2</span></div>
+        </div>
+        <div class="card2">
+          <div class="sec">За период</div>
+          <div style="font-size:15px"><b style="font-size:22px">23</b> задачи</div>
+          <div class="muted" style="font-size:13px;margin-top:4px">в среднем 3,3 в день</div>
+        </div>
+        <div class="card2">
+          <div class="sec">По дням недели</div>
+          <div class="bars" style="height:56px;gap:6px">
+            <div class="bar"><b style="height:80%"></b>Пн</div><div class="bar today"><b style="height:50%"></b>Вт</div><div class="bar"><b style="height:40%"></b>Ср</div>
+            <div class="bar"><b style="height:65%"></b>Чт</div><div class="bar"><b style="height:30%"></b>Пт</div><div class="bar"><b style="height:12%"></b>Сб</div><div class="bar"><b style="height:20%"></b>Вс</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+<p class="note">Главное наверху: «сделано сегодня» и столбики за окно (сегодня янтарём). Ниже сетка 2×2: группы (нейтрально: закрыто/осталось, без процентов и стрелок, как в вебе v1), частые задачи, итог периода, дни недели. Всё помещается в один экран без скролла на 7 днях.</p>
+
+<h3>Десктоп: Настройки</h3>
+<div class="stage"><div class="screen meta">
+  <div class="chrome"><i></i><i></i><i></i><span class="url">imprint.web.app/settings</span></div>
+  <div class="shell">
+    <nav class="sb">
+      <div class="logo">Imprint</div>
+      <div class="lab">Бэклог</div>
+      <div class="it"><i class="ph ph-tray"></i>Все задачи<span class="n">14</span></div>
+      <div class="it"><i class="ph ph-house"></i>Дом<span class="n">6</span></div>
+      <div class="it"><i class="ph ph-briefcase"></i>Работа<span class="n">5</span></div>
+      <div class="it"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+      <div class="grow"></div>
+      <div class="it"><i class="ph ph-chart-bar"></i>История</div>
+      <div class="it sel"><i class="ph ph-gear-six"></i>Настройки</div>
+    </nav>
+    <div class="main compact" style="max-width:600px;gap:10px">
+      <div><div class="ttl">Настройки</div><div class="acc">…под себя</div></div>
+      <div class="card2">
+        <div class="sec">Аккаунт</div>
+        <div class="srow"><div>anna.volkova@gmail.com<div class="d"><span class="ok">●</span> Синхронизировано, только что</div></div><span class="btn">Выйти</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec">День<span class="scope">для всех устройств</span></div>
+        <div class="srow"><div>Переворачивать день в<div class="d">Выполненное очищается, повторяемые возвращаются, задачи с датой приходят.</div></div><span class="val">04:00</span></div>
+        <div class="srow"><div>Язык</div><span class="seg" style="background:#2A3255"><span class="on">Русский</span><span>English</span></span></div>
+      </div>
+      <div class="card2">
+        <div class="sec">Оформление<span class="scope">только этот браузер</span></div>
+        <div class="srow"><div>Тема</div><span class="seg" style="background:#2A3255"><span class="on">Как в системе</span><span>Светлая</span><span>Тёмная</span></span></div>
+        <div class="srow"><div>Динамическая тема<div class="d">Цвета Дня и Бэклога следуют за временем суток.</div></div><span class="tog"></span></div>
+      </div>
+      <div class="card2">
+        <div class="sec">Данные</div>
+        <div class="srow"><div>Экспорт в файл<div class="d">Задачи, группы, журнал и настройки в JSON.</div></div><span class="btn"><i class="ph ph-download-simple"></i>Скачать</span></div>
+        <div class="srow"><div>Импорт из файла<div class="d">Сливается, ничего не перезаписывается.</div></div><span class="btn"><i class="ph ph-upload-simple"></i>Выбрать</span></div>
+      </div>
+      <div class="muted" style="font-size:12px;padding-left:4px"><i class="ph ph-device-mobile"></i> Напоминания и плашка настраиваются в приложении на телефоне.</div>
+    </div>
+  </div>
+</div></div>
+<p class="note">Одна колонка, как на телефоне, но короче: в вебе нет напоминаний, разрешений и кнопки «Синхронизировать» (синхронизация идёт сама). У каждой секции подпись, где действует настройка: общие (сброс дня, язык) и только этого браузера (тема).</p>
+
+<h3>Мобильный веб</h3>
+<div class="phones">
+  <div>
+    <div class="phone meta">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="ttl" style="font-size:26px">История</div><div class="acc">…как идут дела</div></div><div class="seg"><span class="on">7</span><span>30</span></div></div>
+        <div class="card2">
+          <div style="display:flex;align-items:baseline;gap:8px"><span class="big" style="font-size:36px">4</span><span class="muted" style="font-size:13px">сделано сегодня</span></div>
+          <div class="bars" style="height:90px;margin-top:10px;gap:8px">
+            <div class="bar"><b style="height:45%"></b>Ср</div><div class="bar"><b style="height:70%"></b>Чт</div><div class="bar"><b style="height:30%"></b>Пт</div><div class="bar"><b style="height:15%"></b>Сб</div><div class="bar"><b style="height:25%"></b>Вс</div><div class="bar"><b style="height:85%"></b>Пн</div><div class="bar today"><b style="height:50%"></b>Вт</div>
+          </div>
+        </div>
+        <div class="card2">
+          <div class="sec">По группам</div>
+          <div class="grp">Дом<span class="n">закрыто <b>9</b>, осталось <b>6</b></span></div>
+          <div class="grp">Работа<span class="n">закрыто <b>7</b>, осталось <b>5</b></span></div>
+          <div class="grp">Здоровье<span class="n">закрыто <b>2</b>, осталось <b>3</b></span></div>
+        </div>
+        <div class="card2"><div class="sec">Чаще всего</div><div class="freq"><span>Выпить таблетку</span><span>7</span></div><div class="freq"><span>Размяться 10 минут</span><span>5</span></div></div>
+      </div>
+    </div>
+    <div class="cap"><b>История.</b> Та же иерархия в одну колонку; ниже прокруткой «За период» и «По дням недели».</div>
+  </div>
+  <div>
+    <div class="phone meta">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body">
+        <div><div class="ttl" style="font-size:26px">Настройки</div><div class="acc">…под себя</div></div>
+        <div class="card2"><div class="sec">Аккаунт</div><div class="srow"><div>anna.volkova@gmail.com<div class="d"><span class="ok">●</span> Синхронизировано</div></div><span class="btn">Выйти</span></div></div>
+        <div class="card2"><div class="sec">День<span class="scope">для всех устройств</span></div>
+          <div class="srow"><div>Переворачивать день в</div><span class="val">04:00</span></div>
+          <div class="srow"><div>Язык</div><span class="seg" style="background:#2A3255"><span class="on">RU</span><span>EN</span></span></div></div>
+        <div class="card2"><div class="sec">Оформление<span class="scope">этот браузер</span></div>
+          <div class="srow"><div>Тема</div><span class="seg" style="background:#2A3255"><span class="on">Авто</span><span>Светлая</span><span>Тёмная</span></span></div>
+          <div class="srow"><div>Динамическая тема</div><span class="tog"></span></div></div>
+      </div>
+    </div>
+    <div class="cap"><b>Настройки.</b> То же в одну колонку, «Данные» ниже прокруткой.</div>
+  </div>
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.stage').forEach(function(stage){
+  var screen=stage.querySelector('.screen');
+  function fit(){ screen.style.transform='scale('+(stage.clientWidth/1440)+')'; }
+  fit(); new ResizeObserver(fit).observe(stage);
+});
+</script>

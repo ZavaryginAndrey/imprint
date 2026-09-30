@@ -1,0 +1,28 @@
+{
+  "name": "imprint-platform",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "deploy:dev": "npm run build -w @imprint/web && npm run deploy:dev -w @imprint/worker",
+    "deploy:prod": "npm run build -w @imprint/web && npm run deploy:prod -w @imprint/worker",
+    "e2e": "npm run e2e -w @imprint/web"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "eslint": "^9.39.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.0",
+    "vite": "^6.4.3",
+    "vitest": "~3.2.0"
+  }
+}

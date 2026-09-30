@@ -1,0 +1,51 @@
+/* Hover icons (landing `.ib`, `.tag`): icons only, the row never grows (landing trap). */
+.ib {
+  width: 27px;
+  height: 27px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--muted);
+  flex: none;
+}
+
+.ib:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.tag {
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  margin-right: 2px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--surf);
+  color: var(--ink);
+  font-size: 12px;
+  white-space: nowrap;
+  flex: none;
+}
+
+.tag:hover {
+  border-color: var(--amber);
+}
+
+.empty {
+  width: 24px;
+  padding: 0;
+  justify-content: center;
+  border-style: dashed;
+  border-radius: 8px;
+  color: var(--muted);
+  background: none;
+}
+
+.gn {
+  max-width: 9ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

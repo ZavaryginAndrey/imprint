@@ -1,0 +1,21 @@
+{
+  "name": "@imprint/worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "deploy:dev": "wrangler deploy --env dev",
+    "deploy:prod": "wrangler deploy --env prod"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.71",
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "wrangler": "^4.143.0"
+  },
+  "dependencies": {
+    "@imprint/domain": "*",
+    "hono": "^4.13.11"
+  }
+}

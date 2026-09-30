@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,900;1,700&display=swap');
+  .app{width:100%;align-self:stretch;font-family:Inter,system-ui,sans-serif;color:#1E2749}
+  .ttl{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;letter-spacing:-.5px;line-height:1.1}
+  .acc{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:#F2922A;font-size:14px;line-height:1.2;padding-bottom:2px;margin-top:2px}
+  .meta .acc{color:#F0A24E}
+  .row{background:#F7F5F1;border:1px solid #E0DCD3;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;line-height:1.35}
+  .c{width:18px;height:18px;border-radius:50%;border:1.5px solid #6F7690;flex:none}
+  .t{flex:1;min-width:0}
+  .rep{color:#F2922A;font-size:12px;white-space:nowrap}
+  .date{color:#6F7690;font-size:12px;white-space:nowrap}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#6F7690;margin:14px 0 0;text-transform:uppercase}
+  .chips{display:flex;gap:6px;margin-bottom:8px}
+  .chip{font-size:12px;border:1px solid #E0DCD3;background:#F7F5F1;border-radius:999px;padding:4px 11px}
+  .pill{background:#F7F5F1;border:1px solid #E0DCD3;border-radius:28px;padding:10px 10px 10px 18px;color:#6F7690;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+  .plus{background:#F2922A;color:#1E2749;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+  .scroll{overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)}
+  /* sidebar */
+  .sb{background:#232A4B;color:#A6ADCC;padding:20px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px;min-height:0;overflow:hidden}
+  .logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:#F0A24E;padding:0 10px 14px}
+  .sb .lab{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#8088b0;padding:14px 10px 4px;text-transform:uppercase}
+  .sb hr{border:0;border-top:1px solid #343D63;margin:10px 8px 0}
+  .it{padding:8px 10px;border-radius:10px;display:flex;align-items:center;gap:10px;cursor:pointer}
+  .it i{font-size:17px}.it .n{margin-left:auto;color:#8088b0;font-size:12px}
+  .it:hover{background:#343D63}
+  .it.sel{background:#343D63;color:#EAECF5;font-weight:600;box-shadow:inset 3px 0 0 #F0A24E}
+  .it.flt{color:#EAECF5}
+  .it.flt .n{color:#F0A24E}
+  /* stage fits both width and viewport height */
+  .stage{width:min(100%, calc((100vh - 170px) * 1440 / 860));margin:0 auto;aspect-ratio:1440/860;position:relative;overflow:hidden;border-radius:10px;border:1px solid #c9ced8}
+  .screen{position:absolute;left:0;top:0;width:1440px;height:860px;transform-origin:0 0;display:flex;flex-direction:column;background:#E2E6EC;transition:background .25s}
+  .screen.meta{background:#2A3255}
+  .chrome{height:34px;background:#d5d9e1;display:flex;align-items:center;gap:7px;padding:0 14px;flex:none}
+  .chrome i{width:11px;height:11px;border-radius:50%;background:#b4bac6;display:block}
+  .url{margin-left:18px;background:#e9ecf1;border-radius:6px;height:20px;width:360px;font:12px Inter,sans-serif;color:#6F7690;display:flex;align-items:center;padding-left:10px}
+  .shell{width:62%;margin:0 auto;flex:1;display:grid;grid-template-columns:210px 1fr;grid-template-rows:minmax(0,1fr);min-height:0;overflow:hidden}
+  .view{display:none;min-height:0}
+  .view.on{display:flex;flex-direction:column}
+  .stub{margin:28px 0 0 32px;color:#EAECF5}
+  .stub .box{margin-top:22px;border:1.5px dashed #565F8C;border-radius:14px;height:420px;display:flex;align-items:center;justify-content:center;color:#A6ADCC;font-size:14px}
+  .note{font-size:13px;color:var(--text-secondary);margin:10px auto 22px;line-height:1.55;max-width:88ch}
+  .phones{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
+  .phone{width:374px;height:min(680px, calc(100vh - 150px));border-radius:32px;border:7px solid #1d1d1f;overflow:hidden;position:relative;display:flex;flex-direction:column;background:#E2E6EC}
+  .phone.meta{background:#2A3255}
+  .phone .top{padding:16px 16px 6px;font-size:22px}
+  .phone .body{flex:1;padding:4px 16px 0;min-height:0;display:flex;flex-direction:column}
+  .scrim{position:absolute;inset:0;background:rgba(20,22,28,.45)}
+  .drawer{position:absolute;top:0;bottom:0;left:0;width:80%;box-shadow:4px 0 18px rgba(20,22,40,.35)}
+  .cap{font-size:13px;color:var(--text-secondary);margin-top:10px;width:374px;line-height:1.5}
+</style>
+
+<div class="app">
+<h2>Навигация: День, История, Настройки наверху</h2>
+<p class="subtitle">Мокап кликабельный: «История» и «Настройки» открывают заглушки, «День» или любая группа бэклога возвращают к двум колонкам.</p>
+
+<div class="stage" id="stage"><div class="screen" id="screen">
+  <div class="chrome"><i></i><i></i><i></i><span class="url" id="url">imprint.web.app</span></div>
+  <div class="shell">
+    <nav class="sb" id="sb">
+      <div class="logo">Imprint</div>
+      <div class="it sel" data-v="day"><i class="ph ph-sun"></i>День<span class="n">6</span></div>
+      <div class="it" data-v="history"><i class="ph ph-chart-bar"></i>История</div>
+      <div class="it" data-v="settings"><i class="ph ph-gear-six"></i>Настройки</div>
+      <hr>
+      <div class="lab">Бэклог</div>
+      <div class="it flt" data-g="all" data-t="Все задачи"><i class="ph ph-tray"></i>Все задачи<span class="n">9</span></div>
+      <div class="it" data-g="home" data-t="Дом"><i class="ph ph-house"></i>Дом<span class="n">3</span></div>
+      <div class="it" data-g="work" data-t="Работа"><i class="ph ph-briefcase"></i>Работа<span class="n">3</span></div>
+      <div class="it" data-g="health" data-t="Здоровье"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+      <div class="it" style="color:#8088b0"><i class="ph ph-plus"></i>Группа</div>
+    </nav>
+
+    <div>
+      <div class="view on" id="v-day" style="height:100%;padding:28px 0 22px 32px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);gap:28px;flex:1;min-height:0">
+          <section style="display:flex;flex-direction:column;min-height:0">
+            <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+            <div class="scroll" style="flex:1">
+              <div class="row"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+              <div class="row"><span class="c"></span><span class="t">Отправить акт Маше и приложить счёт</span></div>
+              <div class="row"><span class="c"></span><span class="t">Выпить таблетку</span><span class="rep"><i class="ph ph-arrows-clockwise"></i></span></div>
+              <div class="row"><span class="c"></span><span class="t">Забрать посылку на почте</span></div>
+              <div class="row"><span class="c"></span><span class="t">Ответить Диме про субботу</span></div>
+              <div class="row"><span class="c"></span><span class="t">Оплатить интернет</span></div>
+            </div>
+          </section>
+          <section class="bk" style="display:flex;flex-direction:column;min-height:0;border-left:1px solid #cfd4dd;padding-left:28px">
+            <div class="ttl">Бэклог</div><div class="acc" id="bkh">Все задачи</div>
+            <div class="scroll" style="flex:1">
+              <div class="lbl" data-g="home" style="margin-top:4px">Дом</div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Разобрать балкон</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Полить цветы</span><span class="rep"><i class="ph ph-arrows-clockwise"></i> пн чт</span></div>
+              <div class="row" data-g="home"><span class="c"></span><span class="t">Заменить фильтр для воды</span><span class="date">12 окт</span></div>
+              <div class="lbl" data-g="work">Работа</div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Обновить резюме</span><span class="date">3 окт</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Разобрать почту</span><span class="rep"><i class="ph ph-arrows-clockwise"></i> пт</span></div>
+              <div class="row" data-g="work"><span class="c"></span><span class="t">Подготовить слайды к ретро</span></div>
+              <div class="lbl" data-g="health">Здоровье</div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Записаться к стоматологу</span></div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Сдать анализы</span><span class="date">8 окт</span></div>
+              <div class="row" data-g="health"><span class="c"></span><span class="t">Купить витамин D</span></div>
+            </div>
+          </section>
+        </div>
+        <div style="padding-top:14px">
+          <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7 дней</span><span class="chip"><i class="ph ph-calendar-blank"></i></span></div>
+          <div class="pill">Что не забыть?<span class="plus"><i class="ph ph-plus"></i></span></div>
+        </div>
+      </div>
+      <div class="view stub" id="v-history"><div class="ttl">История</div><div class="acc">…как идут дела</div><div class="box">Экран Истории, детали позже</div></div>
+      <div class="view stub" id="v-settings"><div class="ttl">Настройки</div><div class="acc">…под себя</div><div class="box">Экран Настроек, детали позже</div></div>
+    </div>
+  </div>
+</div></div>
+<p class="note"><b>Правило навигации.</b> Верх сайдбара выбирает <b>экран</b>: День (две колонки), История, Настройки. Блок «Бэклог» выбирает <b>фильтр</b> правой колонки; клик по группе, пока открыта История или Настройки, возвращает к Дню с этим фильтром. Выбранный фильтр подсвечен текстом, выбранный экран полосой слева. Всё важное наверху: сайдбар не уходит за нижний край даже в невысоком окне.</p>
+
+<div class="phones">
+  <div>
+    <div class="phone">
+      <div class="top"><i class="ph ph-list"></i></div>
+      <div class="body"><div class="ttl" style="font-size:26px">День</div><div class="acc">…что важно сегодня</div>
+        <div class="row"><span class="c"></span><span class="t">Позвонить в банк про карту</span></div>
+        <div class="row"><span class="c"></span><span class="t">Выпить таблетку</span></div></div>
+      <div class="scrim"></div>
+      <nav class="sb drawer">
+        <div class="logo" style="padding-top:8px">Imprint</div>
+        <div class="it sel"><i class="ph ph-sun"></i>День<span class="n">6</span></div>
+        <div class="it"><i class="ph ph-chart-bar"></i>История</div>
+        <div class="it"><i class="ph ph-gear-six"></i>Настройки</div>
+        <hr>
+        <div class="lab">Бэклог</div>
+        <div class="it"><i class="ph ph-tray"></i>Все задачи<span class="n">9</span></div>
+        <div class="it"><i class="ph ph-house"></i>Дом<span class="n">3</span></div>
+        <div class="it"><i class="ph ph-briefcase"></i>Работа<span class="n">3</span></div>
+        <div class="it"><i class="ph ph-heartbeat"></i>Здоровье<span class="n">3</span></div>
+        <div class="it" style="color:#8088b0"><i class="ph ph-plus"></i>Группа</div>
+      </nav>
+    </div>
+    <div class="cap"><b>Мобильный: тот же порядок.</b> Экраны наверху, группы бэклога ниже.</div>
+  </div>
+  <div>
+    <div class="phone meta">
+      <div class="top" style="color:#EAECF5"><i class="ph ph-list"></i></div>
+      <div class="body stub" style="margin:0"><div class="ttl" style="font-size:26px">История</div><div class="acc">…как идут дела</div><div class="box" style="height:300px">Заглушка</div></div>
+    </div>
+    <div class="cap"><b>Выход из Истории:</b> меню, затем День или группа. Системная «Назад» тоже возвращает к Дню.</div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'), screen=document.getElementById('screen');
+  function fit(){ screen.style.transform='scale('+(stage.clientWidth/1440)+')'; }
+  fit(); new ResizeObserver(fit).observe(stage);
+  var sb=document.getElementById('sb'), url=document.getElementById('url');
+  function show(v){
+    ['day','history','settings'].forEach(function(k){ document.getElementById('v-'+k).classList.toggle('on',k===v); });
+    sb.querySelectorAll('[data-v]').forEach(function(e){ e.classList.toggle('sel',e.dataset.v===v); });
+    screen.classList.toggle('meta',v!=='day');
+    url.textContent='imprint.web.app'+(v==='day'?'':'/'+v);
+  }
+  sb.querySelectorAll('[data-v]').forEach(function(e){ e.addEventListener('click',function(){ show(e.dataset.v); }); });
+  sb.querySelectorAll('[data-g]').forEach(function(e){ e.addEventListener('click',function(){
+    sb.querySelectorAll('[data-g]').forEach(function(x){ x.classList.remove('flt'); }); e.classList.add('flt');
+    var g=e.dataset.g;
+    document.querySelectorAll('.bk [data-g]').forEach(function(x){ x.style.display=(g==='all'||x.dataset.g===g)?'':'none'; });
+    document.getElementById('bkh').textContent=e.dataset.t;
+    show('day');
+  }); });
+})();
+</script>

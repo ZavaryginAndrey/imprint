@@ -1,0 +1,72 @@
+.pop {
+  z-index: 20;
+  width: 250px;
+  max-height: var(--radix-popover-content-available-height);
+  overflow-y: auto;
+  padding: 10px;
+  background: var(--surf);
+  color: var(--ink);
+  border: 1px solid var(--hair);
+  border-radius: var(--r-pop);
+  box-shadow: var(--shadow-pop);
+  font-size: 13px;
+  animation: popin 0.12s var(--ease-out);
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+
+@keyframes popin {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+/* Shared inside popovers: section label and options (landing `.pop .h`, `.opt`). */
+.h {
+  margin: 2px 4px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.opt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.opt:hover {
+  background: var(--opt-hover);
+}
+
+.on {
+  background: var(--soft);
+  font-weight: 600;
+}
+
+.mute {
+  color: var(--muted);
+}
+
+.hr {
+  border: 0;
+  border-top: 1px solid var(--hair);
+  margin: 4px 6px;
+}
+
+.name {
+  width: 100%;
+  border: 1.5px solid var(--amber);
+  border-radius: 10px;
+  padding: 7px 10px;
+  font: 500 13px var(--f-ui);
+  color: var(--ink);
+  background: var(--surf);
+  outline: none;
+}

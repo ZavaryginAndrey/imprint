@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imprint: плашка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,900;1,700&display=swap">
+<style>
+/* Mockup of the imprint overlay (05-web-ux §9) before it goes into imprint2.0/landing.
+   Tokens, the Day screen and its data are copied from landing/index.html as is;
+   only the overlay (phone) and the extension popup (web) are new. */
+:root{
+  --page:#E9ECF1; --page-2:#DFE3EA; --ink:#1E2749; --muted:#525A78; --hair:#C9CFDA;
+  --accent:#F2922A; --accent-ink:#1E2749; --accent-text:#A9570B; --accent-soft:#FBE9D4; --shadow:30 39 73;
+  --f-disp:'Playfair Display',Georgia,serif;
+  --f-ui:'Onest','Segoe UI',system-ui,sans-serif;
+  --a-bg:#E2E6EC; --a-surf:#F7F5F1; --a-ink:#1E2749; --a-muted:#6F7690; --a-hair:#E0DCD3; --a-done:#9AA0AB;
+  --a-amber:#F2922A; --a-soft:#FBE9D4;
+  --ph-app:#FFFFFF; --ph-blk:#E6E8EE; --ph-blk-2:#D6DAE3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --page:#151A33; --page-2:#1C2242; --ink:#EAECF5; --muted:#A6ADCC; --hair:#2F375C;
+    --accent:#F0A24E; --accent-text:#F0A24E; --accent-soft:#3A3452; --shadow:3 5 16;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.i{width:1em;height:1em;fill:currentColor;flex:none;display:inline-block;vertical-align:-.125em}
+.wrap{max-width:1360px;margin-inline:auto;padding:clamp(28px,4vw,56px) clamp(16px,3vw,40px) 72px}
+
+h1{font:900 clamp(40px,5vw,64px)/1.02 var(--f-disp);letter-spacing:-.02em;margin:0}
+.acc-l{font:italic 700 clamp(19px,1.9vw,24px)/1.25 var(--f-disp);color:var(--accent-text);margin:8px 0 0;padding-bottom:4px}
+.lede{color:var(--muted);margin:16px 0 0;max-width:66ch}
+
+/* ---------- product components (from landing) ---------- */
+.app{font-family:var(--f-ui);color:var(--a-ink);font-feature-settings:"tnum";font-size:14px;line-height:1.35;text-align:left}
+.app .ttl{font:900 30px/1.1 var(--f-disp);letter-spacing:-.5px}
+.app .acc{font:italic 700 14px/1.2 var(--f-disp);color:var(--a-amber);margin-top:2px;padding-bottom:2px}
+.row{position:relative;background:var(--a-surf);border:1px solid var(--a-hair);border-radius:12px;padding:10px 12px;margin-top:6px;color:var(--a-ink);transition:border-color .15s,opacity .2s,box-shadow .2s}
+.row .line{display:flex;align-items:center;gap:10px}
+.row:hover,.row.open{border-color:var(--a-amber)}
+.c{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--a-muted);flex:none;transition:background .2s,border-color .2s}
+.c:hover{border-color:var(--a-amber)}
+.c.tick{animation:tick .4s cubic-bezier(.16,1,.3,1)}
+@keyframes tick{40%{transform:scale(1.3)}}
+.row.d{color:var(--a-done)}
+.row.d .t{text-decoration:line-through}
+.row.d .c{background:var(--a-amber);border-color:var(--a-amber)}
+.t{flex:1;min-width:0;overflow-wrap:anywhere}
+.rep{color:var(--a-amber);font-size:12px;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.steps{color:var(--a-muted);font-size:12px;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.ib{font-size:17px;padding:5px;border-radius:7px;display:inline-flex;color:var(--a-muted)}
+.ib:hover{background:var(--a-soft);color:var(--a-ink)}
+.tag{font-size:12px;border:1px solid var(--a-hair);border-radius:999px;padding:2px 9px;background:#fffA;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;color:var(--a-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.chip{font-size:12px;height:26px;border:1px solid var(--a-hair);background:var(--a-surf);border-radius:999px;padding:4px 11px;display:inline-flex;gap:4px;align-items:center;color:var(--a-ink)}
+.chip .i{font-size:14px}
+.chip.empty{border-style:dashed;color:var(--a-muted)}
+.pill{background:var(--a-surf);border:1px solid var(--a-hair);border-radius:28px;padding:5px 6px 5px 18px;display:flex;align-items:center;gap:8px}
+.pill span{flex:1;color:var(--a-muted);padding:7px 0}
+.plus{background:var(--a-amber);color:var(--a-ink);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.scroll{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c3c9d4 transparent;padding-right:6px}
+.scroll.fb{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)}
+.tray{display:flex;flex-wrap:nowrap;align-items:center;gap:2px;min-width:0;margin-top:8px;padding-top:8px;border-top:1px solid var(--a-hair)}
+.tray .sp{flex:1;min-width:4px}
+.tray>*{flex:none}
+.tray .ib{width:26px;height:26px;padding:0;align-items:center;justify-content:center}
+.tray .tag{height:26px}
+.move{background:var(--a-soft);border:1px solid var(--a-amber);border-radius:8px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;color:var(--a-ink)}
+.move .i{font-size:17px}
+/* steps bottom sheet */
+.pscrim{position:absolute;inset:0;background:rgb(20 22 28 / .45);z-index:19;animation:fadein .2s}
+@keyframes fadein{from{opacity:0}}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;background:var(--a-surf);border-top:1px solid var(--a-hair);border-radius:20px 20px 0 0;padding:8px 16px 20px;box-shadow:0 -10px 30px rgb(20 22 40 / .25);font-size:13px;color:var(--a-ink);animation:sheetin .28s cubic-bezier(.16,1,.3,1)}
+.sheet::before{content:"";display:block;width:36px;height:4px;border-radius:2px;background:#CFC9BD;margin:2px auto 10px}
+@keyframes sheetin{from{transform:translateY(100%)}}
+.sheet .h{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--a-muted);margin:2px 4px 6px}
+.step{display:flex;gap:9px;align-items:center;padding:6px 4px}
+.step .c{width:16px;height:16px}
+.step.d{color:var(--a-done);text-decoration:line-through}
+.step.d .c{background:var(--a-amber);border-color:var(--a-amber)}
+.add-step{width:100%;margin-top:6px;border:1px dashed var(--a-hair);border-radius:8px;padding:7px 9px;font:inherit;color:var(--a-ink);background:#fff8;outline:none}
+.add-step:focus{border-color:var(--a-amber);border-style:solid}
+
+/* ---------- stage ---------- */
+.stage{display:grid;grid-template-columns:340px 340px minmax(0,1fr);gap:36px;margin-top:44px;align-items:start}
+@media (max-width:1320px){.stage{grid-template-columns:340px 340px;justify-content:center}.stage>.dev.web{grid-column:1 / -1;justify-self:center;max-width:720px}}
+@media (max-width:780px){.stage{grid-template-columns:minmax(0,340px)}.stage>.dev.web{grid-column:auto}}
+.dev{display:flex;flex-direction:column;gap:16px;min-width:0;width:100%}
+.cap{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;min-height:100px}
+.cap h2{font:900 26px/1.1 var(--f-disp);margin:0;letter-spacing:-.01em}
+.cap p{margin:6px 0 0;font-size:14.5px;color:var(--muted);max-width:44ch}
+.cap q{quotes:"«" "»";color:var(--ink)}
+.again{flex:none;height:36px;padding:0 14px;border-radius:999px;border:1.5px solid var(--hair);font-size:14px;font-weight:600;white-space:nowrap;transition:border-color .2s,transform .2s}
+.again:hover{border-color:var(--accent)}
+.again:active{transform:scale(.97)}
+
+/* the imprint list, shared by both surfaces */
+.ov-list .row{padding:8px 11px;margin-top:5px;cursor:default}
+.ov-list .row:first-child{margin-top:0}
+.ov-list .row:hover{border-color:var(--a-hair)}
+.ov-list .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal}
+
+/* ---------- phones ---------- */
+.phone{width:340px;max-width:100%;height:690px;border-radius:44px;border:9px solid #17181E;background:var(--ph-app);position:relative;overflow:hidden;box-shadow:0 44px 80px -34px rgb(var(--shadow) / .55),0 0 0 1px rgb(var(--shadow) / .08);font-family:var(--f-ui)}
+/* 1: the Day screen, exactly as on the landing */
+.phone.day{background:var(--a-bg);display:flex;flex-direction:column}
+.ph-top{padding:14px 12px 4px;display:flex}
+.ph-menu{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;font-size:22px}
+.ph-body{flex:1;min-height:0;display:flex;flex-direction:column;padding:2px 16px 0}
+.ph-body .ttl{font-size:26px}
+.ph-body .list{flex:1;margin-top:4px;min-height:0}
+.ph-foot{padding:10px 12px 16px}
+.phone .row{padding:9px 11px}
+.phone.day .t{cursor:pointer}
+/* 2: overlay over another app */
+.sbar{height:40px;display:flex;align-items:center;justify-content:space-between;padding:4px 24px 0;font:600 13px/1 var(--f-ui);color:#1E2749;position:relative;z-index:1}
+.sbar .isl{position:absolute;left:50%;top:9px;width:92px;height:24px;border-radius:14px;background:#17181E;transform:translateX(-50%)}
+.sbar .sig{display:flex;gap:3px;align-items:flex-end}
+.sbar .sig b{width:3px;border-radius:1px;background:#1E2749;display:block}
+.under{padding:10px 16px;display:flex;flex-direction:column;gap:12px}
+.under .hd{height:34px;border-radius:10px;background:var(--ph-blk)}
+.under .msg{height:44px;border-radius:16px;background:var(--ph-blk)}
+.under .msg.me{align-self:flex-end;background:var(--ph-blk-2)}
+.p-ov{position:absolute;left:8px;right:8px;top:44px;z-index:5;background:var(--a-bg);border-radius:24px;padding:14px 12px 8px;box-shadow:0 22px 44px -18px rgb(20 26 50 / .5),0 0 0 1px rgb(30 39 73 / .06);touch-action:none;user-select:none;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s}
+.p-ov.drag{transition:none}
+.p-ov.off{transform:translateY(calc(-100% - 60px));opacity:0;pointer-events:none}
+.ov-brand{font:900 16px/1 var(--f-disp);color:var(--a-amber);letter-spacing:-.01em}
+.p-ov .ov-brand{padding:0 4px 10px}
+.grab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0 2px;color:var(--a-muted);font-size:11.5px;cursor:grab}
+.grab::before{content:"";width:40px;height:4px;border-radius:2px;background:#C3C8D2}
+.p-ov.drag .grab{cursor:grabbing}
+
+/* ---------- 3: browser with the extension popup ---------- */
+.browser{width:100%;max-width:720px;height:500px;border-radius:14px;overflow:hidden;position:relative;background:#FFFFFF;box-shadow:0 60px 100px -50px rgb(var(--shadow) / .6),0 0 0 1px rgb(var(--shadow) / .12);font-family:var(--f-ui)}
+.tabs{height:36px;background:#D5D9E1;display:flex;align-items:flex-end;gap:7px;padding:0 12px}
+.dots{display:flex;gap:7px;align-self:center;margin-right:10px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#B4BAC6;display:block}
+.tab{height:28px;width:180px;background:#EEF0F4;border-radius:9px 9px 0 0;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:12px;color:#525A78}
+.tab i{width:12px;height:12px;border-radius:3px;background:#B9C0CC;display:block}
+.tbar{height:44px;background:#EEF0F4;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #DDE1E8}
+.url{flex:1;min-width:0;height:28px;border-radius:999px;background:#FFFFFF;font-size:12px;color:#6F7690;display:flex;align-items:center;padding-left:14px;white-space:nowrap;overflow:hidden}
+.ext{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none}
+.ext.ph i{width:14px;height:14px;border-radius:4px;background:#C9CFDA;display:block}
+.ext.imp{font:900 16px/1 var(--f-disp);color:var(--a-amber);background:var(--a-soft)}
+.page{padding:28px 32px;display:grid;grid-template-columns:1fr 200px;gap:24px}
+.page .col{display:flex;flex-direction:column;gap:12px}
+.page .b{height:12px;border-radius:6px;background:#E6E8EE}
+.page .b.h{height:26px;width:62%;background:#DCE0E7;border-radius:8px;margin-bottom:8px}
+.page .card{height:150px;border-radius:12px;background:#EEF0F4}
+@media (max-width:520px){.page{grid-template-columns:1fr}.page .col+.col{display:none}}
+.w-ov{position:absolute;top:86px;right:10px;width:312px;max-width:calc(100% - 20px);z-index:5;background:var(--a-bg);border-radius:14px;padding:12px;box-shadow:0 24px 48px -16px rgb(20 26 50 / .45),0 0 0 1px rgb(30 39 73 / .08);transform-origin:calc(100% - 24px) 0;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .25s}
+.w-ov::before{content:"";position:absolute;top:-6px;right:20px;width:12px;height:12px;background:var(--a-bg);transform:rotate(45deg);border-radius:2px 0 0 0;box-shadow:-1px -1px 0 rgb(30 39 73 / .08)}
+.w-ov.off{transform:translateY(-8px) scale(.96);opacity:0;pointer-events:none}
+.w-head{display:flex;align-items:center;justify-content:space-between;padding:0 2px 10px 4px}
+.x{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--a-muted);font-size:16px}
+.x:hover{background:var(--a-soft);color:var(--a-ink)}
+.open-app{margin-top:12px;width:100%;height:40px;border-radius:999px;background:var(--a-amber);color:var(--a-ink);font:600 14px/1 var(--f-ui);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 22px -12px rgb(242 146 42 / .9);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.open-app:hover{transform:translateY(-1px)}
+.open-app:active{transform:translateY(1px) scale(.98)}
+.open-app .i{transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.open-app:hover .i{transform:translateX(3px)}
+
+.gone{position:absolute;inset:auto 0 0 0;padding:18px;text-align:center;font-size:13px;color:#6F7690;opacity:0;transition:opacity .3s}
+.gone.on{opacity:1}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="r-list" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol>
+<symbol id="r-list-checks" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></symbol>
+<symbol id="r-arrows-clockwise" viewBox="0 0 256 256"><path d="M224,48V96a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h28.69L182.06,73.37a79.56,79.56,0,0,0-56.13-23.43h-.45A79.52,79.52,0,0,0,69.59,72.71,8,8,0,0,1,58.41,61.27a96,96,0,0,1,135,.79L208,76.69V48a8,8,0,0,1,16,0ZM186.41,183.29a80,80,0,0,1-112.47-.66L59.31,168H88a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V179.31l14.63,14.63A95.43,95.43,0,0,0,130,222.06h.53a95.36,95.36,0,0,0,67.07-27.33,8,8,0,0,0-11.18-11.44Z"/></symbol>
+<symbol id="r-tray" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,16V152h-28.7A15.86,15.86,0,0,0,168,156.69L148.69,176H107.31L88,156.69A15.86,15.86,0,0,0,76.69,152H48V48Zm0,160H48V168H76.69L96,187.31A15.86,15.86,0,0,0,107.31,192h41.38A15.86,15.86,0,0,0,160,187.31L179.31,168H208v40Z"/></symbol>
+<symbol id="r-calendar-blank" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z"/></symbol>
+<symbol id="r-trash" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></symbol>
+<symbol id="f-briefcase" viewBox="0 0 256 256"><path d="M152,112a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,112Zm80-40V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V72A16,16,0,0,1,40,56H80V48a24,24,0,0,1,24-24h48a24,24,0,0,1,24,24v8h40A16,16,0,0,1,232,72ZM96,56h64V48a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8Zm120,57.61V72H40v41.61A184,184,0,0,0,128,136,184,184,0,0,0,216,113.61Z"/></symbol>
+<symbol id="r-plus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></symbol>
+<symbol id="r-tag" viewBox="0 0 256 256"><path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"/></symbol>
+<symbol id="r-arrow-right" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
+<symbol id="r-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <h1>Плашка</h1>
+  <p class="acc-l">…список, который видно без приложения</p>
+  <p class="lede">Макет для лендинга. Слева День из лендинга: из него собираются плашки на телефоне и в браузере. Отметьте задачу или шаг в Дне, и плашки покажутся заново.</p>
+
+  <div class="stage">
+    <section class="dev">
+      <div class="cap">
+        <div><h2>День</h2><p>В плашку идут первые 5 невыполненных задач. У второй вместо названия встанет шаг <q>Выгрузить счёт за сентябрь</q>.</p></div>
+      </div>
+      <div class="phone day app" id="day">
+        <div class="ph-top"><span class="ph-menu"><svg class="i" aria-hidden="true"><use href="#r-list"/></svg></span></div>
+        <div class="ph-body">
+          <div class="ttl">День</div><div class="acc">…что важно сегодня</div>
+          <div class="scroll list fb" id="day-list"></div>
+        </div>
+        <div class="ph-foot">
+          <div class="chips"><span class="chip">Завтра</span><span class="chip">Выходные</span><span class="chip">+7</span><span class="chip"><svg class="i" aria-hidden="true"><use href="#r-calendar-blank"/></svg></span><span class="chip empty"><svg class="i" aria-hidden="true"><use href="#r-tag"/></svg></span></div>
+          <div class="pill"><span>Что не забыть?</span><span class="plus"><svg class="i" aria-hidden="true"><use href="#r-plus"/></svg></span></div>
+        </div>
+        <div id="day-sheet"></div>
+      </div>
+    </section>
+
+    <section class="dev">
+      <div class="cap">
+        <div><h2>Телефон</h2><p>Сверху экрана, поверх любого приложения. Смахните плашку вверх.</p></div>
+        <button class="again" data-again="p">Показать снова</button>
+      </div>
+      <div class="phone">
+        <div class="sbar"><span>9:41</span><span class="isl"></span><span class="sig"><b style="height:5px"></b><b style="height:7px"></b><b style="height:9px"></b><b style="height:11px"></b></span></div>
+        <div class="under" aria-hidden="true">
+          <div class="hd"></div>
+          <div class="msg" style="width:62%"></div>
+          <div class="msg me" style="width:48%"></div>
+          <div class="msg" style="width:74%"></div>
+          <div class="msg" style="width:40%"></div>
+          <div class="msg me" style="width:66%"></div>
+          <div class="msg" style="width:56%"></div>
+          <div class="msg me" style="width:38%"></div>
+        </div>
+        <div class="p-ov app" id="p-ov" role="dialog" aria-label="Imprint: что важно сегодня">
+          <div class="ov-brand">Imprint</div>
+          <div class="ov-list" id="p-list"></div>
+          <div class="grab">Смахните вверх, чтобы скрыть</div>
+        </div>
+        <div class="gone" id="p-gone"></div>
+      </div>
+    </section>
+
+    <section class="dev web">
+      <div class="cap">
+        <div><h2>Браузер</h2><p>Расширение: плашка выпадает справа сверху. <q>Открыть Imprint</q> ведёт в приложение, крестик закрывает.</p></div>
+        <button class="again" data-again="w">Показать снова</button>
+      </div>
+      <div class="browser">
+        <div class="tabs"><span class="dots"><i></i><i></i><i></i></span><span class="tab"><i></i>Почта</span></div>
+        <div class="tbar">
+          <span class="url">mail.example.com/inbox</span>
+          <span class="ext ph"><i></i></span><span class="ext ph"><i></i></span>
+          <button class="ext imp" id="w-ext" title="Imprint" aria-label="Показать плашку Imprint">I</button>
+        </div>
+        <div class="page" aria-hidden="true">
+          <div class="col"><div class="b h"></div><div class="b" style="width:92%"></div><div class="b" style="width:84%"></div><div class="b" style="width:88%"></div><div class="b" style="width:60%"></div><div class="card"></div><div class="b" style="width:78%"></div><div class="b" style="width:70%"></div></div>
+          <div class="col"><div class="card" style="height:110px"></div><div class="b"></div><div class="b" style="width:70%"></div></div>
+        </div>
+        <div class="w-ov app" id="w-ov" role="dialog" aria-label="Imprint: что важно сегодня">
+          <div class="w-head"><span class="ov-brand">Imprint</span><button class="x" id="w-x" aria-label="Закрыть"><svg class="i" aria-hidden="true"><use href="#r-x"/></svg></button></div>
+          <div class="ov-list" id="w-list"></div>
+          <button class="open-app" id="w-open">Открыть Imprint<svg class="i" aria-hidden="true"><use href="#r-arrow-right"/></svg></button>
+        </div>
+        <div class="gone" id="w-gone"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ic = (n, fill, style) => `<svg class="i" aria-hidden="true"${style ? ` style="${style}"` : ''}><use href="#${fill ? 'f' : 'r'}-${n}"/></svg>`;
+
+/* the landing's Day, in list order (same mock data as landing/index.html) */
+const DAY = [
+  { t: 'Позвонить в банк про карту' },
+  { t: 'Отправить акт Маше и приложить счёт', g: 'Работа', steps: [{ t: 'Найти акт в почте', done: true }, { t: 'Выгрузить счёт за сентябрь' }] },
+  { t: 'Выпить таблетку', rep: true },
+  { t: 'Забрать посылку на почте' },
+  { t: 'Ответить Диме про субботу' },
+  { t: 'Оплатить интернет' },
+  { t: 'Размяться 10 минут', rep: true },
+  { t: 'Записать идею для доклада' },
+  { t: 'Купить хлеб', done: true },
+  { t: 'Вынести мусор', done: true }
+];
+const OPEN = 1; // the task opened on the Day screen, with its steps sheet
+
+/* 05-web-ux §9: first 5 undone Day tasks; a task with steps stands in as its first undone step */
+function pick() {
+  const out = [];
+  for (let ti = 0; ti < DAY.length && out.length < 5; ti++) {
+    const task = DAY[ti];
+    if (task.done) continue;
+    const si = task.steps ? task.steps.findIndex(s => !s.done) : -1;
+    out.push(si >= 0 ? { ti, si, t: task.steps[si].t } : { ti, si: -1, t: task.t });
+  }
+  return out;
+}
+const itemOf = k => k.si >= 0 ? DAY[k.ti].steps[k.si] : DAY[k.ti];
+const key = k => k.ti + ':' + k.si;
+let lastTick = null, sheetOpen = true;
+
+/* steps <-> task, as in 05-web-ux §4: the last step closes the task, unticking a step reopens it */
+function toggle(k) {
+  const [ti, si] = k.split(':').map(Number);
+  const task = DAY[ti];
+  if (si >= 0) {
+    const s = task.steps[si]; s.done = !s.done;
+    task.done = task.steps.every(x => x.done);
+    lastTick = s.done ? k : null;
+  } else {
+    task.done = !task.done;
+    lastTick = task.done ? k : null;
+  }
+}
+
+/* ---------- 1: Day screen ---------- */
+function renderDay() {
+  // the open task keeps its place (as on the landing); other done tasks sink to the tail
+  const up = ti => !DAY[ti].done || ti === OPEN;
+  const order = DAY.map((t, ti) => ti).filter(up).concat(DAY.map((t, ti) => ti).filter(ti => !up(ti)));
+  $('#day-list').innerHTML = order.map(ti => {
+    const t = DAY[ti], k = ti + ':-1', open = ti === OPEN;
+    let meta = '';
+    if (t.steps) meta += `<span class="steps">${ic('list-checks')}${t.steps.filter(s => s.done).length}/${t.steps.length}</span>`;
+    if (t.rep) meta += `<span class="rep" title="Повтор">${ic('arrows-clockwise')}</span>`;
+    let h = `<div class="row${t.done ? ' d' : ''}${open ? ' open' : ''}"><div class="line"><button class="c${lastTick === k ? ' tick' : ''}" data-k="${k}" aria-label="${t.done ? 'Вернуть' : 'Отметить'}: ${esc(t.t)}"></button><span class="t"${open ? ' data-sheet' : ''}>${esc(t.t)}</span>${meta}</div>`;
+    if (open) h += `<div class="tray"><span class="move" title="В бэклог">${ic('tray')}</span><span class="tag">${ic('briefcase', 1, 'color:#6F9BD8')}${esc(t.g)}</span><span class="sp"></span><span class="ib">${ic('calendar-blank')}</span><span class="ib">${ic('arrows-clockwise')}</span><button class="ib" data-sheet aria-label="Шаги">${ic('list-checks')}</button><span class="ib">${ic('trash')}</span></div>`;
+    return h + '</div>';
+  }).join('');
+  const t = DAY[OPEN];
+  $('#day-sheet').innerHTML = sheetOpen ? `<div class="pscrim" data-close></div><div class="sheet"><div class="h">Шаги</div>${t.steps.map((s, si) => {
+    const k = OPEN + ':' + si;
+    return `<div class="step${s.done ? ' d' : ''}"><button class="c${lastTick === k ? ' tick' : ''}" data-k="${k}" aria-label="${s.done ? 'Вернуть' : 'Отметить'}: ${esc(s.t)}"></button><span>${esc(s.t)}</span></div>`;
+  }).join('')}<input class="add-step" placeholder="Новый шаг и Enter" aria-label="Новый шаг"></div>` : '';
+}
+
+/* ---------- 2, 3: overlays. The set is fixed at show time, done-ness is live ---------- */
+const OV = {
+  p: { el: $('#p-ov'), list: $('#p-list'), gone: $('#p-gone'), set: [], open: false },
+  w: { el: $('#w-ov'), list: $('#w-list'), gone: $('#w-gone'), set: [], open: false }
+};
+function renderOv(o) {
+  o.list.innerHTML = o.set.map(k => {
+    const done = !!itemOf(k).done;
+    return `<div class="row${done ? ' d' : ''}"><div class="line"><button class="c${lastTick === key(k) ? ' tick' : ''}" data-k="${key(k)}" aria-label="${done ? 'Вернуть' : 'Отметить'}: ${esc(k.t)}"></button><span class="t" title="${esc(k.t)}">${esc(k.t)}</span></div></div>`;
+  }).join('');
+}
+function show(id) {
+  const o = OV[id];
+  o.set = pick();
+  o.gone.classList.remove('on');
+  if (!o.set.length) { hide(id, 'День пуст или выполнен, показа нет'); return; }
+  renderOv(o);
+  o.el.style.transform = '';
+  o.el.classList.remove('off');
+  o.open = true;
+}
+function hide(id, msg) {
+  const o = OV[id];
+  o.el.classList.add('off'); o.el.style.transform = '';
+  o.open = false;
+  o.gone.textContent = msg || 'Скрыто до следующего показа';
+  o.gone.classList.add('on');
+}
+const allDone = o => o.set.every(k => itemOf(k).done);
+function renderAll() {
+  renderDay();
+  for (const id in OV) {
+    const o = OV[id];
+    if (!o.open) continue;
+    renderOv(o);
+    if (allDone(o)) setTimeout(() => { if (o.open && allDone(o)) hide(id, 'Всё показанное сделано, плашка закрылась'); }, 700);
+  }
+  setTimeout(() => { lastTick = null; }, 450);
+}
+
+/* a change in Day simulates the next show; a tick inside an overlay never refills it */
+$('#day').addEventListener('click', e => {
+  const c = e.target.closest('.c');
+  if (c) { toggle(c.dataset.k); renderAll(); show('p'); show('w'); return; }
+  if (e.target.closest('[data-close]')) { sheetOpen = false; renderDay(); return; }
+  if (e.target.closest('[data-sheet]')) { sheetOpen = true; renderDay(); }
+});
+$('#day').addEventListener('keydown', e => {
+  const inp = e.target.closest('.add-step');
+  if (!inp || e.key !== 'Enter' || !inp.value.trim()) return;
+  DAY[OPEN].steps.push({ t: inp.value.trim() });
+  DAY[OPEN].done = false;
+  renderAll(); show('p'); show('w');
+  $('#day .add-step').focus();
+});
+for (const id in OV) OV[id].list.addEventListener('click', e => {
+  const c = e.target.closest('.c'); if (!c) return;
+  toggle(c.dataset.k);
+  renderAll();
+});
+document.querySelectorAll('[data-again]').forEach(b => b.addEventListener('click', () => show(b.dataset.again)));
+$('#w-x').addEventListener('click', () => hide('w'));
+$('#w-ext').addEventListener('click', () => OV.w.open ? hide('w') : show('w'));
+$('#w-open').addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); hide('w', 'Переход в приложение'); });
+
+/* phone: swipe up to hide */
+(function () {
+  const el = OV.p.el; let y0 = null, dy = 0;
+  el.addEventListener('pointerdown', e => {
+    if (e.target.closest('.c')) return;
+    y0 = e.clientY; dy = 0; el.setPointerCapture(e.pointerId); el.classList.add('drag');
+  });
+  el.addEventListener('pointermove', e => {
+    if (y0 == null) return;
+    dy = e.clientY - y0;
+    el.style.transform = `translateY(${dy < 0 ? dy : Math.sqrt(dy) * 3}px)`; // resist pulling down
+  });
+  const end = () => {
+    if (y0 == null) return;
+    y0 = null; el.classList.remove('drag');
+    if (dy < -50) hide('p'); else el.style.transform = '';
+  };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+})();
+
+renderDay();
+show('p'); show('w');
+})();
+</script>
+</body>
+</html>

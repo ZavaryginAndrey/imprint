@@ -1,0 +1,48 @@
+import type { Strings } from "./ru";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export const en: Strings = {
+  lang: "en",
+  day: "Day",
+  history: "History",
+  settings: "Settings",
+  backlog: "Backlog",
+  allTasks: "All tasks",
+  noGroup: "No group",
+  newGroup: "New group",
+  group: "Group",
+  addGroup: "Group",
+  placeholder: "What not to forget?",
+  add: "Add",
+  tomorrow: "Tomorrow",
+  weekend: "Weekend",
+  week: "+7 days",
+  date: "Date",
+  pickDate: "Pick a date",
+  pickGroup: "Pick a group",
+  delete: "Delete",
+  deleted: "Task deleted",
+  groupDeleted: "Group deleted",
+  notSaved: "Not saved",
+  undo: "Undo",
+  retry: "Retry",
+  offline: "offline",
+  signIn: "Sign in with Google",
+  signOut: "Sign out",
+  signInFailed: "Sign-in didn't work. Try again.",
+  serverDown: "The server is unavailable.",
+  tagline: "Write it down, then let it go.",
+  dayAccent: "…what matters today",
+  historyAccent: "…how it's going",
+  settingsAccent: "…your way",
+  soon: "This screen comes later.",
+  markDone: (title) => `Mark done: ${title}`,
+  markUndone: (title) => `Mark not done: ${title}`,
+  repeat: "Repeat",
+  days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+  dateLabel: (key) => {
+    const [, m, d] = key.split("-").map(Number);
+    return `${MONTHS[m - 1]} ${d}`;
+  },
+};

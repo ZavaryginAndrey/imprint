@@ -1,0 +1,22 @@
+.list {
+  flex: 1;
+  min-height: 0;
+  margin-top: 6px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+  padding-right: 6px;
+  --fade: 28px;
+}
+
+.list[data-top="true"] {
+  mask-image: linear-gradient(to bottom, transparent, #000 var(--fade));
+}
+
+.list[data-bottom="true"] {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent);
+}
+
+.list[data-top="true"][data-bottom="true"] {
+  mask-image: linear-gradient(to bottom, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+}
