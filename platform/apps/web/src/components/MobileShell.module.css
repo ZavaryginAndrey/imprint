@@ -1,0 +1,58 @@
+/* Mobile (UX §1): the top bar with ☰, one screen under it; the drawer over the scrim (`Sheet.module.css .scrim`). */
+.phone {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 6px;
+}
+
+.menu {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--ink);
+}
+
+.main {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The scrim's layer (40); the drawer comes after it in the DOM, so it lies above; a sheet opened from the drawer
+   is portaled later still and lies above both. */
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  width: min(80vw, 300px);
+  background: var(--side);
+  color: var(--side-muted);
+  box-shadow: 4px 0 18px rgb(20 22 40 / 0.35);
+}
+
+.side {
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drawer {
+    animation: slide 0.35s var(--ease-out);
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(-104%);
+  }
+}

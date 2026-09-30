@@ -1,0 +1,78 @@
+.panel {
+  width: 100%;
+}
+
+.hint,
+.note {
+  margin: 2px 4px 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+}
+
+.st {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.step[data-done="true"] .st {
+  color: var(--done);
+  text-decoration: line-through;
+}
+
+.draft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--hair);
+  border-radius: 10px;
+  padding: 7px 10px;
+  background: var(--surf);
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--amber);
+}
+
+.x {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--muted);
+}
+
+.suggest {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink);
+}
+
+.suggest:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.split {
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--on-amber);
+  font-weight: 600;
+}

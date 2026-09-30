@@ -1,0 +1,21 @@
+/* Weekday chips (landing `.days`). */
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.day {
+  height: 32px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.day[aria-pressed="true"] {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--on-amber);
+  font-weight: 600;
+}

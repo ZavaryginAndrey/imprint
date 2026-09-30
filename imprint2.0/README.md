@@ -55,7 +55,7 @@ W3b, а не правкой документов. Ссылки из `05-web-ux.m
 | W1 | [W1-foundation.md](W1-foundation.md) | W0 | `platform/` workspace, домен скопирован, CI, «hello DO» в dev |
 | W2 | [W2-server-hub.md](W2-server-hub.md) | W1 | Durable Object на пользователя, API tools, вход через Google |
 | W3 | [W3-domain.md](W3-domain.md) | W2 | День как проекция (W3a) + дельта под UX (W3b) |
-| W4 | [W4-web-ui.md](W4-web-ui.md) | W3 | Веб-UI по `05-web-ux.md` (W4a — десктопный клиент ✓, W4b — полный UX) |
+| W4 | [W4-web-ui.md](W4-web-ui.md) | W3 | Веб-UI по `05-web-ux.md` — закрыт (W4a десктоп ✓, W4b полный UX ✓; тег `web-w4` — после проверки владельцем) |
 | W5 | [W5-mcp.md](W5-mcp.md) | W3 | MCP-коннектор Claude, `get_imprint` |
 | W6 | [W6-history-settings.md](W6-history-settings.md) | W4 | История, Настройки, экспорт/импорт |
 | W7 | [W7-android-bridge.md](W7-android-bridge.md) | W5, W6 | Мост Android v1 + импорт данных v1 |

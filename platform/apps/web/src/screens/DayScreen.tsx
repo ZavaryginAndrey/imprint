@@ -1,6 +1,7 @@
 import { BacklogColumn } from "../components/BacklogColumn";
 import { Composer } from "../components/Composer";
 import { DayColumn } from "../components/DayColumn";
+import { DragArea } from "../components/DragArea";
 import { useStore } from "../store/hooks";
 import styles from "./DayScreen.module.css";
 
@@ -15,10 +16,12 @@ export function DayScreen({ filter }: { filter: string }) {
     <section className={styles.view}>
       {ready && (
         <>
-          <div className={styles.cols}>
-            <DayColumn />
-            <BacklogColumn filter={filter} />
-          </div>
+          <DragArea filter={filter}>
+            <div className={styles.cols}>
+              <DayColumn />
+              <BacklogColumn filter={filter} />
+            </div>
+          </DragArea>
           <Composer filter={filter} />
         </>
       )}

@@ -1,4 +1,4 @@
-import { CalendarBlank, Plus, Trash } from "@phosphor-icons/react";
+import { ArrowsClockwise, CalendarBlank, ListChecks, Plus, Trash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useT } from "../i18n";
 import { useStoreApi, useView } from "../store/hooks";
@@ -7,21 +7,32 @@ import { DateButton } from "./DateButton";
 import { GroupIcon } from "./GroupIcon";
 import { GroupPicker } from "./GroupPicker";
 import { Popover } from "./Popover";
+import { RepeatPicker } from "./RepeatPicker";
 import styles from "./RowActions.module.css";
+import { StepsPanel } from "./StepsPanel";
+
+type Open = "group" | "repeat" | "steps" | null;
 
 /**
- * Desktop hover icons (UX §4), in order: group label, date, delete. Repeat and steps come in W4b. The
- * domain decides what each does (a future date takes a Day task to the Backlog); the row only asks.
+ * A row's actions (UX §4), in order: group label, date, repeat, steps, delete. The domain decides what each does
+ * (a future date takes a Day task to the Backlog); the row only asks. `onOpenChange` keeps the row lit while one
+ * of their windows is open.
  */
-export function RowActions({ row, group, onOpenChange }: { row: Row; group?: GroupRow; onOpenChange(open: boolean): void }) {
+export function RowActions({ row, group, onOpenChange, tray = false }: {
+  row: Row;
+  group?: GroupRow;
+  onOpenChange?(open: boolean): void;
+  /** In the phone's tray: a spacer after the group label pushes the icons to the end. */
+  tray?: boolean;
+}) {
   const t = useT();
   const view = useView();
   const store = useStoreApi();
-  const [picking, setPicking] = useState(false);
+  const [open, setOpen] = useState<Open>(null);
 
-  const setPickingAnd = (open: boolean) => {
-    setPicking(open);
-    onOpenChange(open);
+  const toggle = (k: Exclude<Open, null>) => (o: boolean) => {
+    setOpen(o ? k : null);
+    onOpenChange?.(o);
   };
 
   const remove = () => {
@@ -32,8 +43,8 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
   return (
     <>
       <Popover
-        open={picking}
-        onOpenChange={setPickingAnd}
+        open={open === "group"}
+        onOpenChange={toggle("group")}
         label={t.pickGroup}
         align="end"
         trigger={
@@ -53,10 +64,11 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
           value={row.groupId}
           onPick={(groupId) => {
             store.run("set_task_group", { taskId: row.id, groupId });
-            setPickingAnd(false);
+            toggle("group")(false);
           }}
         />
       </Popover>
+      {tray && <span className={styles.sp} aria-hidden />}
       <DateButton
         className={styles.ib}
         value={row.dueKey}
@@ -66,6 +78,32 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
       >
         <CalendarBlank size={17} aria-hidden />
       </DateButton>
+      <Popover
+        open={open === "repeat"}
+        onOpenChange={toggle("repeat")}
+        label={t.repeat}
+        align="end"
+        trigger={
+          <button type="button" className={styles.ib} aria-label={t.repeat} title={t.repeat}>
+            <ArrowsClockwise size={17} aria-hidden />
+          </button>
+        }
+      >
+        <RepeatPicker row={row} />
+      </Popover>
+      <Popover
+        open={open === "steps"}
+        onOpenChange={toggle("steps")}
+        label={t.steps}
+        align="end"
+        trigger={
+          <button type="button" className={styles.ib} aria-label={t.steps} title={t.steps}>
+            <ListChecks size={17} aria-hidden />
+          </button>
+        }
+      >
+        <StepsPanel row={row} />
+      </Popover>
       <button type="button" className={styles.ib} aria-label={t.delete} title={t.delete} onClick={remove}>
         <Trash size={17} aria-hidden />
       </button>

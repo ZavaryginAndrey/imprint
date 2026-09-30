@@ -4,6 +4,84 @@ Archive of closed web-platform phases (W1…) and the rakes stepped on. Phase ma
 The Android v1 history stays with the v1 code (not in this repository).
 
 ---
+## W4b — Web client, full UX (closed 2026-09-30; tag `web-w4` pending the owner's check and dev deploy)
+
+The desktop client of W4a becomes the whole UX: phone layout, drag, repeat, steps, right-click edits, token
+contrast ([phase file](imprint2.0/W4-web-ui.md) · [spec](docs/superpowers/specs/2026-09-30-w4-web-ui-design.md) ·
+[plan](docs/superpowers/plans/2026-09-30-w4b-web-full-ux.md)). Plan decisions 1-8 and controller rulings C1-C13
+are listed in the phase file together with the open tails and the owner's questions.
+
+### What was built
+- **Store:** `ask()` for server-side tools («Подсказать шаги»), weekday helpers (`repeatDays`, `activeDays`,
+  `toggledDays`) and done-step counters on the row view in `store/`; W4b strings in ru/en.
+- **Layout context + windows:** desktop >= 1024 px vs mobile; a bottom sheet (Radix Dialog) for mobile, a popover
+  at a point for desktop right click; `usePressMenu` turns a long tap / right click / menu key into one gesture.
+- **Row editing:** repeat chips (window stays open), steps window (tick, add, suggest, split), task title and
+  group editor saved as you type (300 ms), delete-group with undo; the editor closes when its group is gone.
+- **Drag (dnd-kit):** tasks between Day and Backlog (`move_task`, the domain decides the rest), groups in the
+  sidebar (`reorder_groups`); dashed target column, dashed origin row, lifted copy.
+- **Phone:** top bar with the menu button and a drawer sidebar, one screen at a time, `/g/all` Backlog,
+  Back returns to the Day (the Day is planted under a screen), tap row with a tray of actions, one open at a
+  time, long tap -> title sheet; hover effects only on desktop.
+- **Tokens:** contrast test (text AA, done text 3:1, group colours 3:1); `--amber-ink`, darker `--muted`,
+  `--toast-act`, `--side-muted` for the selected item's counter. A visible brand change in the light theme.
+- **e2e:** 50 scenarios in all (W4a had 20): three drag rules, group order, right-click and Shift+F10 edits,
+  group delete and undo, repeat, steps <-> task, windows at the edges, phone layout at 360/390 px, sheets,
+  Back, toasts. `npm run check`: domain 370 (+4 skipped), web 228, worker 99 tests.
+
+### P1 review of `apps/web/src` (criterion «no domain rules in the UI»)
+The brief's grep (`.sort(`, `.filter(`, `.reduce(`, `dueDate`, `recurrenceMask`, `location ===`, `isRepeating ?`,
+`Date`, `Intl`) over `components/`, `screens/`, `app/` gave 20 hits (lines); none decides a rule. What was checked and why it is allowed:
+- `StepsPanel.tsx` `.filter` x4: drop empty draft fields / non-string suggestions from the server reply; the
+  steps themselves go to `add_steps` as typed. No task placement or completion decided.
+- `BacklogColumn.tsx` `.filter(s => s.tasks.length > 0)`: hide an empty section; `sections.find(g.id === filter)`:
+  the group of the chosen filter, by id. The sections and their order come from `View`.
+- `TaskRow.tsx`: `row.isRepeating` chooses a caption and an icon; `repeatDays(mask)` is `store/format.ts`
+  (domain `isOn`), the UI only maps day numbers to i18n names. `row.doneToday` is read, not computed.
+- `RowActions.tsx`, `Composer.tsx`, `DateButton.tsx` (`DateButton`, `setDate`, `Date` in identifiers): the
+  native calendar; `min` is `view.today`, which the domain computes. Quick chips (Today, Tomorrow...) stay as a kind
+  and resolve through `view.quick` at Enter; the UI never computes a date.
+- `app/createStore.ts` `Date.now()`: the store's injected clock at the wiring point (the eslint ban on `Date`
+  covers `screens/` and `components/`; the store and the domain take the clock as a parameter).
+- `GroupFilters.tsx` `groups.find`, `useRouteGuards.ts` `groups.some`: an id lookup for the editor and for the
+  «filter of a deleted group -> All» fallback; no rule.
+- `drag.ts` `reordered`: the user's gesture (new order of ids for `reorder_groups`); `dropCall` maps the drop
+  target to `move_task` and only forwards `filterGroupId`; the three placement rules are `move_task`'s.
+- `RepeatPicker.tsx` `on.includes(d)`, `store/format.ts` `toggledDays`: which chips look pressed and the days after
+  a click - the request for `set_repeating`; what repeating means stays in the domain.
+- `StepsPanel`, `MobileRow`, `Checkbox`: no completion logic; taps call `set_done`, `move_to_day`, `move_to_backlog`.
+- Imports from `@imprint/domain` in `screens/` and `components/` are `import type` only (one: `ToolResult`).
+Result: nothing to move into `store/`; the criterion is met.
+
+### Rakes
+- **Ghost click after a sheet.** The scrim closes on `click`, not on `pointerdown` (also the drawer): closing on
+  pointerdown lets the click that follows land on the row underneath and collapse it. The e2e tap has to land over
+  the open row's area to prove it (the first version tapped the top bar and proved nothing).
+- **dnd-kit's visible live region.** Each `DndContext` adds a `role="status"` announcer, which broke
+  `getByRole("status")` for toasts; both contexts now get a hidden `aria-hidden` container.
+- **A portaled popover's pointerdown bubbles through React to the draggable row** and starts a drag from inside
+  the window; `canStartDrag` requires the target to be inside `[data-row]` in the DOM.
+- **A second finger orphaned the long-tap timer, and a lost touch left a stale pointer id**; a long tap with no
+  following click left the «fired» flag set. `usePressMenu` ignores non-primary pointers, cancels on a new
+  press and heals the id set on a primary pointerdown.
+- **Radix aria-hides everything behind a modal:** role locators match nothing behind an open sheet - e2e looks
+  inside the dialog or uses data attributes for the rest.
+- **`plantDay` (Day under a screen) once per load vs a rotation, and a duplicate Day on reload:** once per load
+  broke the invariant after a desktop period; per mount duplicated the entry on reload -> a marker in
+  `history.state`.
+- **Toasts under scrims:** with toasts below the sheet/drawer scrim, «Отменить» after deleting a group from the
+  drawer was dimmed and untappable; toasts now sit above overlays (z 50), at the cost of covering a sheet's lower part.
+- **Amber text contrast:** the amber (`#f0a24e` family) is fine for borders and fills but 1.9-2.2:1 as text on
+  the light background -> `--amber-ink`; the toast action had the same trouble (1.8:1) -> `--toast-act`.
+- **`:hover` on phones:** a hover rule outside the desktop media query jumps the open row (and sticks after a
+  tap); every hover effect is under `@media (min-width: 1024px)`, including Composer, Toasts, Login.
+- **A press on a control inside a row is not a long tap on the row:** a 500 ms hold on the circle or a tray icon
+  opened the title sheet and ate the click; the row's press handlers skip buttons and the tray.
+- **Playwright 1.63's Chromium cannot be downloaded in the cloud container:** the browser directory is a symlink
+  to the preinstalled build outside the repository; the lockfile lost ~20 `libc` entries there (npm 10.9.7) -
+  regenerate with the owner's npm.
+
+---
 ## W4a — Web client, desktop (closed 2026-09-30, tag `web-w4a`)
 
 The real web client replaces the W2 probe: Day + Backlog, sidebar, input, check-off, hover actions —

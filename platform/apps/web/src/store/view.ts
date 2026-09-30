@@ -4,8 +4,8 @@ import {
 } from "@imprint/domain";
 
 export type GroupRow = Group & GroupLook & { openCount: number };
-/** A task as a row shows it: `kind` in the Day (null in the Backlog), its date as a calendar key. */
-export type Row = BacklogItem & { kind: DayKind | null; dueKey: string | null };
+/** A task as a row shows it: `kind` in the Day (null in the Backlog), its date as a calendar key, done steps counted. */
+export type Row = BacklogItem & { kind: DayKind | null; dueKey: string | null; stepsDone: number };
 
 export interface View {
   today: string;
@@ -30,6 +30,7 @@ export function project(ctx: ToolContext): View {
     ...t,
     kind,
     dueKey: t.dueDate == null ? null : dueKey(t.dueDate, settings),
+    stepsDone: t.steps.filter((s) => s.done).length,
   });
   const open = openCountByGroup(state, today, settings);
   const groups: GroupRow[] = liveGroups(state)

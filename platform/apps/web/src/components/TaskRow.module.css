@@ -1,4 +1,4 @@
-/* A task row (landing `.row`): 12 px corners, amber border on hover. */
+/* A task row (landing `.row`): 12 px corners, amber border on hover (desktop) or while open (phone). */
 .row {
   position: relative;
   background: var(--surf);
@@ -10,10 +10,26 @@
   transition: border-color 0.15s, opacity 0.2s, box-shadow 0.2s;
 }
 
-.row:hover,
 .row:focus-within,
-.row[data-active="true"] {
+.row[data-active="true"],
+.row[data-open="true"] {
   border-color: var(--amber);
+}
+
+/* Hover belongs to the desktop layout only (landing trap: a phone layout in a window with a mouse jumped). */
+@media (min-width: 1024px) {
+  .row:hover {
+    border-color: var(--amber);
+  }
+}
+
+/* The phone's long tap opens the title sheet: iOS's callout and text selection must not fight its timer. */
+@media not all and (min-width: 1024px) {
+  .line {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
 }
 
 .line {
@@ -39,6 +55,7 @@
 
 .meta,
 .rep,
+.steps,
 .date {
   display: inline-flex;
   align-items: center;
@@ -53,11 +70,16 @@
 }
 
 .rep {
-  color: var(--amber);
+  color: var(--amber-ink);
 }
 
-/* Hover icons lie over the end of the row and fade in; the text under them ends in an ellipsis and never
-   wraps or jumps (UX §4). Desktop only: W4b's mobile row opens a tray instead. */
+.steps {
+  color: var(--muted);
+}
+
+/* Hover icons lie over the end of the row and fade in over a gradient; the text keeps to one line and runs on
+   under them — its ellipsis lands under the icons, hidden — so it never wraps or jumps (UX §4). Desktop only:
+   W4b's mobile row opens a tray instead. */
 .acts {
   position: absolute;
   right: 8px;
@@ -74,19 +96,30 @@
   transition: opacity 0.15s;
 }
 
-.row:hover .acts,
 .row:focus-within .acts,
 .row[data-active="true"] .acts {
   opacity: 1;
   pointer-events: auto;
 }
 
-.row:has(.acts):hover .t,
 .row:has(.acts):focus-within .t,
 .row[data-active="true"] .t {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (min-width: 1024px) {
+  .row:hover .acts {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .row:has(.acts):hover .t {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* A new row glows amber for a moment (UX §3). */

@@ -1,3 +1,4 @@
+import type { GroupColorKey, GroupIconKey } from "../store/look";
 /** Russian — the source of every UI string; `en.ts` has the same keys (type-checked). Tone: 03-DESIGN §6. */
 const MONTHS = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
 
@@ -39,6 +40,37 @@ export const ru = {
   markDone: (title: string) => `Отметить: ${title}`,
   markUndone: (title: string) => `Вернуть: ${title}`,
   repeat: "Повтор",
+  noRepeat: "Не повторять",
+  steps: "Шаги",
+  stepsOf: (done: number, total: number) => `Шаги: ${done} из ${total}`,
+  splitHint: "Разбейте задачу на маленькие шаги.",
+  newStep: "Новый шаг",
+  removeDraft: "Убрать",
+  suggest: "Подсказать шаги",
+  split: "Разбить",
+  suggestUnavailable: "Подсказки сейчас недоступны",
+  suggestQuota: "Подсказки на сегодня закончились",
+  suggestFailed: "Не получилось подсказать",
+  taskTitle: "Название задачи",
+  savedAsTyped: "Сохраняется сразу",
+  done: "готово",
+  close: "закрыть",
+  groupName: "Название",
+  icon: "Иконка",
+  color: "Цвет",
+  deleteGroup: "Удалить группу",
+  menu: "Меню",
+  toBacklog: "В бэклог",
+  toDay: "В День",
+  colors: {
+    amber: "Янтарь", terracotta: "Терракота", rose: "Роза", plum: "Слива",
+    blue: "Синий", teal: "Бирюза", sage: "Шалфей", graphite: "Графит",
+  } satisfies Record<GroupColorKey, string>,
+  iconNames: {
+    tag: "Метка", house: "Дом", briefcase: "Работа", heartbeat: "Здоровье", "shopping-cart": "Покупки",
+    "book-open": "Книга", users: "Люди", moon: "Луна", "paw-print": "Питомцы", car: "Машина", airplane: "Поездки",
+    barbell: "Спорт", plant: "Растения", wrench: "Ремонт", "graduation-cap": "Учёба", baby: "Ребёнок",
+  } satisfies Record<GroupIconKey, string>,
   days: ["пн", "вт", "ср", "чт", "пт", "сб", "вс"],
   /** "2026-10-03" → "3 окт" */
   dateLabel: (key: string) => {

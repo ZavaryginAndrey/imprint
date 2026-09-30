@@ -15,6 +15,7 @@ export * from "./group/index";
 export * from "./suggest/index";
 export { ALL_TOOLS, runTool } from "./tools/index";
 export { monotonicClock } from "./tools/support";
+export { DAY_NAMES, type DayName } from "./tools/support";
 export { memoryContext, type MemoryContext, type MemoryOptions } from "./tools/memoryContext";
 export type { ToolContext } from "./tools/context";
 export { defineTool, type ToolDef, type ToolInput, type InputOf } from "./tools/define";

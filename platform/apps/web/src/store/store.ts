@@ -120,6 +120,20 @@ export class Store {
     return result;
   }
 
+  /**
+   * A server tool (ADR 009: `suggest_steps`) — asked, not queued: it writes nothing, so there is no optimistic
+   * run, no ids and no retry. The network or a 5xx reads as `upstream`; a lost session signs out.
+   */
+  async ask(name: string, input: unknown): Promise<ToolResult> {
+    const out = await this.d.api.call(name, input, { conn: this.d.conn, ids: [] });
+    if (out.kind === "unauthorized") {
+      this.set({ auth: "out" });
+      return { ok: false, error: "unavailable", message: "signed out" };
+    }
+    if (out.kind === "network") return { ok: false, error: "upstream", message: "network" };
+    return out.result;
+  }
+
   toast(t: Omit<Toast, "id">): void {
     const toast = { ...t, id: ++this.toastSeq };
     this.set({ toasts: [...this.s.toasts.filter((x) => x.text !== t.text), toast] });

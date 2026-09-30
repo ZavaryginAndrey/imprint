@@ -1,0 +1,22 @@
+/* The row's old place while it is dragged: dashed and faint (UX §4 «пунктир показывает место»). */
+.slot[data-dragging="true"] > [data-row] {
+  border-style: dashed;
+  border-color: var(--amber);
+  opacity: 0.45;
+}
+
+/* The lifted copy (UX §6: lifting while dragging). */
+.lifted {
+  cursor: grabbing;
+}
+
+.lifted > [data-row] {
+  box-shadow: 0 14px 30px rgb(30 39 73 / 0.22);
+  border-color: var(--amber);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lifted > [data-row] {
+    transform: rotate(-1deg) scale(1.02);
+  }
+}

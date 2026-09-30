@@ -41,8 +41,10 @@
   text-align: left;
 }
 
-.opt:hover {
-  background: var(--opt-hover);
+@media (min-width: 1024px) {
+  .opt:hover {
+    background: var(--opt-hover);
+  }
 }
 
 .on {
@@ -69,4 +71,25 @@
   color: var(--ink);
   background: var(--surf);
   outline: none;
+}
+
+/* A window's footer (mockup `edit-menu.html` `.foot`): a hint left, an action or a key right. */
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--hair);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.kbd {
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  padding: 0 5px;
+  font: inherit;
+  font-size: 11px;
 }

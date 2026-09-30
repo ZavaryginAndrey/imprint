@@ -108,7 +108,7 @@ apps/web/
 **Interfaces:**
 - Produces: `Store.ask(name: string, input: unknown): Promise<ToolResult>`; `toggledDays(task: { isRepeating: boolean; recurrenceMask: number }, day: number): DayName[] | null`; `Row.stepsDone: number`; строки i18n (список ниже) — ими пользуются Task 3–11.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 `apps/web/src/store/ask.test.ts`:
 
@@ -209,12 +209,12 @@ describe("project — steps on a row", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see them fail**
+- [x] **Step 2: Run to see them fail**
 
 Run (из `platform/`): `npm run test -w @imprint/web -- ask format-repeat view-steps`
 Expected: FAIL — `store.ask is not a function`, `toggledDays` не экспортирован, `stepsDone` undefined.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/domain/src/index.ts` — рядом с `export { monotonicClock } from "./tools/support";`:
 
@@ -346,11 +346,11 @@ export type Row = BacklogItem & { kind: DayKind | null; dueKey: string | null; s
   },
 ```
 
-- [ ] **Step 4: Run to see them pass**
+- [x] **Step 4: Run to see them pass**
 
 Run: `npm run test -w @imprint/web -- ask format-repeat view-steps` → PASS. Затем `npm run check` → зелёный (в т. ч. `purity.test.ts` домена и все старые тесты).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/domain/src/index.ts apps/web/src/store apps/web/src/i18n
@@ -369,11 +369,11 @@ git commit -m "web: store asks server tools; repeat days after a chip; done step
 **Interfaces:**
 - Produces: `type Layout = "desktop" | "mobile"`; `LayoutContext`; `useLayout(): Layout`; `useLayoutMode(): Layout` (app); `Sheet({ open, onOpenChange, trigger?, label, children })`; `Popover({ …, trigger?, anchor?: () => DOMRect })` — на мобильном рисует `Sheet`; `usePressMenu(open: (at: DOMRect) => void, opts?: { at?: "point" | "element"; longMs?: number })` → обработчики для корневого элемента (`onContextMenu`, `onPointerDown`, `onPointerMove`, `onPointerUp`, `onPointerCancel`, `onClickCapture`); CSS-классы `Popover.module.css`: `.foot`, `.kbd`.
 
-- [ ] **Step 1: Dependency**
+- [x] **Step 1: Dependency**
 
 Run (из `platform/`): `npm install @radix-ui/react-dialog@^1.1.23 -w @imprint/web` → проверить строку в `apps/web/package.json` `dependencies`.
 
-- [ ] **Step 2: Failing tests**
+- [x] **Step 2: Failing tests**
 
 `apps/web/src/components/Sheet.dom.test.tsx`:
 
@@ -546,11 +546,11 @@ describe("usePressMenu — right click, the menu key, a long tap", () => {
 });
 ```
 
-- [ ] **Step 3: Run to see them fail**
+- [x] **Step 3: Run to see them fail**
 
 Run: `npm run test -w @imprint/web -- Sheet PopoverAnchor usePressMenu` → FAIL (модулей нет, `trigger` обязателен).
 
-- [ ] **Step 4: Implement**
+- [x] **Step 4: Implement**
 
 `apps/web/src/components/layout.ts`:
 
@@ -859,11 +859,11 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
 }
 ```
 
-- [ ] **Step 5: Run to see them pass**
+- [x] **Step 5: Run to see them pass**
 
 Run: `npm run test -w @imprint/web -- Sheet PopoverAnchor usePressMenu Popover` → PASS (включая старый `Popover.dom.test.tsx`). Затем `npm run check`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/package.json package-lock.json apps/web/src/components apps/web/src/app/useLayoutMode.ts
@@ -885,7 +885,7 @@ git commit -m "web: layout context, bottom sheet (Radix Dialog) that ignores the
 - Consumes: `toggledDays`, `repeatDays` (store/format), `t.noRepeat`, `t.days`, `t.repeat`, `Popover`.
 - Produces: `RepeatPicker({ row: Row })`; в `RowActions` — кнопка `aria-label="Повтор"` (после даты); состояние открытого окна `RowActions` — `type Open = "group" | "repeat" | "steps" | null`.
 
-- [ ] **Step 1: Failing test** — `RepeatPicker.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `RepeatPicker.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -921,9 +921,9 @@ describe("repeat (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- RepeatPicker` → FAIL (кнопки «Повтор» нет).
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- RepeatPicker` → FAIL (кнопки «Повтор» нет).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/RepeatPicker.tsx`:
 
@@ -1081,9 +1081,9 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- RepeatPicker RowActions` → PASS; `npm run check` → зелёный.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- RepeatPicker RowActions` → PASS; `npm run check` → зелёный.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
@@ -1103,7 +1103,7 @@ git commit -m "web: repeat on the row — weekday chips and «Не повтор�
 - Consumes: `Store.ask`, `Row.steps: { task: Task; done: boolean }[]`, `Row.stepsDone`, `Checkbox`, строки Task 1.
 - Produces: `StepsPanel({ row: Row })`; кнопка `aria-label="Шаги"` в `RowActions`; в `TaskRow` метка `[data-steps]` «☑ n/m» с `aria-label={t.stepsOf(n, m)}`.
 
-- [ ] **Step 1: Failing test** — `StepsPanel.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `StepsPanel.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1199,9 +1199,9 @@ describe("steps (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- StepsPanel` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- StepsPanel` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/StepsPanel.tsx`:
 
@@ -1435,9 +1435,9 @@ export function StepsPanel({ row }: { row: Row }) {
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- StepsPanel TaskRow RowActions` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- StepsPanel TaskRow RowActions` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
@@ -1457,7 +1457,7 @@ git commit -m "web: steps window — tick, add, «Подсказать шаги�
 - Consumes: `usePressMenu`, `Popover` c `anchor`, `t.taskTitle`, `t.savedAsTyped`, `t.done`, `pop.foot`, `pop.kbd`, `pop.name`.
 - Produces: `useTypingSave(save: (value: string) => void, ms = 300): { type(value: string): void; flush(): void }` (на размонтировании сохраняет остаток); `TitleEditor({ row, onDone })`; `TaskRow` принимает `handlers?: HTMLAttributes<HTMLDivElement>` (раскладываются на корень строки).
 
-- [ ] **Step 1: Failing test** — `TitleEditor.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `TitleEditor.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1526,9 +1526,9 @@ describe("task title by right click (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- TitleEditor` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- TitleEditor` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/useTypingSave.ts`:
 
@@ -1678,9 +1678,9 @@ export function RowWithActions({ row, where, group }: { row: Row; where: "day" |
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- TitleEditor TaskRow RowActions` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- TitleEditor TaskRow RowActions` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
@@ -1700,7 +1700,7 @@ git commit -m "web: task title by right click — saved as you type (300 ms), En
 - Consumes: `usePressMenu({ at: "element" })`, `useTypingSave`, `Popover` c `anchor`, `GROUP_ICONS`, `GROUP_COLOR_KEYS` (store/look), `t.colors`, `t.iconNames`, `store.toast("groupDeleted")`.
 - Produces: `NavItem(props)` — пункт сайдбара (то, что было локальным `Item` в `Sidebar.tsx`), принимает и прокидывает на `<button>` любые `ButtonHTMLAttributes` и `ref`; `GroupFilters({ filter, onPick })` — список групп сайдбара с правкой (Task 7 добавит порядок); `GroupEditor({ group, onClose })`.
 
-- [ ] **Step 1: Failing test** — `GroupEditor.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `GroupEditor.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1774,9 +1774,9 @@ describe("group edit by right click (UX §5)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- GroupEditor` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- GroupEditor` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/NavItem.tsx` — перенос `Item` из `Sidebar.tsx` с пробросом атрибутов:
 
@@ -2038,9 +2038,9 @@ function GroupItem({ group, pressed, onPick, onEdit }: { group: GroupRow; presse
         <GroupFilters filter={filter} onPick={(id) => go({ screen: "day", filter: id })} />
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- GroupEditor Sidebar` → PASS (включая старый `Sidebar.dom.test.tsx`); `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- GroupEditor Sidebar` → PASS (включая старый `Sidebar.dom.test.tsx`); `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
@@ -2061,11 +2061,11 @@ git commit -m "web: group edit by right click — name as you type, icon, colour
 - Consumes: `move_task { taskId, to: "day"|"backlog", filterGroupId? }`, `reorder_groups { groupIds }`, `TaskRow`, `RowWithActions`.
 - Produces: `type Column = "day" | "backlog"`; `interface DragData { row: Row; from: Column }`; `dropCall(taskId, from, to, filter): { name: "move_task"; input: Record<string, unknown> } | null`; `reordered(ids, active, over): string[] | null`; `canStartDrag(target: Element): boolean`; `DragArea({ filter, children })`, `DragOn` (context), `useDropZone(id: Column): { ref, lit }`, `DraggableRow({ row, where, children })`; `ListRow({ row, where, group })` — строка по раскладке (Task 9 добавит мобильную ветку); у секций бэклога `role="group"` + `aria-label` (имя группы или «Без группы»).
 
-- [ ] **Step 1: Dependencies**
+- [x] **Step 1: Dependencies**
 
 Run (из `platform/`): `npm install @dnd-kit/core@^6.3.1 @dnd-kit/sortable@^10.0.0 @dnd-kit/utilities@^3.2.2 -w @imprint/web` → проверить `apps/web/package.json`.
 
-- [ ] **Step 2: Failing tests**
+- [x] **Step 2: Failing tests**
 
 `apps/web/src/components/drag.test.ts`:
 
@@ -2128,9 +2128,9 @@ describe("canStartDrag — any part of the row except the circle and the icons (
 });
 ```
 
-- [ ] **Step 3: Run to see them fail** — `npm run test -w @imprint/web -- drag` → FAIL.
+- [x] **Step 3: Run to see them fail** — `npm run test -w @imprint/web -- drag` → FAIL.
 
-- [ ] **Step 4: Implement**
+- [x] **Step 4: Implement**
 
 `apps/web/src/components/drag.ts`:
 
@@ -2394,9 +2394,9 @@ function GroupItem({ group, sortable, pressed, onPick, onEdit }: {
 }
 ```
 
-- [ ] **Step 5: Run** — `npm run test -w @imprint/web` → PASS (все старые dom-тесты колонок и сайдбара тоже: вне `DragArea` строки простые, `useDroppable` вне `DndContext` инертен); `npm run check`.
+- [x] **Step 5: Run** — `npm run test -w @imprint/web` → PASS (все старые dom-тесты колонок и сайдбара тоже: вне `DragArea` строки простые, `useDroppable` вне `DndContext` инертен); `npm run check`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/package.json package-lock.json apps/web/src
@@ -2416,7 +2416,7 @@ git commit -m "web: drag tasks between the Day and the Backlog (move_task) and g
 - Consumes: `LayoutContext`, `useLayoutMode`, `Sidebar`, `DayColumn`, `BacklogColumn`, `Composer`, `MetaStub`.
 - Produces: `router.ts`: `isBacklogPath(path)`, `backlogPath(filter)`, `navigatePath(path, opts?)`, `usePath()`; `mobileNav.ts`: `type MobileScreen = "day" | "backlog" | "history" | "settings"`, `mobileScreen(route, path)`, `mobileStep(from, to)`, `goMobile(to)`, `plantDay()`; `MobileRoot({ route })`; `MobileShell({ sidebar, drawer, onDrawer, children })`; `MobileList({ list, filter })`; `Sidebar` — необязательный проп `mobile?: { backlog: boolean; onFilter(filter: string): void }`; `Composer` — необязательный проп `backlogAll?: boolean`; `useRouteGuards(route, go, opts?: { restore?: boolean })`.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 `apps/web/src/app/mobileNav.test.ts`:
 
@@ -2523,9 +2523,9 @@ describe("mobile input exception (UX §3)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see them fail** — `npm run test -w @imprint/web -- mobileNav MobileRoot ComposerMobile` → FAIL.
+- [x] **Step 2: Run to see them fail** — `npm run test -w @imprint/web -- mobileNav MobileRoot ComposerMobile` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/app/router.ts` — рядом с `routePath`; `navigate` переписывается через `navigatePath` (поведение то же):
 
@@ -2891,11 +2891,11 @@ function Root() {
 
 (`LoginScreen` остаётся вне провайдера — он одинаковый.)
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web` → PASS (старые `router.test.ts`, `Sidebar.dom.test.tsx`, `Composer.dom.test.tsx` — без изменений); `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web` → PASS (старые `router.test.ts`, `Sidebar.dom.test.tsx`, `Composer.dom.test.tsx` — без изменений); `npm run check`.
 
-- [ ] **Step 5: Smoke by eye** — `npm run dev` (из `platform/`), окно 390 px в DevTools: ☰, меню, День, `/g/all`, «Назад». Остановить сервер.
+- [x] **Step 5: Smoke by eye** — `npm run dev` (из `platform/`), окно 390 px в DevTools: ☰, меню, День, `/g/all`, «Назад». Остановить сервер.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/src
@@ -2915,7 +2915,7 @@ git commit -m "web: mobile layout — ☰ and a drawer, one screen at a time, /g
 - Consumes: `usePressMenu`, `RowActions`, `TitleEditor`, `Popover` (на мобильном — `Sheet`), `move_to_day` / `move_to_backlog`.
 - Produces: `OpenRowContext`, `OpenRowArea({ className?, children })`; `MobileRow({ row, where, group })`; `TaskRow` — пропы `open?: boolean` (`data-open`) и `below?: ReactNode` (под `.line`); `RowActions` — проп `tray?: boolean` (разделитель после лейбла группы; кнопки 44 px через `[data-tray]`).
 
-- [ ] **Step 1: Failing test** — `MobileRow.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `MobileRow.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -2996,9 +2996,9 @@ describe("phone row (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- MobileRow` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- MobileRow` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/OpenRow.tsx`:
 
@@ -3210,9 +3210,9 @@ export function ListRow({ row, where, group }: { row: Row; where: Column; group?
   );
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src
@@ -3230,7 +3230,7 @@ git commit -m "web: phone row — tap tray (move, group, date, repeat, steps, de
 - Consumes: `signIn`, `tool`, `saved`, `dateIn` из `e2e/session.ts`; доступные имена из Task 1–9.
 - Produces: `helpers.ts`: `drag(page, from: Locator, to: Locator)`, `longPress(target: Locator)`, `serverState(page)`, `expectInside(inner: Locator, outer: { x; y; width; height })`, `expectInViewport(page, locator)`.
 
-- [ ] **Step 1: Helpers** — `apps/web/e2e/helpers.ts`:
+- [x] **Step 1: Helpers** — `apps/web/e2e/helpers.ts`:
 
 ```ts
 import { expect, type Locator, type Page } from "@playwright/test";
@@ -3292,7 +3292,7 @@ export async function expectInViewport(page: Page, target: Locator): Promise<voi
 }
 ```
 
-- [ ] **Step 2: `drag.spec.ts`** (UX §8: три правила перетаскивания, порядок групп):
+- [x] **Step 2: `drag.spec.ts`** (UX §8: три правила перетаскивания, порядок групп):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3365,7 +3365,7 @@ test("group order by dragging in the sidebar; it survives a reload and orders th
 });
 ```
 
-- [ ] **Step 3: `edit.spec.ts`** (UX §8: правка группы и задачи правым кликом, удаление и отмена удаления группы):
+- [x] **Step 3: `edit.spec.ts`** (UX §8: правка группы и задачи правым кликом, удаление и отмена удаления группы):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3438,7 +3438,7 @@ test("deleting the group being filtered falls back to «Все задачи»", 
 });
 ```
 
-- [ ] **Step 4: `repeat-steps.spec.ts`** (UX §8: календарь — `input[type=date]` уже в W4a; шаги ↔ задача; окна не закрываются):
+- [x] **Step 4: `repeat-steps.spec.ts`** (UX §8: календарь — `input[type=date]` уже в W4a; шаги ↔ задача; окна не закрываются):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3503,7 +3503,7 @@ test("«Подсказать шаги» without a model configured: a quiet note
 
 (e2e-воркер запускается с `GEMINI_API_KEY:` пустым → `suggest_steps` отвечает `unavailable`; если окажется, что пустая строка считается ключом, — проверить `apps/worker/src/userStore.ts` около строки 105 и поправить тест, **не** воркер.)
 
-- [ ] **Step 5: `edges.spec.ts`** (UX §8: любое окно целиком в видимой области у правого и нижнего края):
+- [x] **Step 5: `edges.spec.ts`** (UX §8: любое окно целиком в видимой области у правого и нижнего края):
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -3551,9 +3551,9 @@ test("the group editor of the lowest group stays in view", async ({ page }) => {
 });
 ```
 
-- [ ] **Step 6: Run** — `npm run e2e` (из `platform/`) → все старые и новые сценарии зелёные. Если сайдбар с девятью группами вылезает за экран на 768 px — это нарушение UX §1: список фильтров в `Sidebar.module.css` должен прокручиваться сам (`.filters { min-height: 0; overflow-y: auto; }`, `.sb` — flex-колонка); поправить CSS, а не тест.
+- [x] **Step 6: Run** — `npm run e2e` (из `platform/`) → все старые и новые сценарии зелёные. Если сайдбар с девятью группами вылезает за экран на 768 px — это нарушение UX §1: список фильтров в `Sidebar.module.css` должен прокручиваться сам (`.filters { min-height: 0; overflow-y: auto; }`, `.sb` — flex-колонка); поправить CSS, а не тест.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add apps/web/e2e apps/web/src
@@ -3570,7 +3570,7 @@ git commit -m "web: e2e — three drag rules, group order, right-click edits, gr
 **Interfaces:**
 - Consumes: `helpers.ts` (Task 10), мобильная раскладка (Task 8–9).
 
-- [ ] **Step 1: `mobile.spec.ts`** (UX §8: 390×844 — нет прокрутки страницы, пункты сайдбара и поле видны; мобильное исключение ввода; адреса + «Назад»):
+- [x] **Step 1: `mobile.spec.ts`** (UX §8: 390×844 — нет прокрутки страницы, пункты сайдбара и поле видны; мобильное исключение ввода; адреса + «Назад»):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3649,7 +3649,7 @@ test("opened straight on /g/all, Back still lands on the Day", async ({ page }) 
 });
 ```
 
-- [ ] **Step 2: `mobile-rows.spec.ts`** (UX §8: ряд целиком внутри строки на 390 и 360; наведение на раскрытую строку не меняет её размер; окна — листы в видимой области; день повтора и отметка шага не закрывают лист и не сворачивают ряд; долгий тап):
+- [x] **Step 2: `mobile-rows.spec.ts`** (UX §8: ряд целиком внутри строки на 390 и 360; наведение на раскрытую строку не меняет её размер; окна — листы в видимой области; день повтора и отметка шага не закрывают лист и не сворачивают ряд; долгий тап):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3725,9 +3725,9 @@ test("a long tap on a group in the menu opens its edit sheet", async ({ page }) 
 });
 ```
 
-- [ ] **Step 3: Run** — `npm run e2e` → зелёный. Падение «ряд шире строки на 360» чинится в `RowActions.module.css` (ширина `.tag`/`.gn` в ряду), не в тесте.
+- [x] **Step 3: Run** — `npm run e2e` → зелёный. Падение «ряд шире строки на 360» чинится в `RowActions.module.css` (ширина `.tag`/`.gn` в ряду), не в тесте.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add apps/web/e2e apps/web/src
@@ -3746,7 +3746,7 @@ git commit -m "web: e2e mobile — 390×844 layout, the input exception, Back �
 - Consumes: `contrastRatio`, `GROUP_COLORS` из `@imprint/domain` (тест — не `components/`, P1-линт не касается).
 - Produces: токен `--amber-ink` (янтарный текст) во всех трёх мирах.
 
-- [ ] **Step 1: Failing test** — `apps/web/src/styles/contrast.test.ts`:
+- [x] **Step 1: Failing test** — `apps/web/src/styles/contrast.test.ts`:
 
 ```ts
 import { readFileSync } from "node:fs";
@@ -3801,9 +3801,9 @@ describe("token contrast (UX §6, §8)", () => {
 
 (Если `GROUP_COLORS[k]` хранит тона под другими именами, чем `light`/`dark`, — взять их из `packages/domain/src/group/palette.ts`, `interface GroupTone`; `app/groupColors.ts` уже пользуется `.light`/`.dark`.)
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- contrast` → FAIL (ожидаемо: `amber-ink` нет, светлый `muted` 4,13, `done` 2,41, `side-lab` 4,03, Meta `danger` 3,74, Meta `done` 2,84).
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- contrast` → FAIL (ожидаемо: `amber-ink` нет, светлый `muted` 4,13, `done` 2,41, `side-lab` 4,03, Meta `danger` 3,74, Meta `done` 2,84).
 
-- [ ] **Step 3: Fix tokens** (значения — решение 1 плана; если пользователь выбрал другие — подставить их и прогнать тест):
+- [x] **Step 3: Fix tokens** (значения — решение 1 плана; если пользователь выбрал другие — подставить их и прогнать тест):
 
 `tokens.css`, светлый `:root`: `--muted: #5c6380;`, `--done: #767c89;`, `--side-lab: #9098c0;`, после `--amber-n` добавить `--amber-ink: #94560f;`.
 Тёмный блок: добавить `--amber-ink: #f0a24e;`.
@@ -3811,9 +3811,9 @@ Meta: `--done: #8e95bb;`, `--danger: #f0a08c;`, добавить `--amber-ink: #
 
 Янтарный **текст** переходит на `--amber-ink` (рамки и заливки остаются `--amber`): `ScreenTitle.module.css` (строка с `color: var(--amber)`), `LoginScreen.module.css` (то же), `TaskRow.module.css` `.rep { color: var(--amber-ink); }`. Проверить `grep -rn "color: var(--amber)" apps/web/src --include=*.css` → только не-текстовые места (`border-color`).
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- contrast` → PASS; `npm run check`; `npm run e2e` (локаторы по тексту от цвета не зависят).
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- contrast` → PASS; `npm run check`; `npm run e2e` (локаторы по тексту от цвета не зависят).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src
@@ -3827,7 +3827,7 @@ git commit -m "web: token contrast test (text AA, done 3:1, group colours 3:1); 
 **Files:**
 - Modify: `imprint2.0/W4-web-ui.md`, `imprint2.0/README.md`, `docs/superpowers/specs/2026-09-30-w4-web-ui-design.md` (статус), `HISTORY.md`
 
-- [ ] **Step 1: P1-ревью `apps/web/src`** — критерий W4 «Готово, когда»: «В `apps/web/src` нет правил домена». Прогнать и разобрать каждое попадание в `components/`, `screens/`, `app/`:
+- [x] **Step 1: P1-ревью `apps/web/src`** — критерий W4 «Готово, когда»: «В `apps/web/src` нет правил домена». Прогнать и разобрать каждое попадание в `components/`, `screens/`, `app/`:
 
 ```bash
 grep -rnE "\.sort\(|\.filter\(|\.reduce\(|dueDate|recurrenceMask|location ===|isRepeating \?|Date|Intl" apps/web/src/components apps/web/src/screens apps/web/src/app --include=*.ts --include=*.tsx | grep -v "\.test\."
@@ -3835,15 +3835,15 @@ grep -rnE "\.sort\(|\.filter\(|\.reduce\(|dueDate|recurrenceMask|location ===|is
 
 Допустимо: фильтры, которые не решают правил (скрыть пустую секцию, убрать пустые поля шагов, найти группу по id, `reordered` — жест пользователя), чтение `isRepeating` для выбора подписи. Недопустимо: решение, куда попадает задача, что считается выполненным, какой день «сегодня», какая дата «будущая». Найденное — перенести в `store/` через домен отдельным коммитом. Итог ревью — список «что проверено и почему допустимо» — вписать в `HISTORY.md` (шаг 3).
 
-- [ ] **Step 2: Полная проверка** — `npm run check` и `npm run e2e` из `platform/` → зелёные; приложить число сценариев e2e.
+- [x] **Step 2: Полная проверка** — `npm run check` и `npm run e2e` из `platform/` → зелёные; приложить число сценариев e2e.
 
-- [ ] **Step 3: Документы**
+- [x] **Step 3: Документы**
   - `imprint2.0/W4-web-ui.md`: статус «W4 закрыт (тег `web-w4`)»; отметить `[x]` все задачи и критерии «Готово, когда»; записать решения плана 1–8 одной строкой каждое и хвосты (порядок групп на мобильном; скриншот-тесты тем из UX §8 не сделаны; `dueKey` при смене пояса — W6).
   - `imprint2.0/README.md`: строка фазы W4 → закрыта.
   - Спека: `**Статус:**` — «W4a и W4b реализованы (планы …)».
   - `HISTORY.md`: раздел «W4b — Web client, full UX (closed …, tag `web-w4`)» по образцу W4a: *What was built* и *Rakes* (записывать настоящие грабли, встреченные при исполнении плана; кандидаты — призрачный клик после листа, `aria-pressed` против атрибутов dnd-kit, мобильный `/` против запомненного фильтра, контраст янтаря).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add imprint2.0 docs/superpowers/specs HISTORY.md

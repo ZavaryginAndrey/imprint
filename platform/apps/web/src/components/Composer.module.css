@@ -26,8 +26,10 @@
   white-space: nowrap;
 }
 
-.chip:hover {
-  border-color: var(--amber);
+@media (min-width: 1024px) {
+  .chip:hover {
+    border-color: var(--amber);
+  }
 }
 
 .chip[aria-pressed="true"],
@@ -58,9 +60,14 @@
   transition: border-color 0.15s;
 }
 
-.pill:hover,
 .pill:focus-within {
   border-color: var(--amber);
+}
+
+@media (min-width: 1024px) {
+  .pill:hover {
+    border-color: var(--amber);
+  }
 }
 
 .pill input {
@@ -89,6 +96,13 @@
 
 .pill:focus-within .kbd {
   visibility: hidden;
+}
+
+/* No keyboard shortcut hint on a phone. */
+@media (max-width: 1023px) {
+  .kbd {
+    display: none;
+  }
 }
 
 .plus {
