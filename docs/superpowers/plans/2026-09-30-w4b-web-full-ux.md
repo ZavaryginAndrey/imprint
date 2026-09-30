@@ -1103,7 +1103,7 @@ git commit -m "web: repeat on the row — weekday chips and «Не повтор�
 - Consumes: `Store.ask`, `Row.steps: { task: Task; done: boolean }[]`, `Row.stepsDone`, `Checkbox`, строки Task 1.
 - Produces: `StepsPanel({ row: Row })`; кнопка `aria-label="Шаги"` в `RowActions`; в `TaskRow` метка `[data-steps]` «☑ n/m» с `aria-label={t.stepsOf(n, m)}`.
 
-- [ ] **Step 1: Failing test** — `StepsPanel.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `StepsPanel.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1199,9 +1199,9 @@ describe("steps (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- StepsPanel` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- StepsPanel` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/StepsPanel.tsx`:
 
@@ -1435,9 +1435,9 @@ export function StepsPanel({ row }: { row: Row }) {
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- StepsPanel TaskRow RowActions` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- StepsPanel TaskRow RowActions` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components

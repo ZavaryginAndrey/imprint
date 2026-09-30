@@ -1,4 +1,4 @@
-import { ArrowsClockwise, CalendarBlank, Plus, Trash } from "@phosphor-icons/react";
+import { ArrowsClockwise, CalendarBlank, ListChecks, Plus, Trash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useT } from "../i18n";
 import { useStoreApi, useView } from "../store/hooks";
@@ -9,6 +9,7 @@ import { GroupPicker } from "./GroupPicker";
 import { Popover } from "./Popover";
 import { RepeatPicker } from "./RepeatPicker";
 import styles from "./RowActions.module.css";
+import { StepsPanel } from "./StepsPanel";
 
 type Open = "group" | "repeat" | "steps" | null;
 
@@ -82,6 +83,19 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
         }
       >
         <RepeatPicker row={row} />
+      </Popover>
+      <Popover
+        open={open === "steps"}
+        onOpenChange={toggle("steps")}
+        label={t.steps}
+        align="end"
+        trigger={
+          <button type="button" className={styles.ib} aria-label={t.steps} title={t.steps}>
+            <ListChecks size={17} aria-hidden />
+          </button>
+        }
+      >
+        <StepsPanel row={row} />
       </Popover>
       <button type="button" className={styles.ib} aria-label={t.delete} title={t.delete} onClick={remove}>
         <Trash size={17} aria-hidden />

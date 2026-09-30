@@ -1,4 +1,4 @@
-import { ArrowsClockwise } from "@phosphor-icons/react";
+import { ArrowsClockwise, ListChecks } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 import { useT } from "../i18n";
 import { repeatDays } from "../store/format";
@@ -34,6 +34,12 @@ export function TaskRow({ row, where, group, actions, active = false }: {
           onToggle={() => store.run("set_done", { taskId: row.id, done: !done })}
         />
         <span className={styles.t}>{row.title}</span>
+        {row.steps.length > 0 && (
+          <span className={styles.steps} data-steps aria-label={t.stepsOf(row.stepsDone, row.steps.length)}>
+            <ListChecks size={13} aria-hidden />
+            {row.stepsDone}/{row.steps.length}
+          </span>
+        )}
         {where === "day" && group && (
           <span className={styles.meta} data-group-icon title={group.name}>
             <GroupIcon icon={group.icon} colorKey={group.colorKey} size={14} />
