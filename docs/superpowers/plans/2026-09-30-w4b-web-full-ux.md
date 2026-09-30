@@ -369,11 +369,11 @@ git commit -m "web: store asks server tools; repeat days after a chip; done step
 **Interfaces:**
 - Produces: `type Layout = "desktop" | "mobile"`; `LayoutContext`; `useLayout(): Layout`; `useLayoutMode(): Layout` (app); `Sheet({ open, onOpenChange, trigger?, label, children })`; `Popover({ …, trigger?, anchor?: () => DOMRect })` — на мобильном рисует `Sheet`; `usePressMenu(open: (at: DOMRect) => void, opts?: { at?: "point" | "element"; longMs?: number })` → обработчики для корневого элемента (`onContextMenu`, `onPointerDown`, `onPointerMove`, `onPointerUp`, `onPointerCancel`, `onClickCapture`); CSS-классы `Popover.module.css`: `.foot`, `.kbd`.
 
-- [ ] **Step 1: Dependency**
+- [x] **Step 1: Dependency**
 
 Run (из `platform/`): `npm install @radix-ui/react-dialog@^1.1.23 -w @imprint/web` → проверить строку в `apps/web/package.json` `dependencies`.
 
-- [ ] **Step 2: Failing tests**
+- [x] **Step 2: Failing tests**
 
 `apps/web/src/components/Sheet.dom.test.tsx`:
 
@@ -546,11 +546,11 @@ describe("usePressMenu — right click, the menu key, a long tap", () => {
 });
 ```
 
-- [ ] **Step 3: Run to see them fail**
+- [x] **Step 3: Run to see them fail**
 
 Run: `npm run test -w @imprint/web -- Sheet PopoverAnchor usePressMenu` → FAIL (модулей нет, `trigger` обязателен).
 
-- [ ] **Step 4: Implement**
+- [x] **Step 4: Implement**
 
 `apps/web/src/components/layout.ts`:
 
@@ -859,11 +859,11 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
 }
 ```
 
-- [ ] **Step 5: Run to see them pass**
+- [x] **Step 5: Run to see them pass**
 
 Run: `npm run test -w @imprint/web -- Sheet PopoverAnchor usePressMenu Popover` → PASS (включая старый `Popover.dom.test.tsx`). Затем `npm run check`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/package.json package-lock.json apps/web/src/components apps/web/src/app/useLayoutMode.ts

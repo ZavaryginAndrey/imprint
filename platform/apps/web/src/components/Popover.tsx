@@ -1,29 +1,43 @@
 import * as P from "@radix-ui/react-popover";
 import type { ReactNode, SyntheticEvent } from "react";
+import { useLayout } from "./layout";
 import styles from "./Popover.module.css";
+import { Sheet } from "./Sheet";
 
 const stop = (e: SyntheticEvent) => e.stopPropagation();
+const nowhere = () => new DOMRect();
 
 /**
- * Every popover (UX §4): anchored, pressed to the edge and flipped when it does not fit (Radix collision
- * handling). Clicks inside stop here — React bubbles portal events to the row, and the landing learned
+ * Every window (UX §4). Desktop: anchored, pressed to the edge and flipped when it does not fit (Radix collision
+ * handling) — at its trigger, or, with no trigger, at `anchor` (a right-click point, a sidebar item). Mobile: a
+ * sheet from the bottom. Clicks inside stop here — React bubbles portal events to the row, and the landing learned
  * that a redrawn popover then reads as a click outside. Esc, a click outside or an explicit done closes.
  */
-export function Popover({ open, onOpenChange, trigger, label, children, side = "bottom", align = "start" }: {
+export function Popover({ open, onOpenChange, trigger, anchor, label, children, side = "bottom", align = "start" }: {
   open: boolean;
   onOpenChange(open: boolean): void;
-  trigger: ReactNode;
+  trigger?: ReactNode;
+  anchor?: () => DOMRect;
   label: string;
   children: ReactNode;
   side?: "top" | "bottom" | "left" | "right";
   align?: "start" | "center" | "end";
 }) {
+  const layout = useLayout();
+  if (layout === "mobile") {
+    return (
+      <Sheet open={open} onOpenChange={onOpenChange} trigger={trigger} label={label}>
+        {children}
+      </Sheet>
+    );
+  }
   return (
     <P.Root open={open} onOpenChange={onOpenChange}>
-      <P.Trigger asChild>{trigger}</P.Trigger>
+      {trigger ? <P.Trigger asChild>{trigger}</P.Trigger> : <P.Anchor virtualRef={{ current: { getBoundingClientRect: anchor ?? nowhere } }} />}
       <P.Portal>
         <P.Content
           className={styles.pop}
+          data-overlay
           side={side}
           align={align}
           sideOffset={6}
@@ -33,6 +47,7 @@ export function Popover({ open, onOpenChange, trigger, label, children, side = "
           onClick={stop}
           onPointerDown={stop}
           onMouseDown={stop}
+          onContextMenu={stop}
         >
           {children}
         </P.Content>
