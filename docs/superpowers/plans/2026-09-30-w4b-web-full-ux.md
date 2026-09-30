@@ -3827,7 +3827,7 @@ git commit -m "web: token contrast test (text AA, done 3:1, group colours 3:1); 
 **Files:**
 - Modify: `imprint2.0/W4-web-ui.md`, `imprint2.0/README.md`, `docs/superpowers/specs/2026-09-30-w4-web-ui-design.md` (статус), `HISTORY.md`
 
-- [ ] **Step 1: P1-ревью `apps/web/src`** — критерий W4 «Готово, когда»: «В `apps/web/src` нет правил домена». Прогнать и разобрать каждое попадание в `components/`, `screens/`, `app/`:
+- [x] **Step 1: P1-ревью `apps/web/src`** — критерий W4 «Готово, когда»: «В `apps/web/src` нет правил домена». Прогнать и разобрать каждое попадание в `components/`, `screens/`, `app/`:
 
 ```bash
 grep -rnE "\.sort\(|\.filter\(|\.reduce\(|dueDate|recurrenceMask|location ===|isRepeating \?|Date|Intl" apps/web/src/components apps/web/src/screens apps/web/src/app --include=*.ts --include=*.tsx | grep -v "\.test\."
@@ -3835,15 +3835,15 @@ grep -rnE "\.sort\(|\.filter\(|\.reduce\(|dueDate|recurrenceMask|location ===|is
 
 Допустимо: фильтры, которые не решают правил (скрыть пустую секцию, убрать пустые поля шагов, найти группу по id, `reordered` — жест пользователя), чтение `isRepeating` для выбора подписи. Недопустимо: решение, куда попадает задача, что считается выполненным, какой день «сегодня», какая дата «будущая». Найденное — перенести в `store/` через домен отдельным коммитом. Итог ревью — список «что проверено и почему допустимо» — вписать в `HISTORY.md` (шаг 3).
 
-- [ ] **Step 2: Полная проверка** — `npm run check` и `npm run e2e` из `platform/` → зелёные; приложить число сценариев e2e.
+- [x] **Step 2: Полная проверка** — `npm run check` и `npm run e2e` из `platform/` → зелёные; приложить число сценариев e2e.
 
-- [ ] **Step 3: Документы**
+- [x] **Step 3: Документы**
   - `imprint2.0/W4-web-ui.md`: статус «W4 закрыт (тег `web-w4`)»; отметить `[x]` все задачи и критерии «Готово, когда»; записать решения плана 1–8 одной строкой каждое и хвосты (порядок групп на мобильном; скриншот-тесты тем из UX §8 не сделаны; `dueKey` при смене пояса — W6).
   - `imprint2.0/README.md`: строка фазы W4 → закрыта.
   - Спека: `**Статус:**` — «W4a и W4b реализованы (планы …)».
   - `HISTORY.md`: раздел «W4b — Web client, full UX (closed …, tag `web-w4`)» по образцу W4a: *What was built* и *Rakes* (записывать настоящие грабли, встреченные при исполнении плана; кандидаты — призрачный клик после листа, `aria-pressed` против атрибутов dnd-kit, мобильный `/` против запомненного фильтра, контраст янтаря).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add imprint2.0 docs/superpowers/specs HISTORY.md
