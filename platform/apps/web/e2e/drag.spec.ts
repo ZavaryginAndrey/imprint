@@ -66,13 +66,17 @@ test("a drag never starts from the circle: dragging it moves nothing, clicking i
   await tool(page, "capture_task", { title: "Молоко", view: "day" });
   await page.reload();
   const circle = day(page).getByRole("button", { name: "Отметить: Молоко" });
+  const before = (await serverState(page)).tasks.find((x) => x.title === "Молоко")!;
   await drag(page, circle, backlog(page));
   await expect(day(page).getByText("Молоко")).toBeVisible();
   await expect(backlog(page).getByText("Молоко")).toHaveCount(0);
   await saved(page);
+  // A move_task would change the column (`location`) and bump `updatedAt`; a Day task has no date or group to lose.
   const t = (await serverState(page)).tasks.find((x) => x.title === "Молоко")!;
-  expect(t.dueDate).toBeNull();
-  expect(t.groupId).toBeNull();
+  expect(t.location).toBe(before.location);
+  expect(t.updatedAt).toBe(before.updatedAt);
+  expect(t.dueDate).toBe(before.dueDate);
+  expect(t.groupId).toBe(before.groupId);
   await circle.click();
   await expect(day(page).getByRole("button", { name: "Вернуть: Молоко" })).toBeVisible();
 });

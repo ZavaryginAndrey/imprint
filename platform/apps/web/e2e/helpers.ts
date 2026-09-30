@@ -4,8 +4,8 @@ type Box = { x: number; y: number; width: number; height: number };
 
 /**
  * Where a drag takes hold of `target`: its middle, but at most 24 px from its left edge. A row's title span fills
- * the row, so its middle lies under the hover icons (they cover the end of the row) — a press there is a press
- * on an icon, and no drag.
+ * the row, so its middle may lie under the hover icons (they cover the end of the row) — a press there is a
+ * press on an icon, and no drag.
  */
 export async function grabPoint(target: Locator): Promise<{ x: number; y: number }> {
   const a = (await target.boundingBox())!;
@@ -35,10 +35,12 @@ export async function longPress(target: Locator): Promise<void> {
 export interface ServerTask {
   id: string;
   title: string;
+  location: string;
   groupId: string | null;
   dueDate: number | null;
   deletedAt: number | null;
   parentId: string | null;
+  updatedAt: number;
 }
 export interface ServerGroup {
   id: string;
