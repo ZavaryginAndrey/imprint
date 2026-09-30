@@ -63,6 +63,13 @@ test("Back from the Backlog, History or Settings returns to the Day", async ({ p
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole("heading", { name: "День" })).toBeVisible();
+
+  await openMenu(page);
+  await page.getByRole("navigation").getByRole("button", { name: /Настройки/ }).tap();
+  await expect(page).toHaveURL(/\/settings$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { name: "День" })).toBeVisible();
 });
 
 test("opened straight on /g/all, Back still lands on the Day", async ({ page }) => {

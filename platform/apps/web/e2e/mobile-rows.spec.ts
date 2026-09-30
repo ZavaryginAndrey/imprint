@@ -55,7 +55,13 @@ test("repeat sheet: a day chip keeps the sheet and the row open; the scrim close
   await sheet.getByRole("button", { name: "пн" }).tap();
   await expect(sheet).toBeVisible();
   await expect(tray(page, "Кофе")).toBeVisible();
-  await page.touchscreen.tap(195, 40);
+  // Over the open row itself, above the sheet: were the scrim gone at pointerdown, the click would land on this
+  // row and fold it (the top bar, where a tap could hide that, lies outside the list).
+  const r = (await row(page, "Кофе").boundingBox())!;
+  const at = { x: r.x + r.width / 2, y: r.y + 8 };
+  expect(at.y).toBeLessThan((await sheet.boundingBox())!.y);
+  expect(await page.evaluate(({ x, y }) => document.elementsFromPoint(x, y)[0]!.hasAttribute("data-scrim"), at)).toBe(true);
+  await page.touchscreen.tap(at.x, at.y);
   await expect(sheet).toHaveCount(0);
   await expect(tray(page, "Кофе")).toBeVisible();
 });
