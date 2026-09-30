@@ -3746,7 +3746,7 @@ git commit -m "web: e2e mobile — 390×844 layout, the input exception, Back �
 - Consumes: `contrastRatio`, `GROUP_COLORS` из `@imprint/domain` (тест — не `components/`, P1-линт не касается).
 - Produces: токен `--amber-ink` (янтарный текст) во всех трёх мирах.
 
-- [ ] **Step 1: Failing test** — `apps/web/src/styles/contrast.test.ts`:
+- [x] **Step 1: Failing test** — `apps/web/src/styles/contrast.test.ts`:
 
 ```ts
 import { readFileSync } from "node:fs";
@@ -3801,9 +3801,9 @@ describe("token contrast (UX §6, §8)", () => {
 
 (Если `GROUP_COLORS[k]` хранит тона под другими именами, чем `light`/`dark`, — взять их из `packages/domain/src/group/palette.ts`, `interface GroupTone`; `app/groupColors.ts` уже пользуется `.light`/`.dark`.)
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- contrast` → FAIL (ожидаемо: `amber-ink` нет, светлый `muted` 4,13, `done` 2,41, `side-lab` 4,03, Meta `danger` 3,74, Meta `done` 2,84).
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- contrast` → FAIL (ожидаемо: `amber-ink` нет, светлый `muted` 4,13, `done` 2,41, `side-lab` 4,03, Meta `danger` 3,74, Meta `done` 2,84).
 
-- [ ] **Step 3: Fix tokens** (значения — решение 1 плана; если пользователь выбрал другие — подставить их и прогнать тест):
+- [x] **Step 3: Fix tokens** (значения — решение 1 плана; если пользователь выбрал другие — подставить их и прогнать тест):
 
 `tokens.css`, светлый `:root`: `--muted: #5c6380;`, `--done: #767c89;`, `--side-lab: #9098c0;`, после `--amber-n` добавить `--amber-ink: #94560f;`.
 Тёмный блок: добавить `--amber-ink: #f0a24e;`.
@@ -3811,9 +3811,9 @@ Meta: `--done: #8e95bb;`, `--danger: #f0a08c;`, добавить `--amber-ink: #
 
 Янтарный **текст** переходит на `--amber-ink` (рамки и заливки остаются `--amber`): `ScreenTitle.module.css` (строка с `color: var(--amber)`), `LoginScreen.module.css` (то же), `TaskRow.module.css` `.rep { color: var(--amber-ink); }`. Проверить `grep -rn "color: var(--amber)" apps/web/src --include=*.css` → только не-текстовые места (`border-color`).
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- contrast` → PASS; `npm run check`; `npm run e2e` (локаторы по тексту от цвета не зависят).
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- contrast` → PASS; `npm run check`; `npm run e2e` (локаторы по тексту от цвета не зависят).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src

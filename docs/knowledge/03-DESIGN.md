@@ -33,6 +33,12 @@ AmberSoft    #FBE9D4   мягкая заливка контейнеров на �
 AmberDusk    #E8822A   акцент в окне «закат»
 ```
 
+> **Веб (Imprint 2.0), `platform/apps/web/src/styles/tokens.css`** — значения выше остаются палитрой Android;
+> веб отступает от неё ради контраста (W4b, Task 12): янтарный **текст** — токен `--amber-ink`
+> (светлая тема `#94560F`, тёмная и Meta `#F0A24E`), `--amber` остаётся для рамок и заливок;
+> светлая тема: `--muted #5C6380`, `--done #767C89` (зачёркнутое, порог 3:1), `--side-lab #9098C0`;
+> Meta: `--done #8E95BB`, `--danger #F0A08C`. Проверяет `styles/contrast.test.ts`.
+
 ### Light Day — «День», системная светлая
 ```
 DayBg        #E2E6EC   холодная slate-земля
