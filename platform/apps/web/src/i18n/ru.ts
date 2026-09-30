@@ -65,12 +65,12 @@ export const ru = {
   colors: {
     amber: "Янтарь", terracotta: "Терракота", rose: "Роза", plum: "Слива",
     blue: "Синий", teal: "Бирюза", sage: "Шалфей", graphite: "Графит",
-  } as Record<GroupColorKey, string>,
+  } satisfies Record<GroupColorKey, string>,
   iconNames: {
     tag: "Метка", house: "Дом", briefcase: "Работа", heartbeat: "Здоровье", "shopping-cart": "Покупки",
     "book-open": "Книга", users: "Люди", moon: "Луна", "paw-print": "Питомцы", car: "Машина", airplane: "Поездки",
     barbell: "Спорт", plant: "Растения", wrench: "Ремонт", "graduation-cap": "Учёба", baby: "Ребёнок",
-  } as Record<GroupIconKey, string>,
+  } satisfies Record<GroupIconKey, string>,
   days: ["пн", "вт", "ср", "чт", "пт", "сб", "вс"],
   /** "2026-10-03" → "3 окт" */
   dateLabel: (key: string) => {
