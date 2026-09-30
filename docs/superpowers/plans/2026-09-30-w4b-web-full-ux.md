@@ -3230,7 +3230,7 @@ git commit -m "web: phone row — tap tray (move, group, date, repeat, steps, de
 - Consumes: `signIn`, `tool`, `saved`, `dateIn` из `e2e/session.ts`; доступные имена из Task 1–9.
 - Produces: `helpers.ts`: `drag(page, from: Locator, to: Locator)`, `longPress(target: Locator)`, `serverState(page)`, `expectInside(inner: Locator, outer: { x; y; width; height })`, `expectInViewport(page, locator)`.
 
-- [ ] **Step 1: Helpers** — `apps/web/e2e/helpers.ts`:
+- [x] **Step 1: Helpers** — `apps/web/e2e/helpers.ts`:
 
 ```ts
 import { expect, type Locator, type Page } from "@playwright/test";
@@ -3292,7 +3292,7 @@ export async function expectInViewport(page: Page, target: Locator): Promise<voi
 }
 ```
 
-- [ ] **Step 2: `drag.spec.ts`** (UX §8: три правила перетаскивания, порядок групп):
+- [x] **Step 2: `drag.spec.ts`** (UX §8: три правила перетаскивания, порядок групп):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3365,7 +3365,7 @@ test("group order by dragging in the sidebar; it survives a reload and orders th
 });
 ```
 
-- [ ] **Step 3: `edit.spec.ts`** (UX §8: правка группы и задачи правым кликом, удаление и отмена удаления группы):
+- [x] **Step 3: `edit.spec.ts`** (UX §8: правка группы и задачи правым кликом, удаление и отмена удаления группы):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3438,7 +3438,7 @@ test("deleting the group being filtered falls back to «Все задачи»", 
 });
 ```
 
-- [ ] **Step 4: `repeat-steps.spec.ts`** (UX §8: календарь — `input[type=date]` уже в W4a; шаги ↔ задача; окна не закрываются):
+- [x] **Step 4: `repeat-steps.spec.ts`** (UX §8: календарь — `input[type=date]` уже в W4a; шаги ↔ задача; окна не закрываются):
 
 ```ts
 import { expect, test, type Page } from "@playwright/test";
@@ -3503,7 +3503,7 @@ test("«Подсказать шаги» without a model configured: a quiet note
 
 (e2e-воркер запускается с `GEMINI_API_KEY:` пустым → `suggest_steps` отвечает `unavailable`; если окажется, что пустая строка считается ключом, — проверить `apps/worker/src/userStore.ts` около строки 105 и поправить тест, **не** воркер.)
 
-- [ ] **Step 5: `edges.spec.ts`** (UX §8: любое окно целиком в видимой области у правого и нижнего края):
+- [x] **Step 5: `edges.spec.ts`** (UX §8: любое окно целиком в видимой области у правого и нижнего края):
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -3551,9 +3551,9 @@ test("the group editor of the lowest group stays in view", async ({ page }) => {
 });
 ```
 
-- [ ] **Step 6: Run** — `npm run e2e` (из `platform/`) → все старые и новые сценарии зелёные. Если сайдбар с девятью группами вылезает за экран на 768 px — это нарушение UX §1: список фильтров в `Sidebar.module.css` должен прокручиваться сам (`.filters { min-height: 0; overflow-y: auto; }`, `.sb` — flex-колонка); поправить CSS, а не тест.
+- [x] **Step 6: Run** — `npm run e2e` (из `platform/`) → все старые и новые сценарии зелёные. Если сайдбар с девятью группами вылезает за экран на 768 px — это нарушение UX §1: список фильтров в `Sidebar.module.css` должен прокручиваться сам (`.filters { min-height: 0; overflow-y: auto; }`, `.sb` — flex-колонка); поправить CSS, а не тест.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add apps/web/e2e apps/web/src
