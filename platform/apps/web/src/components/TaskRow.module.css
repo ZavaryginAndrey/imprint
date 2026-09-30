@@ -95,19 +95,30 @@
   transition: opacity 0.15s;
 }
 
-.row:hover .acts,
 .row:focus-within .acts,
 .row[data-active="true"] .acts {
   opacity: 1;
   pointer-events: auto;
 }
 
-.row:has(.acts):hover .t,
 .row:has(.acts):focus-within .t,
 .row[data-active="true"] .t {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (min-width: 1024px) {
+  .row:hover .acts {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .row:has(.acts):hover .t {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* A new row glows amber for a moment (UX §3). */

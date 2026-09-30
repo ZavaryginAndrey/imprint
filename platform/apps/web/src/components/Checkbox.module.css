@@ -25,8 +25,11 @@
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-.c:hover .dot {
-  border-color: var(--amber);
+/* Hover belongs to the desktop layout only: the open phone row must not react to it. */
+@media (min-width: 1024px) {
+  .c:hover .dot {
+    border-color: var(--amber);
+  }
 }
 
 .mark {
