@@ -1700,7 +1700,7 @@ git commit -m "web: task title by right click — saved as you type (300 ms), En
 - Consumes: `usePressMenu({ at: "element" })`, `useTypingSave`, `Popover` c `anchor`, `GROUP_ICONS`, `GROUP_COLOR_KEYS` (store/look), `t.colors`, `t.iconNames`, `store.toast("groupDeleted")`.
 - Produces: `NavItem(props)` — пункт сайдбара (то, что было локальным `Item` в `Sidebar.tsx`), принимает и прокидывает на `<button>` любые `ButtonHTMLAttributes` и `ref`; `GroupFilters({ filter, onPick })` — список групп сайдбара с правкой (Task 7 добавит порядок); `GroupEditor({ group, onClose })`.
 
-- [ ] **Step 1: Failing test** — `GroupEditor.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `GroupEditor.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -1774,9 +1774,9 @@ describe("group edit by right click (UX §5)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- GroupEditor` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- GroupEditor` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/NavItem.tsx` — перенос `Item` из `Sidebar.tsx` с пробросом атрибутов:
 
@@ -2038,9 +2038,9 @@ function GroupItem({ group, pressed, onPick, onEdit }: { group: GroupRow; presse
         <GroupFilters filter={filter} onPick={(id) => go({ screen: "day", filter: id })} />
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- GroupEditor Sidebar` → PASS (включая старый `Sidebar.dom.test.tsx`); `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- GroupEditor Sidebar` → PASS (включая старый `Sidebar.dom.test.tsx`); `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components

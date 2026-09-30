@@ -1,9 +1,10 @@
 import { ChartBar, GearSix, Plus, SignOut, Sun, Tray } from "@phosphor-icons/react";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import type { Route } from "../app/router";
 import { useT } from "../i18n";
 import { useStore, useStoreApi, useView } from "../store/hooks";
-import { GroupIcon } from "./GroupIcon";
+import { GroupFilters } from "./GroupFilters";
+import { NavItem } from "./NavItem";
 import { NewGroupField } from "./NewGroupField";
 import styles from "./Sidebar.module.css";
 
@@ -24,23 +25,14 @@ export function Sidebar({ route, go }: { route: Route; go: Go }) {
   return (
     <div className={styles.sb}>
       <div className={styles.logo}>Imprint</div>
-      <Item icon={<Sun size={17} />} label={t.day} count={view?.dayOpen} current={route.screen === "day"} onClick={() => go({ screen: "day", filter: filter ?? "all" })} />
-      <Item icon={<ChartBar size={17} />} label={t.history} current={route.screen === "history"} onClick={() => go({ screen: "history" })} />
-      <Item icon={<GearSix size={17} />} label={t.settings} current={route.screen === "settings"} onClick={() => go({ screen: "settings" })} />
+      <NavItem icon={<Sun size={17} />} label={t.day} count={view?.dayOpen} current={route.screen === "day"} onClick={() => go({ screen: "day", filter: filter ?? "all" })} />
+      <NavItem icon={<ChartBar size={17} />} label={t.history} current={route.screen === "history"} onClick={() => go({ screen: "history" })} />
+      <NavItem icon={<GearSix size={17} />} label={t.settings} current={route.screen === "settings"} onClick={() => go({ screen: "settings" })} />
       <hr className={styles.hr} />
       <div className={styles.lab}>{t.backlog}</div>
       <div className={styles.filters}>
-        <Item icon={<Tray size={17} />} label={t.allTasks} count={view?.backlogOpen} pressed={filter === "all"} onClick={() => go({ screen: "day", filter: "all" })} />
-        {view?.groups.map((g) => (
-          <Item
-            key={g.id}
-            icon={<GroupIcon icon={g.icon} colorKey={g.colorKey} size={17} onSide />}
-            label={g.name}
-            count={g.openCount}
-            pressed={filter === g.id}
-            onClick={() => go({ screen: "day", filter: g.id })}
-          />
-        ))}
+        <NavItem icon={<Tray size={17} />} label={t.allTasks} count={view?.backlogOpen} pressed={filter === "all"} onClick={() => go({ screen: "day", filter: "all" })} />
+        <GroupFilters filter={filter} onPick={(id) => go({ screen: "day", filter: id })} />
         {adding ? (
           <NewGroupField className={styles.field} placeholder={t.newGroup} onClose={() => setAdding(false)} />
         ) : (
@@ -58,31 +50,5 @@ export function Sidebar({ route, go }: { route: Route; go: Go }) {
         </button>
       </div>
     </div>
-  );
-}
-
-function Item({ icon, label, count, current, pressed, onClick }: {
-  icon: ReactNode;
-  label: string;
-  count?: number;
-  current?: boolean;
-  pressed?: boolean;
-  onClick(): void;
-}) {
-  const cls = [styles.it, current ? styles.sel : "", pressed ? styles.flt : ""].join(" ");
-  return (
-    <button
-      type="button"
-      className={cls}
-      onClick={onClick}
-      aria-current={current ? "page" : undefined}
-      aria-pressed={pressed === undefined ? undefined : pressed}
-    >
-      <span className={styles.ic} aria-hidden>
-        {icon}
-      </span>
-      <span className={styles.lb}>{label}</span>
-      {count !== undefined && count > 0 && <span className={styles.n}>{count}</span>}
-    </button>
   );
 }
