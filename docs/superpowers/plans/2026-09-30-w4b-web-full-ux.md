@@ -885,7 +885,7 @@ git commit -m "web: layout context, bottom sheet (Radix Dialog) that ignores the
 - Consumes: `toggledDays`, `repeatDays` (store/format), `t.noRepeat`, `t.days`, `t.repeat`, `Popover`.
 - Produces: `RepeatPicker({ row: Row })`; в `RowActions` — кнопка `aria-label="Повтор"` (после даты); состояние открытого окна `RowActions` — `type Open = "group" | "repeat" | "steps" | null`.
 
-- [ ] **Step 1: Failing test** — `RepeatPicker.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `RepeatPicker.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -921,9 +921,9 @@ describe("repeat (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- RepeatPicker` → FAIL (кнопки «Повтор» нет).
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- RepeatPicker` → FAIL (кнопки «Повтор» нет).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/RepeatPicker.tsx`:
 
@@ -1081,9 +1081,9 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
 }
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web -- RepeatPicker RowActions` → PASS; `npm run check` → зелёный.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web -- RepeatPicker RowActions` → PASS; `npm run check` → зелёный.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components
