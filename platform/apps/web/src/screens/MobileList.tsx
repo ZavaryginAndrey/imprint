@@ -1,6 +1,7 @@
 import { BacklogColumn } from "../components/BacklogColumn";
 import { Composer } from "../components/Composer";
 import { DayColumn } from "../components/DayColumn";
+import { OpenRowArea } from "../components/OpenRow";
 import { useStore } from "../store/hooks";
 import styles from "./MobileList.module.css";
 
@@ -13,9 +14,9 @@ export function MobileList({ list, filter }: { list: "day" | "backlog"; filter: 
   const ready = useStore((s) => s.view !== null);
   if (!ready) return <section className={styles.view} />;
   return (
-    <section className={styles.view}>
+    <OpenRowArea className={styles.view}>
       {list === "day" ? <DayColumn /> : <BacklogColumn filter={filter} />}
       <Composer filter={list === "day" ? "all" : filter} backlogAll={list === "backlog" && filter === "all"} />
-    </section>
+    </OpenRowArea>
   );
 }

@@ -9,9 +9,11 @@
   flex: none;
 }
 
-.ib:hover {
-  background: var(--soft);
-  color: var(--ink);
+@media (min-width: 1024px) {
+  .ib:hover {
+    background: var(--soft);
+    color: var(--ink);
+  }
 }
 
 .tag {
@@ -30,8 +32,10 @@
   flex: none;
 }
 
-.tag:hover {
-  border-color: var(--amber);
+@media (min-width: 1024px) {
+  .tag:hover {
+    border-color: var(--amber);
+  }
 }
 
 .empty {
@@ -48,4 +52,60 @@
   max-width: 9ch;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* The phone's tray (UX §4, landing `.tray`): icons only, one line, never wider than the row at 360 px. */
+.tray {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  min-width: 0;
+  contain: inline-size; /* its icons never widen the row (and the phone's grid) — the group label gives way instead */
+  margin-top: 6px;
+  padding-top: 2px;
+  border-top: 1px solid var(--hair);
+}
+
+.tray > * {
+  flex: none;
+}
+
+.sp {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+[data-tray] .ib {
+  width: 44px;
+  height: 44px;
+}
+
+/* A 44 px target; a long group name gives way (ellipsis) before the row could overflow. */
+[data-tray] .tag {
+  height: 44px;
+  margin: 0;
+  max-width: 84px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+[data-tray] .empty {
+  width: 44px;
+}
+
+[data-tray] .gn {
+  max-width: 7ch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tray {
+    animation: open 0.2s var(--ease-out);
+  }
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }

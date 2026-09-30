@@ -40,6 +40,9 @@ export function usePressMenu(open: (at: DOMRect) => void, opts: { at?: "point" |
       cancel();
       fired.current = false;
       if (e.pointerType === "mouse") return;
+      // A primary pointer means no other is down: forget ids whose pointerup was lost (the touched child was
+      // removed mid-press), or a stale id would take the long tap away from this item until it remounts.
+      if (e.nativeEvent.isPrimary === true) down.current.clear();
       const other = [...down.current].some((id) => id !== e.pointerId);
       down.current.add(e.pointerId);
       if (other) return; // a second finger (pinch) is no long tap, and cancel() above voided the first

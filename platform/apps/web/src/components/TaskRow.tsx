@@ -13,14 +13,17 @@ import styles from "./TaskRow.module.css";
  * mixed there) and a routine as ↻; in the Backlog the date, or the repeat days in amber. `actions` are the
  * hover icons (desktop), laid over the end of the row; `active` keeps them up while a popover is open.
  */
-export function TaskRow({ row, where, group, actions, active = false, handlers }: {
+export function TaskRow({ row, where, group, actions, active = false, open = false, handlers, below }: {
   row: Row;
   where: "day" | "backlog";
   group?: GroupRow;
   actions?: ReactNode;
   active?: boolean;
+  /** The phone's open row: lit, its tray (`below`) under the line. */
+  open?: boolean;
   /** Gesture handlers for the whole row: the menu gesture (right click, long tap), the phone's tap. */
   handlers?: HTMLAttributes<HTMLDivElement>;
+  below?: ReactNode;
 }) {
   const t = useT();
   const store = useStoreApi();
@@ -28,7 +31,7 @@ export function TaskRow({ row, where, group, actions, active = false, handlers }
   const done = row.doneToday;
 
   return (
-    <div className={styles.row} data-row data-id={row.id} data-done={done} data-fresh={fresh} data-active={active} {...handlers}>
+    <div className={styles.row} data-row data-id={row.id} data-done={done} data-fresh={fresh} data-active={active} data-open={open} {...handlers}>
       <div className={styles.line}>
         <Checkbox
           done={done}
@@ -65,6 +68,7 @@ export function TaskRow({ row, where, group, actions, active = false, handlers }
           </span>
         )}
       </div>
+      {below}
     </div>
   );
 }

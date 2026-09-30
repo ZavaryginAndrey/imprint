@@ -41,8 +41,10 @@
   text-align: left;
 }
 
-.opt:hover {
-  background: var(--opt-hover);
+@media (min-width: 1024px) {
+  .opt:hover {
+    background: var(--opt-hover);
+  }
 }
 
 .on {

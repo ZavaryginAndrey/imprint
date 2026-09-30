@@ -18,7 +18,13 @@ type Open = "group" | "repeat" | "steps" | null;
  * (a future date takes a Day task to the Backlog); the row only asks. `onOpenChange` keeps the row lit while one
  * of their windows is open.
  */
-export function RowActions({ row, group, onOpenChange }: { row: Row; group?: GroupRow; onOpenChange?(open: boolean): void }) {
+export function RowActions({ row, group, onOpenChange, tray = false }: {
+  row: Row;
+  group?: GroupRow;
+  onOpenChange?(open: boolean): void;
+  /** In the phone's tray: a spacer after the group label pushes the icons to the end. */
+  tray?: boolean;
+}) {
   const t = useT();
   const view = useView();
   const store = useStoreApi();
@@ -62,6 +68,7 @@ export function RowActions({ row, group, onOpenChange }: { row: Row; group?: Gro
           }}
         />
       </Popover>
+      {tray && <span className={styles.sp} aria-hidden />}
       <DateButton
         className={styles.ib}
         value={row.dueKey}

@@ -2915,7 +2915,7 @@ git commit -m "web: mobile layout — ☰ and a drawer, one screen at a time, /g
 - Consumes: `usePressMenu`, `RowActions`, `TitleEditor`, `Popover` (на мобильном — `Sheet`), `move_to_day` / `move_to_backlog`.
 - Produces: `OpenRowContext`, `OpenRowArea({ className?, children })`; `MobileRow({ row, where, group })`; `TaskRow` — пропы `open?: boolean` (`data-open`) и `below?: ReactNode` (под `.line`); `RowActions` — проп `tray?: boolean` (разделитель после лейбла группы; кнопки 44 px через `[data-tray]`).
 
-- [ ] **Step 1: Failing test** — `MobileRow.dom.test.tsx`:
+- [x] **Step 1: Failing test** — `MobileRow.dom.test.tsx`:
 
 ```tsx
 // @vitest-environment happy-dom
@@ -2996,9 +2996,9 @@ describe("phone row (UX §4)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- MobileRow` → FAIL.
+- [x] **Step 2: Run to see it fail** — `npm run test -w @imprint/web -- MobileRow` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/components/OpenRow.tsx`:
 
@@ -3210,9 +3210,9 @@ export function ListRow({ row, where, group }: { row: Row; where: Column; group?
   );
 ```
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web` → PASS; `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web` → PASS; `npm run check`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src
