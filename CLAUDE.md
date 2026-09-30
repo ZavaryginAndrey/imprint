@@ -22,10 +22,11 @@ frozen v1 web workbench live elsewhere (the owner's local repository) and are **
 
 ## Current work
 
-**W4b** — the full web UX. Plan: [docs/superpowers/plans/2026-09-30-w4b-web-full-ux.md](docs/superpowers/plans/2026-09-30-w4b-web-full-ux.md)
-(spec: [2026-09-30-w4-web-ui-design.md](docs/superpowers/specs/2026-09-30-w4-web-ui-design.md)). The plan's
-«Решения плана» are accepted by the owner (screenshot tests are out of W4b). Ask the owner for the execution
-method (native or subagent-driven) before starting, unless the first prompt names it.
+**W4 is closed** (W4a + W4b, merged in PR #1; tag `web-w4`, then a dev deploy and the owner's check on a
+phone). Its tails and owner questions are in [imprint2.0/W4-web-ui.md](imprint2.0/W4-web-ui.md); the rakes
+are in [HISTORY.md](HISTORY.md). **Next:** W5 (MCP) or W6 (History, Settings) — neither has a plan yet. Ask
+the owner which phase comes next, then brainstorm → spec → plan before any code. Ask the owner for the
+execution method (native or subagent-driven) before starting a plan, unless the first prompt names it.
 
 ## Owner's standing rules
 
