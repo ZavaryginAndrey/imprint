@@ -77,8 +77,9 @@
   color: var(--muted);
 }
 
-/* Hover icons lie over the end of the row and fade in; the text under them ends in an ellipsis and never
-   wraps or jumps (UX §4). Desktop only: W4b's mobile row opens a tray instead. */
+/* Hover icons lie over the end of the row and fade in over a gradient; the text keeps to one line and runs on
+   under them — its ellipsis lands under the icons, hidden — so it never wraps or jumps (UX §4). Desktop only:
+   W4b's mobile row opens a tray instead. */
 .acts {
   position: absolute;
   right: 8px;
