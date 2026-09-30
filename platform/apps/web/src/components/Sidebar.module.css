@@ -84,6 +84,11 @@
   box-shadow: inset 3px 0 0 var(--amber-n);
 }
 
+/* --side-lab is AA on SideBg only; on the selected item's --side-surf the counter takes --side-muted. */
+.sel .n {
+  color: var(--side-muted);
+}
+
 /* The backlog filter: lit text. */
 .flt {
   color: var(--side-ink);
@@ -109,7 +114,7 @@
 }
 
 .field::placeholder {
-  color: var(--side-lab);
+  color: var(--side-muted);
 }
 
 .foot {

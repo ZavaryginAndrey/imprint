@@ -37,7 +37,7 @@
 }
 
 .act {
-  color: var(--amber-n);
+  color: var(--toast-act);
   font-weight: 600;
 }
 
