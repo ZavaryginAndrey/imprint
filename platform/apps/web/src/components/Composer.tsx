@@ -16,7 +16,11 @@ const QUICK: Quick[] = ["tomorrow", "weekend", "week"];
  * Where the task lands is the domain's `capture_task` rule; the field only passes the filter, the chip
  * group and the date. Enter adds and keeps focus; N focuses from anywhere; Esc leaves.
  */
-export function Composer({ filter }: { filter: string }) {
+export function Composer({ filter, backlogAll = false }: {
+  filter: string;
+  /** Mobile «Все задачи» Backlog screen (UX §3): without a date the task goes to the Backlog, without a group. */
+  backlogAll?: boolean;
+}) {
   const t = useT();
   const view = useView();
   const store = useStoreApi();
@@ -46,7 +50,7 @@ export function Composer({ filter }: { filter: string }) {
     const key = date === null ? null : "key" in date ? date.key : (view?.quick[date.quick] ?? null);
     const r = store.run("capture_task", {
       title,
-      view: filter === "all" ? "day" : { group: filter },
+      view: backlogAll ? "backlog" : filter === "all" ? "day" : { group: filter },
       ...(groupId !== undefined ? { groupId } : {}),
       ...(key ? { date: key } : {}),
     });

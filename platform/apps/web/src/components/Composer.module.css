@@ -91,6 +91,13 @@
   visibility: hidden;
 }
 
+/* No keyboard shortcut hint on a phone. */
+@media (max-width: 1023px) {
+  .kbd {
+    display: none;
+  }
+}
+
 .plus {
   width: 32px;
   height: 32px;

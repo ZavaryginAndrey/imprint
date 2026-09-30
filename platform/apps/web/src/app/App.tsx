@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Shell } from "../components/Shell";
 import { Sidebar } from "../components/Sidebar";
+import { LayoutContext } from "../components/layout";
 import { Toasts } from "../components/Toasts";
 import { DayScreen } from "../screens/DayScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { MetaStub } from "../screens/MetaStub";
 import { StoreContext, useStore } from "../store/hooks";
 import { createStore } from "./createStore";
+import { mobileGuardGo } from "./mobileNav";
+import { MobileRoot } from "./MobileRoot";
 import { useRoute } from "./router";
+import { useLayoutMode } from "./useLayoutMode";
 import { useRouteGuards } from "./useRouteGuards";
 
 export function App() {
@@ -32,8 +36,9 @@ export function App() {
 
 function Root() {
   const auth = useStore((s) => s.auth);
+  const layout = useLayoutMode();
   const [route, go] = useRoute();
-  useRouteGuards(route, go);
+  useRouteGuards(route, layout === "desktop" ? go : mobileGuardGo, { restore: layout === "desktop" });
 
   // Day and Backlog live in the Day world; History and Settings — the whole screen — in Meta (UX §2, §6).
   const world = auth === "in" && route.screen !== "day" ? "meta" : "day";
@@ -57,11 +62,15 @@ function Root() {
     return <LoginScreen down={auth === "down"} failed={failed} />;
   }
   return (
-    <>
-      <Shell sidebar={<Sidebar route={route} go={go} />}>
-        {route.screen === "day" ? <DayScreen filter={route.filter} /> : <MetaStub screen={route.screen} />}
-      </Shell>
+    <LayoutContext.Provider value={layout}>
+      {layout === "desktop" ? (
+        <Shell sidebar={<Sidebar route={route} go={go} />}>
+          {route.screen === "day" ? <DayScreen filter={route.filter} /> : <MetaStub screen={route.screen} />}
+        </Shell>
+      ) : (
+        <MobileRoot route={route} />
+      )}
       <Toasts />
-    </>
+    </LayoutContext.Provider>
   );
 }

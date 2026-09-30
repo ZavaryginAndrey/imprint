@@ -5,10 +5,12 @@
   min-width: 0;
 }
 
-/* The Backlog sits right of a hairline (UX §2). */
-.bk {
-  border-left: 1px solid var(--colline);
-  padding-left: 28px;
+/* The Backlog sits right of a hairline (UX §2) — beside the Day, so only on desktop. */
+@media (min-width: 1024px) {
+  .bk {
+    border-left: 1px solid var(--colline);
+    padding-left: 28px;
+  }
 }
 
 .section + .section {

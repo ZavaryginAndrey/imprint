@@ -2416,7 +2416,7 @@ git commit -m "web: drag tasks between the Day and the Backlog (move_task) and g
 - Consumes: `LayoutContext`, `useLayoutMode`, `Sidebar`, `DayColumn`, `BacklogColumn`, `Composer`, `MetaStub`.
 - Produces: `router.ts`: `isBacklogPath(path)`, `backlogPath(filter)`, `navigatePath(path, opts?)`, `usePath()`; `mobileNav.ts`: `type MobileScreen = "day" | "backlog" | "history" | "settings"`, `mobileScreen(route, path)`, `mobileStep(from, to)`, `goMobile(to)`, `plantDay()`; `MobileRoot({ route })`; `MobileShell({ sidebar, drawer, onDrawer, children })`; `MobileList({ list, filter })`; `Sidebar` — необязательный проп `mobile?: { backlog: boolean; onFilter(filter: string): void }`; `Composer` — необязательный проп `backlogAll?: boolean`; `useRouteGuards(route, go, opts?: { restore?: boolean })`.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 `apps/web/src/app/mobileNav.test.ts`:
 
@@ -2523,9 +2523,9 @@ describe("mobile input exception (UX §3)", () => {
 });
 ```
 
-- [ ] **Step 2: Run to see them fail** — `npm run test -w @imprint/web -- mobileNav MobileRoot ComposerMobile` → FAIL.
+- [x] **Step 2: Run to see them fail** — `npm run test -w @imprint/web -- mobileNav MobileRoot ComposerMobile` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `apps/web/src/app/router.ts` — рядом с `routePath`; `navigate` переписывается через `navigatePath` (поведение то же):
 
@@ -2891,11 +2891,11 @@ function Root() {
 
 (`LoginScreen` остаётся вне провайдера — он одинаковый.)
 
-- [ ] **Step 4: Run** — `npm run test -w @imprint/web` → PASS (старые `router.test.ts`, `Sidebar.dom.test.tsx`, `Composer.dom.test.tsx` — без изменений); `npm run check`.
+- [x] **Step 4: Run** — `npm run test -w @imprint/web` → PASS (старые `router.test.ts`, `Sidebar.dom.test.tsx`, `Composer.dom.test.tsx` — без изменений); `npm run check`.
 
-- [ ] **Step 5: Smoke by eye** — `npm run dev` (из `platform/`), окно 390 px в DevTools: ☰, меню, День, `/g/all`, «Назад». Остановить сервер.
+- [x] **Step 5: Smoke by eye** — `npm run dev` (из `platform/`), окно 390 px в DevTools: ☰, меню, День, `/g/all`, «Назад». Остановить сервер.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add apps/web/src
